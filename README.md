@@ -44,6 +44,12 @@ npm run tauri:build
 
 Installers are written to `src-tauri/target/release/bundle/`.
 
+## Releases
+
+Pushing a version tag such as `v0.2.0` runs the GitHub Actions release workflow, verifies the project, builds Windows MSI and NSIS installers, and attaches both to a GitHub release. The workflow can also be started manually with a release tag.
+
+Current installers are not code-signed, so Windows SmartScreen may show an unknown-publisher warning.
+
 ## Technology
 
 Tauri 2, React, TypeScript, Vite, Rust, WebGL2, and `gifenc`.

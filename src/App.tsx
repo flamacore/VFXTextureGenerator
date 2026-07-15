@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react'
 import './App.css'
 import { catalog, categories, type Generator } from './catalog'
 import { defaultPost, makeLayer, type BlendMode, type GradientStop, type Layer, type PostSettings } from './models'
@@ -11,12 +11,24 @@ const uid = () => crypto.randomUUID()
 const safeFilenamePart = (value: string) => [...value.trim()]
   .filter((character) => character.charCodeAt(0) >= 32 && !'<>:"/\\|?*'.includes(character))
   .join('').replace(/\s+/g, '-')
+const thumbnailUrl = (generator: Generator) => `/thumbnails/${generator.name}.png`
 const Icon = ({ children }: { children: ReactNode }) => <span className="icon" aria-hidden>{children}</span>
 
 function Slider({ label, value, min = 0, max = 1, step = .01, onChange }: {
   label: string; value: number; min?: number; max?: number; step?: number; onChange: (value: number) => void
 }) {
-  return <label className="control"><span>{label}<output>{Number(value.toFixed(3))}</output></span>
+  const [draft, setDraft] = useState(String(Number(value.toFixed(4))))
+  useEffect(() => setDraft(String(Number(value.toFixed(4)))), [value])
+  const commitDraft = () => {
+    const parsed = Number(draft)
+    if (Number.isFinite(parsed)) onChange(Math.min(max, Math.max(min, parsed)))
+    else setDraft(String(Number(value.toFixed(4))))
+  }
+  return <label className="control"><span>{label}<input className="control-number" type="number" value={draft} min={min} max={max} step={step}
+    onChange={(event) => setDraft(event.target.value)} onBlur={commitDraft} onKeyDown={(event) => {
+      if (event.key === 'Enter') event.currentTarget.blur()
+      if (event.key === 'Escape') { setDraft(String(Number(value.toFixed(4)))); event.currentTarget.blur() }
+    }} /></span>
     <input type="range" value={value} min={min} max={max} step={step} onChange={(e) => onChange(+e.target.value)} /></label>
 }
 
@@ -37,13 +49,15 @@ export default function App() {
   const [gradient, setGradient] = useState<GradientStop[]>([
     { id: uid(), position: 0, color: '#ffffff' }, { id: uid(), position: 1, color: '#ffffff' },
   ])
-  const [thumbnails, setThumbnails] = useState<Map<string, string>>(() => new Map())
   const [post, setPost] = useState<PostSettings>(defaultPost)
   const [query, setQuery] = useState(''), [category, setCategory] = useState('All')
   const [tab, setTab] = useState<Tab>('Generator'), [playing, setPlaying] = useState(false)
   const [time, setTime] = useState(0), [zoom, setZoom] = useState(.72)
   const [pan, setPan] = useState({ x: 0, y: 0 }), [background, setBackground] = useState<'checker' | 'black'>('checker')
   const [tilePreview, setTilePreview] = useState(false)
+  const [leftPanelWidth, setLeftPanelWidth] = useState(248)
+  const [rightPanelWidth, setRightPanelWidth] = useState(288)
+  const [bottomPanelHeight, setBottomPanelHeight] = useState(177)
   const [resolution, setResolution] = useState(768), [notice, setNotice] = useState('')
   const selected = layers.find((l) => l.id === selectedId) ?? layers[0]
   const filtered = useMemo(() => catalog.filter((g) => (category === 'All' || g.category === category) &&
@@ -76,26 +90,6 @@ export default function App() {
     catch (e) { setNotice(e instanceof Error ? e.message : 'WebGL2 could not start') }
   }, [layers, gradient, post, time, resolution, tilePreview])
   useEffect(() => {
-    let cancelled = false
-    try {
-      const thumbnailRenderer = new TextureRenderer()
-      const canvas = document.createElement('canvas')
-      const white: GradientStop[] = [
-        { id: 'thumbnail-start', position: 0, color: '#ffffff' },
-        { id: 'thumbnail-end', position: 1, color: '#ffffff' },
-      ]
-      const generated = new Map<string, string>()
-      for (const generator of catalog) {
-        thumbnailRenderer.render(canvas, [makeLayer(generator)], white, defaultPost, 0, 64)
-        generated.set(generator.name, canvas.toDataURL('image/png'))
-      }
-      if (!cancelled) setThumbnails(generated)
-    } catch (e) {
-      if (!cancelled) setNotice(e instanceof Error ? e.message : 'Generator thumbnails could not be rendered')
-    }
-    return () => { cancelled = true }
-  }, [])
-  useEffect(() => {
     if (!playing) return
     let id = 0, previous = performance.now()
     const tick = (now: number) => { setTime((t) => t + (now - previous) / 1000); previous = now; id = requestAnimationFrame(tick) }
@@ -117,6 +111,32 @@ export default function App() {
     const from = old.findIndex((l) => l.id === selected.id), to = Math.max(0, Math.min(old.length - 1, from + delta))
     const next = [...old], [item] = next.splice(from, 1); next.splice(to, 0, item); return next
   })
+  const beginResize = (panel: 'left' | 'right' | 'bottom', event: ReactPointerEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    const startX = event.clientX, startY = event.clientY
+    const initialLeft = leftPanelWidth, initialRight = rightPanelWidth, initialBottom = bottomPanelHeight
+    document.body.style.userSelect = 'none'
+    document.body.style.cursor = panel === 'bottom' ? 'row-resize' : 'col-resize'
+    const resize = (pointer: PointerEvent) => {
+      if (panel === 'left') {
+        const maximum = Math.max(220, window.innerWidth - rightPanelWidth - 560)
+        setLeftPanelWidth(Math.max(180, Math.min(maximum, initialLeft + pointer.clientX - startX)))
+      } else if (panel === 'right') {
+        const maximum = Math.max(250, window.innerWidth - leftPanelWidth - 560)
+        setRightPanelWidth(Math.max(240, Math.min(maximum, initialRight - pointer.clientX + startX)))
+      } else {
+        setBottomPanelHeight(Math.max(110, Math.min(window.innerHeight - 360, initialBottom - pointer.clientY + startY)))
+      }
+    }
+    const finish = () => {
+      document.body.style.userSelect = ''
+      document.body.style.cursor = ''
+      removeEventListener('pointermove', resize)
+      removeEventListener('pointerup', finish)
+    }
+    addEventListener('pointermove', resize)
+    addEventListener('pointerup', finish)
+  }
   const gif = async () => {
     if (!canvasRef.current) return
     try {
@@ -162,17 +182,18 @@ export default function App() {
         <button className="primary" onClick={() => canvasRef.current && exportPng(canvasRef.current, `${exportBaseName}.png`)}><Icon>⇩</Icon>Export</button></div>
     </header>
 
-    <section className="workspace">
+    <section className="workspace" style={{ gridTemplateColumns: `${leftPanelWidth}px 5px minmax(360px, 1fr) 5px ${rightPanelWidth}px` }}>
       <aside className="library panel">
         <div className="panel-title"><b>Generators</b><small>{catalog.length} procedural nodes</small></div>
         <div className="search"><Icon>⌕</Icon><input aria-label="Search generators" placeholder="Search generators…" value={query} onChange={(e) => setQuery(e.target.value)} /></div>
         <div className="category-tabs">{['All', ...categories].map((c) => <button key={c} className={category === c ? 'active' : ''} onClick={() => setCategory(c)}>{c}</button>)}</div>
         <div className="generator-list">{filtered.map((g) => <button className="generator" key={g.name} onClick={() => add(g)}>
-          <GeneratorThumbnail src={thumbnails.get(g.name)} name={g.name} />
+          <GeneratorThumbnail src={thumbnailUrl(g)} name={g.name} />
           <span><b>{g.name}</b><small>{g.category}</small></span><i>＋</i></button>)}</div>
       </aside>
+      <div className="resize-handle vertical" role="separator" aria-label="Resize generator panel" onPointerDown={(event) => beginResize('left', event)} />
 
-      <section className="stage-column">
+      <section className="stage-column" style={{ gridTemplateRows: `38px minmax(180px, 1fr) 35px 5px ${bottomPanelHeight}px` }}>
         <div className="stagebar"><b>Preview</b><div><button className={background === 'checker' ? 'active' : ''} onClick={() => setBackground('checker')}>▦</button>
           <button className={background === 'black' ? 'active' : ''} onClick={() => setBackground('black')}>●</button><i className="divider" />
           <button className={tilePreview ? 'active' : ''} title="Inspect the texture as a 2 × 2 tile" onClick={() => setTilePreview((value) => !value)}>2×2</button><i className="divider" />
@@ -191,20 +212,24 @@ export default function App() {
         </div>
         <div className="timeline"><button onClick={() => setPlaying((v) => !v)}>{playing ? '■' : '▶'}</button><input type="range" min="0" max="10" step=".01" value={time % 10} onChange={(e) => setTime(+e.target.value)} />
           <output>{time.toFixed(2)}s</output><label>Speed <input type="number" value={selected?.speed ?? 0} step=".1" onChange={(e) => patch({ speed: +e.target.value })} /></label></div>
+        <div className="resize-handle horizontal" role="separator" aria-label="Resize layers panel" onPointerDown={(event) => beginResize('bottom', event)} />
         <div className="layers">
           <div className="layers-head"><b>Layers</b><div><button onClick={() => add(catalog[0])}>＋ Add</button><button onClick={() => move(-1)}>↑</button><button onClick={() => move(1)}>↓</button></div></div>
           <div className="layer-list">{layers.map((layer) => <div key={layer.id} className={`layer-row ${layer.id === selectedId ? 'selected' : ''}`} onClick={() => setSelectedId(layer.id)}>
             <button className="eye" onClick={(e) => { e.stopPropagation(); commit((old) => old.map((l) => l.id === layer.id ? { ...l, visible: !l.visible } : l)) }}>{layer.visible ? '◉' : '○'}</button>
-            {thumbnails.get(layer.generator.name)
-              ? <img className="layer-thumb" src={thumbnails.get(layer.generator.name)} alt="" />
-              : <span className="layer-thumb thumbnail-loading" />}
+            <img className="layer-thumb" src={thumbnailUrl(layer.generator)} alt="" />
             <input value={layer.name} onClick={(e) => e.stopPropagation()} onChange={(e) => commit((old) => old.map((l) => l.id === layer.id ? { ...l, name: e.target.value } : l))} />
             <select value={layer.blend} onClick={(e) => e.stopPropagation()} onChange={(e) => commit((old) => old.map((l) => l.id === layer.id ? { ...l, blend: e.target.value as BlendMode } : l))}>{blends.map((b) => <option key={b}>{b}</option>)}</select>
             <input className="mini-range" type="range" min="0" max="1" step=".01" value={layer.opacity} onChange={(e) => commit((old) => old.map((l) => l.id === layer.id ? { ...l, opacity: +e.target.value } : l))} />
+            <label className={`layer-seam ${layer.generator.tileable ? '' : 'disabled'}`} title={layer.generator.tileable ? 'Generate this layer with periodic source math' : 'This generator is not intended to tile'} onClick={(event) => event.stopPropagation()}>
+              <input type="checkbox" disabled={!layer.generator.tileable} checked={layer.seamless && layer.generator.tileable} onChange={(event) => commit((old) => old.map((item) => item.id === layer.id ? { ...item, seamless: event.target.checked } : item))} />
+              <span>Seamless</span>
+            </label>
             <button onClick={(e) => { e.stopPropagation(); const copy = { ...structuredClone(layer), id: uid(), name: `${layer.name} Copy` }; commit((old) => [copy, ...old]); setSelectedId(copy.id) }}>⧉</button>
             <button onClick={(e) => { e.stopPropagation(); commit((old) => old.filter((l) => l.id !== layer.id)) }}>×</button></div>)}</div>
         </div>
       </section>
+      <div className="resize-handle vertical" role="separator" aria-label="Resize inspector panel" onPointerDown={(event) => beginResize('right', event)} />
 
       <aside className="inspector panel">
         <div className="inspector-tabs">{(['Generator', 'Transform', 'Color', 'Post', 'Export'] as Tab[]).map((t) => <button key={t} className={tab === t ? 'active' : ''} onClick={() => setTab(t)}>{t}</button>)}</div>
@@ -217,11 +242,7 @@ export default function App() {
             <Slider label="Position X" value={selected.transform.x} min={-1} max={1} onChange={(v) => transform('x', v)} /><Slider label="Position Y" value={selected.transform.y} min={-1} max={1} onChange={(v) => transform('y', v)} />
             <Slider label="Rotation" value={selected.transform.rotation} min={-180} max={180} step={1} onChange={(v) => transform('rotation', v)} /><Slider label="Scale" value={selected.transform.scale} min={.1} max={4} onChange={(v) => transform('scale', v)} /></section>
             <section><h4>Scroll animation</h4><Slider label="Horizontal" value={selected.transform.scrollX} min={-2} max={2} onChange={(v) => transform('scrollX', v)} /><Slider label="Vertical" value={selected.transform.scrollY} min={-2} max={2} onChange={(v) => transform('scrollY', v)} />
-              <label className="switch-row">Polar coordinates<input type="checkbox" checked={selected.polar} onChange={(e) => patch({ polar: e.target.checked })} /></label><label className="switch-row">Invert output<input type="checkbox" checked={selected.invert} onChange={(e) => patch({ invert: e.target.checked })} /></label>
-              <label className={`switch-row ${selected.generator.tileable ? '' : 'disabled'}`} title={selected.generator.tileable ? 'Use intrinsically periodic generator math so opposite edges match' : 'This isolated generator is not intended to tile'}>
-                <span>Seamless Tile<small>{selected.generator.tileable ? 'Periodic source generation' : 'Not applicable to this generator'}</small></span>
-                <input type="checkbox" disabled={!selected.generator.tileable} checked={selected.seamless && selected.generator.tileable} onChange={(e) => patch({ seamless: e.target.checked })} />
-              </label></section></>}
+              <label className="switch-row">Polar coordinates<input type="checkbox" checked={selected.polar} onChange={(e) => patch({ polar: e.target.checked })} /></label><label className="switch-row">Invert output<input type="checkbox" checked={selected.invert} onChange={(e) => patch({ invert: e.target.checked })} /></label></section></>}
           {tab === 'Color' && selected && <><section><h3>Gradient<small>Output color mapping</small></h3><div className="gradient-bar" style={{ background: `linear-gradient(90deg,${gradient.map((s) => `${s.color} ${s.position * 100}%`).join(',')})` }} />
             {gradient.map((stop) => <div className="stop" key={stop.id}><input type="color" value={stop.color} onChange={(e) => setGradient((old) => old.map((s) => s.id === stop.id ? { ...s, color: e.target.value } : s))} /><input type="range" min="0" max="1" step=".01" value={stop.position} onChange={(e) => setGradient((old) => old.map((s) => s.id === stop.id ? { ...s, position: +e.target.value } : s).sort((a,b) => a.position-b.position))} /><button disabled={gradient.length <= 2} onClick={() => setGradient((old) => old.filter((s) => s.id !== stop.id))}>×</button></div>)}
             <button className="wide" onClick={() => setGradient((old) => [...old, { id: uid(), position: .5, color: '#ff6bd6' }].sort((a,b) => a.position-b.position))}>＋ Add color stop</button>
