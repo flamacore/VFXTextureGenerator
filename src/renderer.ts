@@ -9,15 +9,49 @@ precision highp float;
 in vec2 uv; out vec4 outColor;
 uniform vec2 resolution, offset, scroll;
 uniform float time, rotation, transformScale, p0, p1, p2, p3, p4, p5, seed;
-uniform int kind, polarMode, invertMode, solidMode;
+uniform int kind, polarMode, invertMode, solidMode, seamlessMode;
 uniform vec4 recipe;
 uniform vec3 colorA,colorB,colorC,solidColor;
 uniform vec3 postA,postB,postC,postD,postE;
 
+const float TAU=6.283185307179586;
 float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7))+seed)*43758.5453);}
 float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+1.),f.x),f.y);}
 float fbm(vec2 p,float oct,float lac,float gain){float v=0.,a=.5;for(int i=0;i<8;i++){if(float(i)>=oct)break;v+=a*noise(p);p=p*lac+vec2(1.7,2.3);a*=gain;}return v;}
 vec2 cell(vec2 p){vec2 i=floor(p),f=fract(p);float d1=9.,d2=9.;for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){vec2 g=vec2(x,y),o=vec2(hash(i+g),hash(i+g+19.));float d=length(g+mix(vec2(.5),o,p2)-f);if(d<d1){d2=d1;d1=d;}else d2=min(d2,d);}return vec2(d1,d2);}
+float positiveInt(float x){return max(1.,floor(abs(x)+.5));}
+float compatibleEven(float x){return 2.*max(1.,floor(abs(x)*.5+.5));}
+vec2 wrapIndex(vec2 p,vec2 period){return mod(mod(p,period)+period,period);}
+float periodicHash(vec2 p,vec2 period){return hash(wrapIndex(p,period));}
+float periodicNoise(vec2 p,vec2 period){
+ vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
+ return mix(mix(periodicHash(i,period),periodicHash(i+vec2(1,0),period),f.x),
+            mix(periodicHash(i+vec2(0,1),period),periodicHash(i+1.,period),f.x),f.y);
+}
+float periodicFbm(vec2 p,vec2 period,float oct,float lac,float gain){
+ float v=0.,a=.5,l=positiveInt(lac);
+ for(int i=0;i<8;i++){if(float(i)>=oct)break;v+=a*periodicNoise(p,period);p=p*l+vec2(1.7,2.3);period*=l;a*=gain;}
+ return v;
+}
+vec2 periodicCell(vec2 p,vec2 period){
+ vec2 i=floor(p),f=fract(p);float d1=9.,d2=9.;
+ for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){
+  vec2 g=vec2(x,y),id=i+g;
+  vec2 o=vec2(periodicHash(id,period),periodicHash(id+19.,period));
+  float d=length(g+mix(vec2(.5),o,p2)-f);
+  if(d<d1){d2=d1;d1=d;}else d2=min(d2,d);
+ }
+ return vec2(d1,d2);
+}
+vec2 wrapTorus(vec2 p){return fract(p+.5)-.5;}
+float torusRadius(vec2 p){vec2 d=sin(3.141592653589793*(p-.5));return length(d)*.707106781186548;}
+vec2 quarterTurn(vec2 p,float turns){
+ float t=mod(turns,4.);
+ if(t<.5)return p;
+ if(t<1.5)return vec2(-p.y,p.x);
+ if(t<2.5)return -p;
+ return vec2(p.y,-p.x);
+}
 float aa(float d,float w){return 1.-smoothstep(0.,max(.0005,w),d);}
 float polygon(vec2 q,float sides,float radius){float a=atan(q.y,q.x),sector=6.283185/max(3.,floor(sides));return cos(floor(.5+a/sector)*sector-a)*length(q)-radius;}
 float pattern(vec2 q){
@@ -56,72 +90,130 @@ float pattern(vec2 q){
   return aa(wave-p3,p3*.25)*exp(-r*p4);
  }
  if(profile<5.5){
-  vec2 z=q*p0,id=floor(z),f=fract(z)-.5;f.x+=step(.5,mod(id.y,2.))*p3*.5;
+  float cycles=seamlessMode==1?compatibleEven(p0):p0;
+  vec2 z=q*cycles,id=floor(z),f=fract(z)-.5;f.x+=step(.5,mod(id.y,2.))*p3*.5;
   float lines=min(abs(f.x),abs(f.y)),checker=mod(id.x+id.y+floor(variant*.5),2.);
   float cells=step(p2,max(abs(f.x),abs(f.y))),grid=aa(lines-p1,p3);
-  return mix(mix(cells,checker,signature),grid,step(.62,signature))*(1.-p4+p4*hash(id));
+  float h=seamlessMode==1?periodicHash(id,vec2(cycles)):hash(id);
+  return mix(mix(cells,checker,signature),grid,step(.62,signature))*(1.-p4+p4*h);
  }
  if(profile<6.5){
-  vec2 z=q*p0,id=floor(z),f=fract(z)-.5;f.x+=step(.5,mod(id.y,2.))*p2;
-  float radius=p1*(1.+p4*(hash(id)-.5));
-  return aa(length(f)-radius,p3)*step(1.-p5,hash(id+31.));
+  float cycles=seamlessMode==1?compatibleEven(p0):p0;
+  vec2 z=q*cycles,id=floor(z),f=fract(z)-.5;f.x+=step(.5,mod(id.y,2.))*p2;
+  float h=seamlessMode==1?periodicHash(id,vec2(cycles)):hash(id);
+  float h2=seamlessMode==1?periodicHash(id+31.,vec2(cycles)):hash(id+31.);
+  float radius=p1*(1.+p4*(h-.5));
+  return aa(length(f)-radius,p3)*step(1.-p5,h2);
  }
  if(profile<7.5){
-  vec2 z=q*p0;float bend=p2*sin(z.y*p3+phase)+p5*(noise(z*.35)-.5);
+  float cycles=seamlessMode==1?positiveInt(p0):p0;
+  vec2 z=q*cycles;
+  float nfreq=positiveInt(cycles*.35),bend;
+  if(seamlessMode==1)bend=p2*sin(TAU*positiveInt(p3)*q.y+phase)+p5*(periodicNoise(q*nfreq,vec2(nfreq))-.5);
+  else bend=p2*sin(z.y*p3+phase)+p5*(noise(z*.35)-.5);
   float stripe=abs(fract(z.x+bend+variant*.071)-.5),second=abs(fract(z.y-bend*.4)-.5);
   return mix(aa(stripe-p1*.5,p4),aa(min(stripe,second)-p1*.5,p4),step(.5,signature));
  }
  if(profile<8.5){
-  float n=fbm(q*p0+vec2(time*p5),p1,p2,p3),ridge=1.-abs(n*2.-1.);
+  float freq=seamlessMode==1?positiveInt(p0):p0;
+  float n=seamlessMode==1?periodicFbm(q*freq+vec2(time*p5),vec2(freq),p1,p2,p3):fbm(q*p0+vec2(time*p5),p1,p2,p3);
+  float ridge=1.-abs(n*2.-1.);
   float billow=abs(n*2.-1.);
   return pow(clamp(mix(mix(n,ridge,signature),billow,step(.8,signature)),0.,1.),p4);
  }
  if(profile<9.5){
-  vec2 z=q*p0;
-  for(int j=0;j<5;j++){if(float(j)>=p2)break;float n=noise(z+phase);z+=p1*vec2(sin(z.y+n+phase),cos(z.x-n-phase))*.22;}
-  float bands=sin(z.x+z.y+fbm(z,4.,2.,.5)*4.+phase)*.5+.5;
+  float freq=seamlessMode==1?positiveInt(p0):p0;
+  vec2 z=q*freq;
+  for(int j=0;j<5;j++){
+   if(float(j)>=p2)break;
+   float n=seamlessMode==1?periodicNoise(z+phase,vec2(freq)):noise(z+phase);
+   if(seamlessMode==1)z+=p1*vec2(sin(TAU*z.y/freq+n*TAU+phase),cos(TAU*z.x/freq-n*TAU-phase))*.22;
+   else z+=p1*vec2(sin(z.y+n+phase),cos(z.x-n-phase))*.22;
+  }
+  float bands=seamlessMode==1
+   ?sin(TAU*(z.x+z.y)/freq+periodicFbm(z,vec2(freq),4.,2.,.5)*4.+phase)*.5+.5
+   :sin(z.x+z.y+fbm(z,4.,2.,.5)*4.+phase)*.5+.5;
   return pow(smoothstep(p3*.25,1.-p3*.25,bands),p4);
  }
  if(profile<10.5){
-  vec2 c=cell(q*p0+vec2(time*p5*.15));
+  float freq=seamlessMode==1?positiveInt(p0):p0;
+  vec2 cp=q*freq+vec2(time*p5*.15);
+  vec2 c=seamlessMode==1?periodicCell(cp,vec2(freq)):cell(cp);
   return mix(aa((c.y-c.x)-p1,p3),aa(c.x-p4,p3),signature);
  }
  if(profile<11.5){
-  vec2 z=q*p0;float row=floor(z.y),clock=floor(time*p5*8.);
-  float gate=hash(vec2(row,clock+floor(z.x/p2)));
+  float cycles=seamlessMode==1?positiveInt(p0):p0;
+  vec2 z=q*cycles;float row=floor(z.y),clock=floor(time*p5*8.);
+  float groups=positiveInt(cycles/max(.001,abs(p2))),groupWidth=cycles/groups;
+  float gate=seamlessMode==1
+   ?periodicHash(vec2(row,clock+floor(z.x/groupWidth)),vec2(cycles,groups))
+   :hash(vec2(row,clock+floor(z.x/p2)));
   float shifted=z.x+p3*(gate-.5);
-  float block=hash(vec2(floor(shifted),row+clock));
-  return smoothstep(p1-.06,p1+.06,mix(block,noise(z*vec2(.2,1.)),p4));
+  float block=seamlessMode==1
+   ?periodicHash(vec2(floor(shifted),row+clock),vec2(cycles))
+   :hash(vec2(floor(shifted),row+clock));
+  float nfreq=positiveInt(cycles*.2);
+  float n=seamlessMode==1?periodicNoise(q*vec2(nfreq,cycles),vec2(nfreq,cycles)):noise(z*vec2(.2,1.));
+  return smoothstep(p1-.06,p1+.06,mix(block,n,p4));
  }
- float beam=exp(-abs(q.y)/max(.001,p1))*exp(-abs(q.y)*p2);
- beam*=1.+p4*(noise(vec2(q.x*p3,time*p5))- .5);
+ float beam;
+ if(seamlessMode==1){
+  float lineCycles=positiveInt(p2),noiseCycles=positiveInt(p3);
+  float d=abs(sin(3.141592653589793*lineCycles*q.y))/(3.141592653589793*lineCycles);
+  beam=exp(-d/max(.001,p1))*exp(-d*p2);
+  beam*=1.+p4*(periodicNoise(vec2(q.x*noiseCycles,time*p5),vec2(noiseCycles,1.))-.5);
+ }else{
+  beam=exp(-abs(q.y)/max(.001,p1))*exp(-abs(q.y)*p2);
+  beam*=1.+p4*(noise(vec2(q.x*p3,time*p5))- .5);
+ }
  return beam*p5;
 }
 vec3 gradient(float x){return x<.5?mix(colorA,colorB,x*2.):mix(colorB,colorC,(x-.5)*2.);}
 void main(){
- vec2 sampleUV=uv;if(postB.z>0.)sampleUV=mix(sampleUV,(floor(sampleUV*mix(400.,20.,postB.z))+.5)/mix(400.,20.,postB.z),postB.z);
- vec2 q=(sampleUV-.5-offset);float cs=cos(rotation),sn=sin(rotation);q=mat2(cs,-sn,sn,cs)*q/max(.02,transformScale);q+=scroll*time;
- if(postC.z>.01)q.x=mix(q.x,abs(q.x),postC.z);
- if(postC.y>.01){float kr=length(q),ka=atan(q.y,q.x),seg=mix(6.,24.,postC.y);ka=abs(mod(ka,6.283/seg)-3.1416/seg);q=vec2(cos(ka),sin(ka))*kr;}
- if(postD.x>.01){float wa=postD.x*length(q)*6.,wc=cos(wa),ws=sin(wa);q=mat2(wc,-ws,ws,wc)*q;}
- if(polarMode==1)q=vec2(atan(q.y,q.x)/6.283+.5,length(q)*2.-.5);
+ vec2 sampleUV=uv;
+ if(postB.z>0.){
+  float pixels=floor(mix(400.,20.,postB.z)+.5);
+  sampleUV=mix(sampleUV,(floor(sampleUV*pixels)+.5)/pixels,postB.z);
+ }
+ vec2 q;
+ if(seamlessMode==1){
+  float scaleCycles=positiveInt(1./max(.02,abs(transformScale)));
+  float turns=floor(rotation/1.570796326794897+.5);
+  q=wrapTorus(quarterTurn((sampleUV-offset+scroll*time)*scaleCycles,turns));
+ }else{
+  q=(sampleUV-.5-offset);float cs=cos(rotation),sn=sin(rotation);q=mat2(cs,-sn,sn,cs)*q/max(.02,transformScale);q+=scroll*time;
+  if(postC.z>.01)q.x=mix(q.x,abs(q.x),postC.z);
+  if(postC.y>.01){float kr=length(q),ka=atan(q.y,q.x),seg=mix(6.,24.,postC.y);ka=abs(mod(ka,6.283/seg)-3.1416/seg);q=vec2(cos(ka),sin(ka))*kr;}
+  if(postD.x>.01){float wa=postD.x*length(q)*6.,wc=cos(wa),ws=sin(wa);q=mat2(wc,-ws,ws,wc)*q;}
+  if(polarMode==1)q=vec2(atan(q.y,q.x)/6.283+.5,length(q)*2.-.5);
+ }
  float base=clamp(pattern(q),0.,1.),v=base;
  if(postA.y>0.){
   float bloomRadius=mix(2.,18.,postA.y)/min(resolution.x,resolution.y);
   vec2 bx=vec2(bloomRadius,0.),by=vec2(0.,bloomRadius);
   vec2 bd=vec2(bloomRadius*.7071);
-  float glow=pattern(q+bx)+pattern(q-bx)+pattern(q+by)+pattern(q-by);
-  glow+=pattern(q+bd)+pattern(q-bd)+pattern(q+vec2(bd.x,-bd.y))+pattern(q+vec2(-bd.x,bd.y));
+  float glow;
+  if(seamlessMode==1){
+   glow=pattern(wrapTorus(q+bx))+pattern(wrapTorus(q-bx))+pattern(wrapTorus(q+by))+pattern(wrapTorus(q-by));
+   glow+=pattern(wrapTorus(q+bd))+pattern(wrapTorus(q-bd))+pattern(wrapTorus(q+vec2(bd.x,-bd.y)))+pattern(wrapTorus(q+vec2(-bd.x,bd.y)));
+  }else{
+   glow=pattern(q+bx)+pattern(q-bx)+pattern(q+by)+pattern(q-by);
+   glow+=pattern(q+bd)+pattern(q-bd)+pattern(q+vec2(bd.x,-bd.y))+pattern(q+vec2(-bd.x,bd.y));
+  }
   glow=clamp(glow*.125,0.,1.);
   v=clamp(base+glow*postA.y*.9,0.,1.);
  }
  if(invertMode==1)v=1.-v;
  v=mix(v,smoothstep(.15,.85,v),postA.x);
  v+=postA.z*(v-smoothstep(.3,.7,v));v=postD.z>0.?floor(v*(2.+postD.z*10.))/(2.+postD.z*10.):v;
- v*=1.-postB.y*smoothstep(.25,.72,length(uv-.5));
- v*=1.-postC.x*(sin(uv.y*resolution.y*3.1416)*.5+.5);
+ float screenRadius=seamlessMode==1?torusRadius(uv):length(uv-.5);
+ v*=1.-postB.y*smoothstep(.25,.72,screenRadius);
+ float scan=seamlessMode==1
+  ?cos(TAU*positiveInt(resolution.y*.5)*uv.y)*.5+.5
+  :sin(uv.y*resolution.y*3.1416)*.5+.5;
+ v*=1.-postC.x*scan;
  v=mix(v,abs(dFdx(v))+abs(dFdy(v)),postD.y);
- v*=1.-postE.y*smoothstep(.2,.65,length(uv-.5));
+ v*=1.-postE.y*smoothstep(.2,.65,screenRadius);
  vec3 mapped=gradient(clamp(v,0.,1.));vec3 col=mix(vec3(v),mapped,postE.x);
  if(postB.x>0.)col=mix(col,vec3(gradient(clamp(v+postB.x*.08,0.,1.)).r,col.g,gradient(clamp(v-postB.x*.08,0.,1.)).b),postB.x);
  if(solidMode==1)col=solidColor;
@@ -180,7 +272,8 @@ export class TextureRenderer {
     const v3 = (n: string, v: readonly number[]) => gl.uniform3f(this.uniform(n), v[0], v[1], v[2])
     gl.viewport(0, 0, this.source.width, this.source.height)
     gl.clearColor(0,0,0,0); gl.clear(gl.COLOR_BUFFER_BIT)
-    i('kind', layer.generator.kind); f('seed', layer.seed); f('time', time * layer.speed)
+    i('kind', layer.generator.kind); i('seamlessMode', +(layer.seamless && layer.generator.tileable))
+    f('seed', layer.seed); f('time', time * layer.speed)
     const parameter = (slot: number) => {
       const key = `p${slot}`
       return layer.params[key] ?? layer.generator.defaults[key] ?? 0

@@ -29,12 +29,22 @@ describe('generator catalog', () => {
     expect(catalog.every((generator) => generator.parameters[0].label.startsWith(generator.name))).toBe(true)
   })
 
+  it('exposes seamless tiling only for periodic generator profiles', () => {
+    const byName = (name: string) => catalog.find((generator) => generator.name === name)!
+    expect(byName('Checker').tileable).toBe(true)
+    expect(byName('PerlinNoise').tileable).toBe(true)
+    expect(byName('VoronoiCell').tileable).toBe(true)
+    expect(byName('Circle').tileable).toBe(false)
+    expect(byName('LaserBeam').tileable).toBe(false)
+  })
+
   it('creates independent serializable layers', () => {
     const first = makeLayer(catalog[0])
     const second = makeLayer(catalog[0])
     expect(first.id).not.toBe(second.id)
     first.params.scale = 99
     expect(second.params.scale).not.toBe(99)
+    expect(first.seamless).toBe(false)
     expect(structuredClone(first)).toEqual(first)
   })
 

@@ -23,6 +23,7 @@ export type Layer = {
   invert: boolean
   solid: boolean
   solidColor: string
+  seamless: boolean
   speed: number
 }
 
@@ -47,6 +48,7 @@ export function makeLayer(generator: Generator): Layer {
     invert: false,
     solid: false,
     solidColor: '#ffffff',
+    seamless: false,
     speed: 0.2,
   }
 }

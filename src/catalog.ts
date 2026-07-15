@@ -12,6 +12,7 @@ export type Generator = {
   category: string
   kind: number
   seed: number
+  tileable: boolean
   recipe: readonly [number, number, number, number]
   defaults: Record<string, number>
   parameters: Parameter[]
@@ -39,6 +40,8 @@ const profiles: Record<string, Profile> = {
   digital: ['Block Scale', ['Threshold', 0, 1, .01, .5], ['Block Length', 1, 32, 1, 6], ['Displacement', 0, 2, .01, .35], ['Signal Noise', 0, 1, .01, .2], ['Animation Rate', 0, 8, .01, 1]],
   beam: ['Beam Width', ['Core Width', .001, .5, .001, .035], ['Glow Falloff', .1, 16, .1, 4], ['Pulse Frequency', 0, 32, .1, 4], ['Noise Amount', 0, 1, .01, .08], ['Intensity', 0, 3, .01, 1]],
 }
+
+const tileableProfiles = new Set(['grid', 'dots', 'lines', 'noise', 'fluid', 'cells', 'digital'])
 
 function profileFor(name: string) {
   if (/Ring|Halo|Ripple|Concentric|Pulse/.test(name)) return 'ring'
@@ -97,6 +100,7 @@ export const catalog: Generator[] = names.map((name, index) => {
     category: group,
     kind: index,
     seed,
+    tileable: tileableProfiles.has(profileName),
     recipe: [family, local, Object.keys(profiles).indexOf(profileName), (index * 7 + family * 3) % 17],
     parameters,
     defaults: Object.fromEntries(parameters.map((p) => [p.key, p.default])),

@@ -28,6 +28,7 @@ function GeneratorThumbnail({ src, name }: { src?: string; name: string }) {
 
 export default function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const tilePreviewRefs = useRef<(HTMLCanvasElement | null)[]>([])
   const renderer = useRef<TextureRenderer | null>(null)
   const past = useRef<Layer[][]>([]), future = useRef<Layer[][]>([])
   const initial = useMemo(() => makeLayer(catalog[8]), [])
@@ -42,6 +43,7 @@ export default function App() {
   const [tab, setTab] = useState<Tab>('Generator'), [playing, setPlaying] = useState(false)
   const [time, setTime] = useState(0), [zoom, setZoom] = useState(.72)
   const [pan, setPan] = useState({ x: 0, y: 0 }), [background, setBackground] = useState<'checker' | 'black'>('checker')
+  const [tilePreview, setTilePreview] = useState(false)
   const [resolution, setResolution] = useState(768), [notice, setNotice] = useState('')
   const selected = layers.find((l) => l.id === selectedId) ?? layers[0]
   const filtered = useMemo(() => catalog.filter((g) => (category === 'All' || g.category === category) &&
@@ -60,9 +62,19 @@ export default function App() {
   const add = (generator: Generator) => { const layer = makeLayer(generator); commit((old) => [layer, ...old]); setSelectedId(layer.id) }
 
   useEffect(() => {
-    try { renderer.current ??= new TextureRenderer(); if (canvasRef.current) renderer.current.render(canvasRef.current, layers, gradient, post, time, resolution) }
+    try {
+      renderer.current ??= new TextureRenderer()
+      if (canvasRef.current) {
+        renderer.current.render(canvasRef.current, layers, gradient, post, time, resolution)
+        if (tilePreview) for (const preview of tilePreviewRefs.current) {
+          if (!preview) continue
+          preview.width = preview.height = resolution
+          preview.getContext('2d')!.drawImage(canvasRef.current, 0, 0)
+        }
+      }
+    }
     catch (e) { setNotice(e instanceof Error ? e.message : 'WebGL2 could not start') }
-  }, [layers, gradient, post, time, resolution])
+  }, [layers, gradient, post, time, resolution, tilePreview])
   useEffect(() => {
     let cancelled = false
     try {
@@ -121,7 +133,13 @@ export default function App() {
       const restored = preset.layers.map((layer) => {
         const generator = catalog.find((item) => item.name === layer.generator?.name)
         if (!generator) throw new Error(`Preset uses an unknown generator: ${layer.generator?.name ?? 'unnamed'}`)
-        return { ...makeLayer(generator), ...layer, generator, params: { ...generator.defaults, ...layer.params } }
+        return {
+          ...makeLayer(generator),
+          ...layer,
+          generator,
+          seamless: Boolean(layer.seamless && generator.tileable),
+          params: { ...generator.defaults, ...layer.params },
+        }
       })
       if (!restored.length) throw new Error('Preset has no layers')
       past.current.push(structuredClone(layers))
@@ -157,15 +175,19 @@ export default function App() {
       <section className="stage-column">
         <div className="stagebar"><b>Preview</b><div><button className={background === 'checker' ? 'active' : ''} onClick={() => setBackground('checker')}>▦</button>
           <button className={background === 'black' ? 'active' : ''} onClick={() => setBackground('black')}>●</button><i className="divider" />
+          <button className={tilePreview ? 'active' : ''} title="Inspect the texture as a 2 × 2 tile" onClick={() => setTilePreview((value) => !value)}>2×2</button><i className="divider" />
           <button onClick={() => setZoom((z) => Math.max(.2, z - .1))}>−</button><output>{Math.round(zoom * 100)}%</output><button onClick={() => setZoom((z) => Math.min(2, z + .1))}>＋</button>
           <button onClick={() => { setZoom(.72); setPan({ x: 0, y: 0 }) }}>Fit</button></div></div>
         <div className={`stage ${background}`} onWheel={(e) => { e.preventDefault(); setZoom((z) => Math.max(.2, Math.min(2, z - e.deltaY * .001))) }}>
-          <canvas ref={canvasRef} style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})` }} onPointerDown={(e) => {
+          <div className={`preview-canvas-group ${tilePreview ? 'tiled' : ''}`} style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})` }} onPointerDown={(e) => {
             const start = { x: e.clientX - pan.x, y: e.clientY - pan.y }; e.currentTarget.setPointerCapture(e.pointerId)
             const drag = (m: PointerEvent) => setPan({ x: m.clientX - start.x, y: m.clientY - start.y })
             const up = () => { removeEventListener('pointermove', drag); removeEventListener('pointerup', up) }
             addEventListener('pointermove', drag); addEventListener('pointerup', up)
-          }} /><div className="canvas-info"><span>{resolution} × {resolution}</span><span>WebGL2 • RGBA</span></div>
+          }}>
+            <canvas ref={canvasRef} />
+            {tilePreview && [0, 1, 2].map((index) => <canvas key={index} ref={(element) => { tilePreviewRefs.current[index] = element }} aria-hidden />)}
+          </div><div className="canvas-info"><span>{resolution} × {resolution}{tilePreview ? ' • 2 × 2 preview' : ''}</span><span>WebGL2 • RGBA</span></div>
         </div>
         <div className="timeline"><button onClick={() => setPlaying((v) => !v)}>{playing ? '■' : '▶'}</button><input type="range" min="0" max="10" step=".01" value={time % 10} onChange={(e) => setTime(+e.target.value)} />
           <output>{time.toFixed(2)}s</output><label>Speed <input type="number" value={selected?.speed ?? 0} step=".1" onChange={(e) => patch({ speed: +e.target.value })} /></label></div>
@@ -195,7 +217,11 @@ export default function App() {
             <Slider label="Position X" value={selected.transform.x} min={-1} max={1} onChange={(v) => transform('x', v)} /><Slider label="Position Y" value={selected.transform.y} min={-1} max={1} onChange={(v) => transform('y', v)} />
             <Slider label="Rotation" value={selected.transform.rotation} min={-180} max={180} step={1} onChange={(v) => transform('rotation', v)} /><Slider label="Scale" value={selected.transform.scale} min={.1} max={4} onChange={(v) => transform('scale', v)} /></section>
             <section><h4>Scroll animation</h4><Slider label="Horizontal" value={selected.transform.scrollX} min={-2} max={2} onChange={(v) => transform('scrollX', v)} /><Slider label="Vertical" value={selected.transform.scrollY} min={-2} max={2} onChange={(v) => transform('scrollY', v)} />
-              <label className="switch-row">Polar coordinates<input type="checkbox" checked={selected.polar} onChange={(e) => patch({ polar: e.target.checked })} /></label><label className="switch-row">Invert output<input type="checkbox" checked={selected.invert} onChange={(e) => patch({ invert: e.target.checked })} /></label></section></>}
+              <label className="switch-row">Polar coordinates<input type="checkbox" checked={selected.polar} onChange={(e) => patch({ polar: e.target.checked })} /></label><label className="switch-row">Invert output<input type="checkbox" checked={selected.invert} onChange={(e) => patch({ invert: e.target.checked })} /></label>
+              <label className={`switch-row ${selected.generator.tileable ? '' : 'disabled'}`} title={selected.generator.tileable ? 'Use intrinsically periodic generator math so opposite edges match' : 'This isolated generator is not intended to tile'}>
+                <span>Seamless Tile<small>{selected.generator.tileable ? 'Periodic source generation' : 'Not applicable to this generator'}</small></span>
+                <input type="checkbox" disabled={!selected.generator.tileable} checked={selected.seamless && selected.generator.tileable} onChange={(e) => patch({ seamless: e.target.checked })} />
+              </label></section></>}
           {tab === 'Color' && selected && <><section><h3>Gradient<small>Output color mapping</small></h3><div className="gradient-bar" style={{ background: `linear-gradient(90deg,${gradient.map((s) => `${s.color} ${s.position * 100}%`).join(',')})` }} />
             {gradient.map((stop) => <div className="stop" key={stop.id}><input type="color" value={stop.color} onChange={(e) => setGradient((old) => old.map((s) => s.id === stop.id ? { ...s, color: e.target.value } : s))} /><input type="range" min="0" max="1" step=".01" value={stop.position} onChange={(e) => setGradient((old) => old.map((s) => s.id === stop.id ? { ...s, position: +e.target.value } : s).sort((a,b) => a.position-b.position))} /><button disabled={gradient.length <= 2} onClick={() => setGradient((old) => old.filter((s) => s.id !== stop.id))}>×</button></div>)}
             <button className="wide" onClick={() => setGradient((old) => [...old, { id: uid(), position: .5, color: '#ff6bd6' }].sort((a,b) => a.position-b.position))}>＋ Add color stop</button>

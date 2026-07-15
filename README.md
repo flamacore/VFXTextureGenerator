@@ -1,6 +1,6 @@
 # VFX Texture Generator
 
-A Windows desktop editor for creating procedural VFX textures. It includes 117 generator recipes, a layered WebGL2 compositor, animation, gradients, post-processing, presets, and PNG/GIF/normal-map/channel-pack export.
+A Windows desktop editor for creating procedural VFX textures. It includes 117 generator recipes, native periodic seamless tiling for compatible effects, a layered WebGL2 compositor, animation, gradients, post-processing, presets, and PNG/GIF/normal-map/channel-pack export.
 
 ## AI assistance disclosure
 
