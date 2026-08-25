@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent, type ReactNode, type RefObject } from 'react'
 import './App.css'
 import { catalog, categories, type Generator } from './catalog'
 import { defaultPost, makeLayer, type BlendMode, type GradientStop, type Layer, type PostSettings } from './models'
@@ -13,6 +13,32 @@ const safeFilenamePart = (value: string) => [...value.trim()]
   .join('').replace(/\s+/g, '-')
 const thumbnailUrl = (generator: Generator) => `/thumbnails/${generator.name}.png`
 const Icon = ({ children }: { children: ReactNode }) => <span className="icon" aria-hidden>{children}</span>
+
+function useNearList(rootRef: RefObject<HTMLElement | null>) {
+  const ref = useRef<HTMLButtonElement>(null)
+  const [near, setNear] = useState(false)
+  useEffect(() => {
+    if (near) return
+    const node = ref.current
+    if (!node) return
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) setNear(true)
+    }, { root: rootRef.current, rootMargin: '220px' })
+    io.observe(node)
+    return () => io.disconnect()
+  }, [near, rootRef])
+  return { ref, near }
+}
+
+function GeneratorThumbnail({ src, name, hue, shape, className = 'generator-icon' }: {
+  src?: string; name: string; hue: number; shape: number; className?: string
+}) {
+  const [failed, setFailed] = useState(false)
+  const showImage = Boolean(src) && !failed
+  return <span className={`${className} g${shape}${showImage ? ' has-image' : ''}`} style={{ '--h': hue } as CSSProperties}>
+    {showImage && <img src={src} alt={`${name} preview`} loading="lazy" decoding="async" onError={() => setFailed(true)} />}
+  </span>
+}
 
 function Slider({ label, value, min = 0, max = 1, step = .01, onChange }: {
   label: string; value: number; min?: number; max?: number; step?: number; onChange: (value: number) => void
@@ -32,15 +58,23 @@ function Slider({ label, value, min = 0, max = 1, step = .01, onChange }: {
     <input type="range" value={value} min={min} max={max} step={step} onChange={(e) => onChange(+e.target.value)} /></label>
 }
 
-function GeneratorThumbnail({ src, name }: { src?: string; name: string }) {
-  return src
-    ? <img className="generator-icon" src={src} alt={`${name} preview`} />
-    : <span className="generator-icon thumbnail-loading" aria-hidden />
+function GeneratorRow({ generator, rootRef, onAdd }: {
+  generator: Generator
+  rootRef: RefObject<HTMLDivElement | null>
+  onAdd: (generator: Generator) => void
+}) {
+  const { ref, near } = useNearList(rootRef)
+  return <button className="generator" ref={ref} onClick={() => onAdd(generator)}>
+    <GeneratorThumbnail src={near ? thumbnailUrl(generator) : undefined} name={generator.name}
+      hue={generator.kind * 13 % 360} shape={(generator.kind % 7) + 1} />
+    <span><b>{generator.name}</b><small>{generator.category}</small></span><i>＋</i>
+  </button>
 }
 
 export default function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const tilePreviewRefs = useRef<(HTMLCanvasElement | null)[]>([])
+  const generatorListRef = useRef<HTMLDivElement>(null)
   const renderer = useRef<TextureRenderer | null>(null)
   const past = useRef<Layer[][]>([]), future = useRef<Layer[][]>([])
   const initial = useMemo(() => makeLayer(catalog[8]), [])
@@ -80,6 +114,7 @@ export default function App() {
       renderer.current ??= new TextureRenderer()
       if (canvasRef.current) {
         renderer.current.render(canvasRef.current, layers, gradient, post, time, resolution)
+        renderer.current.prefetchProfiles()
         if (tilePreview) for (const preview of tilePreviewRefs.current) {
           if (!preview) continue
           preview.width = preview.height = resolution
@@ -187,9 +222,8 @@ export default function App() {
         <div className="panel-title"><b>Generators</b><small>{catalog.length} procedural nodes</small></div>
         <div className="search"><Icon>⌕</Icon><input aria-label="Search generators" placeholder="Search generators…" value={query} onChange={(e) => setQuery(e.target.value)} /></div>
         <div className="category-tabs">{['All', ...categories].map((c) => <button key={c} className={category === c ? 'active' : ''} onClick={() => setCategory(c)}>{c}</button>)}</div>
-        <div className="generator-list">{filtered.map((g) => <button className="generator" key={g.name} onClick={() => add(g)}>
-          <GeneratorThumbnail src={thumbnailUrl(g)} name={g.name} />
-          <span><b>{g.name}</b><small>{g.category}</small></span><i>＋</i></button>)}</div>
+        <div className="generator-list" ref={generatorListRef}>{filtered.map((g) =>
+          <GeneratorRow key={g.name} generator={g} rootRef={generatorListRef} onAdd={add} />)}</div>
       </aside>
       <div className="resize-handle vertical" role="separator" aria-label="Resize generator panel" onPointerDown={(event) => beginResize('left', event)} />
 
@@ -217,7 +251,8 @@ export default function App() {
           <div className="layers-head"><b>Layers</b><div><button onClick={() => add(catalog[0])}>＋ Add</button><button onClick={() => move(-1)}>↑</button><button onClick={() => move(1)}>↓</button></div></div>
           <div className="layer-list">{layers.map((layer) => <div key={layer.id} className={`layer-row ${layer.id === selectedId ? 'selected' : ''}`} onClick={() => setSelectedId(layer.id)}>
             <button className="eye" onClick={(e) => { e.stopPropagation(); commit((old) => old.map((l) => l.id === layer.id ? { ...l, visible: !l.visible } : l)) }}>{layer.visible ? '◉' : '○'}</button>
-            <img className="layer-thumb" src={thumbnailUrl(layer.generator)} alt="" />
+            <GeneratorThumbnail className="layer-thumb" src={thumbnailUrl(layer.generator)} name={layer.generator.name}
+              hue={layer.generator.kind * 13 % 360} shape={(layer.generator.kind % 7) + 1} />
             <input value={layer.name} onClick={(e) => e.stopPropagation()} onChange={(e) => commit((old) => old.map((l) => l.id === layer.id ? { ...l, name: e.target.value } : l))} />
             <select value={layer.blend} onClick={(e) => e.stopPropagation()} onChange={(e) => commit((old) => old.map((l) => l.id === layer.id ? { ...l, blend: e.target.value as BlendMode } : l))}>{blends.map((b) => <option key={b}>{b}</option>)}</select>
             <input className="mini-range" type="range" min="0" max="1" step=".01" value={layer.opacity} onChange={(e) => commit((old) => old.map((l) => l.id === layer.id ? { ...l, opacity: +e.target.value } : l))} />
