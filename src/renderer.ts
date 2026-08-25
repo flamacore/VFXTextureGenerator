@@ -1,6 +1,7 @@
 import type { GradientStop, Layer, PostSettings } from './models'
+import { identityCorners } from './models'
 
-const PROFILE_COUNT = 13
+const PROFILE_COUNT = 14
 
 const vertex = `#version 300 es
 in vec2 p; out vec2 uv;
@@ -9,9 +10,9 @@ void main(){uv=p*.5+.5;gl_Position=vec4(p,0.,1.);}`
 const fragmentPreamble = `#version 300 es
 precision highp float;
 in vec2 uv; out vec4 outColor;
-uniform vec2 resolution, offset, scroll;
-uniform float time, rotation, transformScale, p0, p1, p2, p3, p4, p5, seed;
-uniform int kind, polarMode, invertMode, solidMode, seamlessMode;
+uniform vec2 resolution, offset, scroll, uvOffset, corner0, corner1, corner2, corner3;
+uniform float time, rotation, transformScale, p0, p1, p2, p3, p4, p5, seed, cornerFeather, cornerRound;
+uniform int kind, polarMode, invertMode, solidMode, seamlessMode, warpMode, uvRepeatMode;
 uniform vec4 recipe;
 uniform vec3 colorA,colorB,colorC,solidColor;
 uniform vec3 postA,postB,postC,postD,postE;
@@ -27,7 +28,36 @@ vec2 quarterTurn(vec2 p,float turns){
  if(t<2.5)return -p;
  return vec2(p.y,-p.x);
 }
-float aa(float d,float w){return 1.-smoothstep(0.,max(.0005,w),d);}`
+float aa(float d,float w){return 1.-smoothstep(0.,max(.0005,w),d);}
+float smax(float a,float b,float k){
+ k=max(k,1e-5);
+ float h=clamp(.5+.5*(b-a)/k,0.,1.);
+ return mix(a,b,h)+k*h*(1.-h);
+}
+float lineSD(vec2 p,vec2 a,vec2 b){
+ vec2 e=b-a;float l=max(length(e),1e-8);
+ return dot(p-a,vec2(e.y,-e.x)/l);
+}
+vec2 invBilinear(vec2 p,vec2 a,vec2 b,vec2 c,vec2 d){
+ vec2 e=b-a,f=d-a,g=a-b+c-d,h=p-a;
+ float k2=g.x*f.y-g.y*f.x,k1=e.x*f.y-e.y*f.x+h.x*g.y-h.y*g.x,k0=h.x*e.y-h.y*e.x;
+ float u=0.,v=0.;
+ if(abs(k2)<1e-4){
+  v=-k0/max(1e-5,k1);u=(h.x-f.x*v)/max(1e-5,e.x+g.x*v);
+ }else{
+  float w=k1*k1-4.*k2*k0;if(w<0.)return vec2(-1.);
+  w=sqrt(w);
+  float v1=(-k1-w)/(2.*k2),v2=(-k1+w)/(2.*k2);
+  v=(v1>=0.&&v1<=1.)?v1:v2;
+  u=(h.x-f.x*v)/max(1e-5,e.x+g.x*v);
+ }
+ return vec2(u,v);
+}
+float quadMask(vec2 p,float feather,float roundness){
+ float k=roundness*.5;
+ float sd=smax(smax(lineSD(p,corner0,corner1),lineSD(p,corner1,corner2),k),smax(lineSD(p,corner2,corner3),lineSD(p,corner3,corner0),k),k);
+ return 1.-smoothstep(0.,max(feather*2.,.00015),sd);
+}`
 
 const glslHash = `
 float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7))+seed)*43758.5453);}
@@ -95,6 +125,10 @@ const patternBodies = [
   float d=polygon(z,sides,p0),fill=aa(max(d,0.),p2),outline=aa(abs(d)-p4,p2);
   float star=aa(max(polygon(z,sides,p0*(.7+.3*cos(a*sides))),0.),p2);
   return mix(mix(fill,outline,step(.01,p4)),star,signature*.5)*(1.-p3*.25*abs(sin(a*sides)));`,
+  `vec2 p=q+.5;float fillet=clamp(p2+cornerRound,.0,.45);vec2 inset=vec2(p1*.45);
+  vec2 d=abs(p*2.-1.)-(vec2(1.)-inset-fillet);
+  float sd=length(max(d,0.))+min(max(d.x,d.y),0.)-fillet;
+  return aa(sd,max(.001,p3)+cornerFeather)*clamp(p0,0.,1.)*(1.-p4*length(p-.5));`,
   `float arms=max(1.,p1+mod(variant+family,3.));
   float wave=abs(sin(a*arms+r*p2+phase+fbm(q*4.,4.,2.,.5)*p5));
   return aa(wave-p3,p3*.25)*exp(-r*p4);`,
@@ -173,6 +207,15 @@ void main(){
   float pixels=floor(mix(400.,20.,postB.z)+.5);
   sampleUV=mix(sampleUV,(floor(sampleUV*pixels)+.5)/pixels,postB.z);
  }
+ float warpMask=1.;
+ if(warpMode==1){
+  vec2 st=invBilinear(sampleUV,corner0,corner1,corner2,corner3);
+  warpMask=quadMask(sampleUV,cornerFeather,cornerRound);
+  if(warpMask<=0.){outColor=vec4(0);return;}
+  sampleUV=clamp(st,0.,1.);
+ }
+ if(uvRepeatMode==1) sampleUV=fract(sampleUV-uvOffset);
+ else sampleUV=sampleUV-uvOffset;
  vec2 q;
  if(seamlessMode==1){
   float scaleCycles=positiveInt(1./max(.02,abs(transformScale)));
@@ -215,6 +258,7 @@ void main(){
  vec3 mapped=gradient(clamp(v,0.,1.));vec3 col=mix(vec3(v),mapped,postE.x);
  if(postB.x>0.)col=mix(col,vec3(gradient(clamp(v+postB.x*.08,0.,1.)).r,col.g,gradient(clamp(v-postB.x*.08,0.,1.)).b),postB.x);
  if(solidMode==1)col=solidColor;
+ v*=warpMask;
  outColor=vec4(col,clamp(v,0.,1.));
 }`
 
@@ -223,6 +267,7 @@ const helpersForProfile: string[][] = [
   [],
   [],
   [glslHash, glslNoise, glslPolygon],
+  [],
   [glslHash, glslNoise, glslFbm],
   [glslHash, glslEven],
   [glslHash, glslEven],
@@ -246,6 +291,13 @@ const hex = (value: string) => {
 
 const profileOf = (layer: Layer) => Math.max(0, Math.min(PROFILE_COUNT - 1, layer.generator.recipe[2] | 0))
 
+const nearly = (a: number, b: number) => Math.abs(a - b) < 1e-4
+const usesWarp = (layer: Layer) => {
+  const { feather, roundness, corners } = layer.transform
+  if (feather > 1e-4 || roundness > 1e-4) return true
+  return identityCorners.some((point, index) => !nearly(corners[index].x, point.x) || !nearly(corners[index].y, point.y))
+}
+
 export class TextureRenderer {
   private source = document.createElement('canvas')
   private gl: WebGL2RenderingContext
@@ -253,7 +305,6 @@ export class TextureRenderer {
   private programs = new Map<number, WebGLProgram>()
   private locations = new Map<WebGLProgram, Map<string, WebGLUniformLocation | null>>()
   private activeProgram: WebGLProgram | null = null
-  private prefetchHandle = 0
   private prefetchStarted = false
 
   constructor() {
@@ -317,7 +368,6 @@ export class TextureRenderer {
     if (this.prefetchStarted || this.programs.size >= PROFILE_COUNT) return
     this.prefetchStarted = true
     const compileNext = () => {
-      this.prefetchHandle = 0
       for (let i = 0; i < PROFILE_COUNT; i++) {
         if (this.programs.has(i)) continue
         this.ensureProgram(i)
@@ -329,11 +379,8 @@ export class TextureRenderer {
   }
 
   private schedulePrefetch(callback: () => void) {
-    if (typeof requestIdleCallback === 'function') {
-      this.prefetchHandle = requestIdleCallback(() => callback())
-    } else {
-      this.prefetchHandle = window.setTimeout(callback, 400)
-    }
+    if (typeof requestIdleCallback === 'function') requestIdleCallback(() => callback())
+    else window.setTimeout(callback, 400)
   }
 
   private drawLayer(layer: Layer, colors: GradientStop[], post: PostSettings, time: number) {
@@ -355,6 +402,12 @@ export class TextureRenderer {
     const recipe = layer.generator.recipe
     gl.uniform4f(this.uniform('recipe'), recipe[0], recipe[1], recipe[2], recipe[3])
     v2('offset', layer.transform.x, layer.transform.y); v2('scroll', layer.transform.scrollX, layer.transform.scrollY)
+    v2('uvOffset', layer.transform.u, layer.transform.v)
+    i('uvRepeatMode', +layer.transform.uvRepeat)
+    const [bl, br, tr, tl] = layer.transform.corners
+    v2('corner0', bl.x, bl.y); v2('corner1', br.x, br.y); v2('corner2', tr.x, tr.y); v2('corner3', tl.x, tl.y)
+    f('cornerFeather', layer.transform.feather); f('cornerRound', layer.transform.roundness)
+    i('warpMode', +usesWarp(layer))
     f('rotation', layer.transform.rotation * Math.PI / 180); f('transformScale', layer.transform.scale)
     i('polarMode', +layer.polar); i('invertMode', +layer.invert); i('solidMode', +layer.solid)
     v2('resolution', this.source.width, this.source.height)

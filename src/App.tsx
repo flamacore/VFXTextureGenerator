@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent, type ReactNode, type RefObject } from 'react'
 import './App.css'
-import { catalog, categories, type Generator } from './catalog'
-import { defaultPost, makeLayer, type BlendMode, type GradientStop, type Layer, type PostSettings } from './models'
+import { catalog, categories, resolveGenerator, type Generator } from './catalog'
+import { defaultPost, defaultTransform, makeLayer, normalizeTransform, withCorner, type BlendMode, type GradientStop, type Layer, type PostSettings, type TransformScalar } from './models'
 import { TextureRenderer } from './renderer'
 import { exportChannelPack, exportGif, exportNormalMap, exportPng, exportPreset, loadPreset } from './exporters'
 
@@ -77,7 +77,7 @@ export default function App() {
   const generatorListRef = useRef<HTMLDivElement>(null)
   const renderer = useRef<TextureRenderer | null>(null)
   const past = useRef<Layer[][]>([]), future = useRef<Layer[][]>([])
-  const initial = useMemo(() => makeLayer(catalog[8]), [])
+  const initial = useMemo(() => makeLayer(catalog.find((item) => item.name === 'Ring') ?? catalog[0]), [])
   const [layers, setLayers] = useState<Layer[]>([initial])
   const [selectedId, setSelectedId] = useState(initial.id)
   const [gradient, setGradient] = useState<GradientStop[]>([
@@ -98,6 +98,14 @@ export default function App() {
     g.name.toLowerCase().includes(query.toLowerCase())), [category, query])
   const exportBaseName = useMemo(() => layers.slice(0, 3).map((layer) => safeFilenamePart(layer.name))
     .filter(Boolean).join('-') || 'VFX-Texture', [layers])
+  const saveProject = useCallback(async () => {
+    try {
+      const saved = await exportPreset(layers, gradient, post, `${exportBaseName}.json`)
+      if (saved) setNotice('Preset saved')
+    } catch (e) {
+      setNotice(e instanceof Error ? e.message : 'Preset could not be saved')
+    }
+  }, [exportBaseName, gradient, layers, post])
 
   const commit = useCallback((change: Layer[] | ((old: Layer[]) => Layer[])) => setLayers((old) => {
     past.current.push(structuredClone(old)); if (past.current.length > 80) past.current.shift(); future.current = []
@@ -106,8 +114,30 @@ export default function App() {
   const undo = useCallback(() => { const item = past.current.pop(); if (item) setLayers((old) => (future.current.push(structuredClone(old)), item)) }, [])
   const redo = useCallback(() => { const item = future.current.pop(); if (item) setLayers((old) => (past.current.push(structuredClone(old)), item)) }, [])
   const patch = (value: Partial<Layer>) => selected && commit((old) => old.map((l) => l.id === selected.id ? { ...l, ...value } : l))
-  const transform = (key: keyof Layer['transform'], value: number) => selected && patch({ transform: { ...selected.transform, [key]: value } })
+  const transform = (key: TransformScalar, value: number) => selected && patch({ transform: { ...selected.transform, [key]: value } })
+  const setCorner = (index: number, axis: 'x' | 'y', value: number) => {
+    if (!selected) return
+    patch({ transform: { ...selected.transform, corners: withCorner(selected.transform.corners, index, { ...selected.transform.corners[index], [axis]: value }) } })
+  }
   const add = (generator: Generator) => { const layer = makeLayer(generator); commit((old) => [layer, ...old]); setSelectedId(layer.id) }
+  const dragCorner = (index: number, event: ReactPointerEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
+    const host = event.currentTarget.parentElement
+    if (!host || !selected) return
+    const move = (pointer: PointerEvent) => {
+      const box = host.getBoundingClientRect()
+      const x = Math.min(1.25, Math.max(-.25, (pointer.clientX - box.left) / Math.max(1, box.width)))
+      const y = Math.min(1.25, Math.max(-.25, 1 - (pointer.clientY - box.top) / Math.max(1, box.height)))
+      patch({ transform: { ...selected.transform, corners: withCorner(selected.transform.corners, index, { x, y }) } })
+    }
+    const finish = () => {
+      removeEventListener('pointermove', move)
+      removeEventListener('pointerup', finish)
+    }
+    addEventListener('pointermove', move)
+    addEventListener('pointerup', finish)
+  }
 
   useEffect(() => {
     try {
@@ -135,12 +165,13 @@ export default function App() {
       const cmd = e.ctrlKey || e.metaKey
       if (cmd && e.key.toLowerCase() === 'z') { e.preventDefault(); if (e.shiftKey) redo(); else undo() }
       if (cmd && e.key.toLowerCase() === 'y') { e.preventDefault(); redo() }
+      if (cmd && e.key.toLowerCase() === 's') { e.preventDefault(); void saveProject() }
       if (e.code === 'Space' && !(e.target instanceof HTMLInputElement)) { e.preventDefault(); setPlaying((v) => !v) }
       if (e.key === 'Delete' && selected) commit((old) => old.filter((l) => l.id !== selected.id))
       if (cmd && e.key.toLowerCase() === 'd' && selected) { e.preventDefault(); const copy = { ...structuredClone(selected), id: uid(), name: `${selected.name} Copy` }; commit((old) => [copy, ...old]); setSelectedId(copy.id) }
     }
     addEventListener('keydown', keys); return () => removeEventListener('keydown', keys)
-  }, [commit, redo, selected, undo])
+  }, [commit, redo, saveProject, selected, undo])
 
   const move = (delta: number) => selected && commit((old) => {
     const from = old.findIndex((l) => l.id === selected.id), to = Math.max(0, Math.min(old.length - 1, from + delta))
@@ -186,12 +217,13 @@ export default function App() {
       const preset = await loadPreset()
       if (!preset) return
       const restored = preset.layers.map((layer) => {
-        const generator = catalog.find((item) => item.name === layer.generator?.name)
+        const generator = resolveGenerator(layer.generator?.name ?? '')
         if (!generator) throw new Error(`Preset uses an unknown generator: ${layer.generator?.name ?? 'unnamed'}`)
         return {
           ...makeLayer(generator),
           ...layer,
           generator,
+          transform: normalizeTransform(layer.transform),
           seamless: Boolean(layer.seamless && generator.tileable),
           params: { ...generator.defaults, ...layer.params },
         }
@@ -212,7 +244,7 @@ export default function App() {
   return <main className="app-shell">
     <header className="topbar">
       <div className="brand"><span className="brand-mark">✦</span><b>VFX Texture Generator</b><span className="badge">CLEAN ROOM</span></div>
-      <div className="toolbar"><button onClick={undo}><Icon>↶</Icon>Undo</button><button onClick={redo}><Icon>↷</Icon>Redo</button><button onClick={load}><Icon>⌁</Icon>Load</button><i className="divider" />
+      <div className="toolbar"><button onClick={undo}><Icon>↶</Icon>Undo</button><button onClick={redo}><Icon>↷</Icon>Redo</button><button onClick={saveProject}><Icon>⤓</Icon>Save</button><button onClick={load}><Icon>⌁</Icon>Load</button><i className="divider" />
         <button className={playing ? 'active' : ''} onClick={() => setPlaying((v) => !v)}><Icon>{playing ? '■' : '▶'}</Icon>{playing ? 'Stop' : 'Animate'}</button>
         <button className="primary" onClick={() => canvasRef.current && exportPng(canvasRef.current, `${exportBaseName}.png`)}><Icon>⇩</Icon>Export</button></div>
     </header>
@@ -242,6 +274,13 @@ export default function App() {
           }}>
             <canvas ref={canvasRef} />
             {tilePreview && [0, 1, 2].map((index) => <canvas key={index} ref={(element) => { tilePreviewRefs.current[index] = element }} aria-hidden />)}
+            {tab === 'Transform' && selected && !tilePreview && <div className="corner-overlay" aria-hidden>
+              {(['BL', 'BR', 'TR', 'TL'] as const).map((label, index) => {
+                const point = selected.transform.corners[index]
+                return <button key={label} className="corner-handle" style={{ left: `${point.x * 100}%`, top: `${(1 - point.y) * 100}%` }}
+                  title={`${label} corner`} onPointerDown={(event) => dragCorner(index, event)}>{label}</button>
+              })}
+            </div>}
           </div><div className="canvas-info"><span>{resolution} × {resolution}{tilePreview ? ' • 2 × 2 preview' : ''}</span><span>WebGL2 • RGBA</span></div>
         </div>
         <div className="timeline"><button onClick={() => setPlaying((v) => !v)}>{playing ? '■' : '▶'}</button><input type="range" min="0" max="10" step=".01" value={time % 10} onChange={(e) => setTime(+e.target.value)} />
@@ -276,6 +315,18 @@ export default function App() {
           {tab === 'Transform' && selected && <><section><h3>Transform<small>Placement and motion</small></h3>
             <Slider label="Position X" value={selected.transform.x} min={-1} max={1} onChange={(v) => transform('x', v)} /><Slider label="Position Y" value={selected.transform.y} min={-1} max={1} onChange={(v) => transform('y', v)} />
             <Slider label="Rotation" value={selected.transform.rotation} min={-180} max={180} step={1} onChange={(v) => transform('rotation', v)} /><Slider label="Scale" value={selected.transform.scale} min={.1} max={4} onChange={(v) => transform('scale', v)} /></section>
+            <section><h4>UV offset</h4>
+              <Slider label="Offset U" value={selected.transform.u} min={-1} max={1} onChange={(v) => transform('u', v)} />
+              <Slider label="Offset V" value={selected.transform.v} min={-1} max={1} onChange={(v) => transform('v', v)} />
+              <label className="switch-row"><span>Repeat UV<small>Tiles the pattern · a solid fill will not change</small></span><input type="checkbox" checked={selected.transform.uvRepeat} onChange={(e) => patch({ transform: { ...selected.transform, uvRepeat: e.target.checked } })} /></label></section>
+            <section><h4>Four corners</h4>
+              <Slider label="Edge Feather" value={selected.transform.feather} min={0} max={.35} onChange={(v) => transform('feather', v)} />
+              <Slider label="Corner Roundness" value={selected.transform.roundness} min={0} max={.45} onChange={(v) => transform('roundness', v)} />
+              {(['Bottom left', 'Bottom right', 'Top right', 'Top left'] as const).map((label, index) => <div className="corner-sliders" key={label}>
+                <Slider label={`${label} X`} value={selected.transform.corners[index].x} min={-.25} max={1.25} onChange={(v) => setCorner(index, 'x', v)} />
+                <Slider label={`${label} Y`} value={selected.transform.corners[index].y} min={-.25} max={1.25} onChange={(v) => setCorner(index, 'y', v)} />
+              </div>)}
+              <button className="wide" onClick={() => patch({ transform: { ...selected.transform, feather: 0, roundness: 0, corners: defaultTransform().corners } })}>Reset corners</button></section>
             <section><h4>Scroll animation</h4><Slider label="Horizontal" value={selected.transform.scrollX} min={-2} max={2} onChange={(v) => transform('scrollX', v)} /><Slider label="Vertical" value={selected.transform.scrollY} min={-2} max={2} onChange={(v) => transform('scrollY', v)} />
               <label className="switch-row">Polar coordinates<input type="checkbox" checked={selected.polar} onChange={(e) => patch({ polar: e.target.checked })} /></label><label className="switch-row">Invert output<input type="checkbox" checked={selected.invert} onChange={(e) => patch({ invert: e.target.checked })} /></label></section></>}
           {tab === 'Color' && selected && <><section><h3>Gradient<small>Output color mapping</small></h3><div className="gradient-bar" style={{ background: `linear-gradient(90deg,${gradient.map((s) => `${s.color} ${s.position * 100}%`).join(',')})` }} />
@@ -286,11 +337,11 @@ export default function App() {
           {tab === 'Post' && <section><h3>Post Processing<small>Applied to final output</small></h3>{(Object.keys(post) as (keyof PostSettings)[]).map((key) => <Slider key={key} label={key.replace(/([A-Z])/g, ' $1').replace(/^./, (c) => c.toUpperCase())} value={post[key]} onChange={(v) => setPost((old) => ({ ...old, [key]: v }))} />)}<button className="wide" onClick={() => setPost(defaultPost)}>Reset all effects</button></section>}
           {tab === 'Export' && <section><h3>Export Texture<small>Render the current composition</small></h3><label className="select-row">Resolution<select value={resolution} onChange={(e) => setResolution(+e.target.value)}>{[256,512,768,1024,2048].map((n) => <option key={n}>{n}</option>)}</select></label>
             <div className="export-grid"><button onClick={() => canvasRef.current && exportPng(canvasRef.current, `${exportBaseName}.png`)}>PNG<small>{exportBaseName}.png</small></button><button onClick={() => canvasRef.current && exportNormalMap(canvasRef.current, `${exportBaseName}-Normal.png`)}>Normal Map<small>Height to normal</small></button>
-              <button onClick={() => canvasRef.current && exportChannelPack(canvasRef.current, `${exportBaseName}-Channels.png`)}>Channel Pack<small>RGB packed</small></button><button onClick={gif}>Animated GIF<small>24 frames · 12 fps</small></button><button onClick={() => exportPreset(layers, gradient, post, `${exportBaseName}.json`)}>Save Preset<small>Editable JSON project</small></button><button onClick={load}>Load Preset<small>Restore JSON project</small></button></div></section>}
+              <button onClick={() => canvasRef.current && exportChannelPack(canvasRef.current, `${exportBaseName}-Channels.png`)}>Channel Pack<small>RGB packed</small></button><button onClick={gif}>Animated GIF<small>24 frames · 12 fps</small></button><button onClick={saveProject}>Save Preset<small>Editable JSON project</small></button><button onClick={load}>Load Preset<small>Restore JSON project</small></button></div></section>}
         </div>
       </aside>
     </section>
     {notice && <div className="toast" onClick={() => setNotice('')}>{notice}<button>×</button></div>}
-    <footer><span><i className="status-dot" /> Ready</span><span>{layers.length} layer{layers.length === 1 ? '' : 's'} · {catalog.length} generators · GPU accelerated</span><span>Space: Play · Ctrl+Z: Undo · Wheel: Zoom</span></footer>
+    <footer><span><i className="status-dot" /> Ready</span><span>{layers.length} layer{layers.length === 1 ? '' : 's'} · {catalog.length} generators · GPU accelerated</span><span>Space: Play · Ctrl+S: Save · Ctrl+Z: Undo · Wheel: Zoom</span></footer>
   </main>
 }

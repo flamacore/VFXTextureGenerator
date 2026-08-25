@@ -1,11 +1,16 @@
 import { describe, expect, it } from 'vitest'
-import { catalog, categories } from './catalog'
-import { defaultPost, makeLayer } from './models'
+import { catalog, categories, resolveGenerator } from './catalog'
+import { defaultPost, makeLayer, normalizeTransform } from './models'
 
 describe('generator catalog', () => {
-  it('contains the complete unique compatibility inventory', () => {
-    expect(catalog).toHaveLength(117)
-    expect(new Set(catalog.map((generator) => generator.name)).size).toBe(117)
+  it('contains a unique condensed generator inventory', () => {
+    expect(catalog).toHaveLength(90)
+    expect(new Set(catalog.map((generator) => generator.name)).size).toBe(90)
+    expect(catalog.some((generator) => generator.name === 'Quad')).toBe(true)
+    expect(catalog.some((generator) => generator.name === 'WaveRing')).toBe(true)
+    expect(catalog.some((generator) => generator.name === 'WaveRingSine')).toBe(false)
+    expect(resolveGenerator('WaveRingSine')?.name).toBe('WaveRing')
+    expect(resolveGenerator('EnergyRing')?.name).toBe('Ring')
     expect(categories.length).toBeGreaterThanOrEqual(5)
   })
 
@@ -36,6 +41,7 @@ describe('generator catalog', () => {
     expect(byName('VoronoiCell').tileable).toBe(true)
     expect(byName('Circle').tileable).toBe(false)
     expect(byName('LaserBeam').tileable).toBe(false)
+    expect(byName('Quad').tileable).toBe(false)
   })
 
   it('creates independent serializable layers', () => {
@@ -45,7 +51,16 @@ describe('generator catalog', () => {
     first.params.scale = 99
     expect(second.params.scale).not.toBe(99)
     expect(first.seamless).toBe(false)
+    expect(first.transform.u).toBe(0)
+    expect(first.transform.uvRepeat).toBe(true)
+    expect(first.transform.corners).toHaveLength(4)
     expect(structuredClone(first)).toEqual(first)
+  })
+
+  it('keeps UV wrapping unless Repeat UV is turned off', () => {
+    expect(normalizeTransform(undefined).uvRepeat).toBe(true)
+    expect(normalizeTransform({ u: 0.25 }).uvRepeat).toBe(true)
+    expect(normalizeTransform({ uvRepeat: false }).uvRepeat).toBe(false)
   })
 
   it('keeps every post-processing control normalized', () => {

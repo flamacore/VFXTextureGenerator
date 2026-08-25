@@ -18,8 +18,6 @@ export type Generator = {
   parameters: Parameter[]
 }
 
-const names = `Circle,Vignette,LensFlare,Sun,SolarGlow,Ring,Crescent,Flash,EnergyRing,AuraRing,Halo,Ripple,Concentric,Pulse,MetaBalls,WaveRingSine,WaveRingNoisy,WaveRingSquare,WaveRingDouble,Star,Polygon,HexGridRadial,Rectangle,Checker,GradientChecker,RoundChecker,DiamondChecker,Spark,Flare,Cross,Glare,StarFlare,RayBurst,Burst,ImpactLines,RadialLines,SpiralV2,Swirl,GodRay,StarBurst,Flower,Spiral,Energy,Crack,Bokeh,Shimmer,VoronoiFluid,Speckle,CrossGrid,SquareGrid,PyramidPattern,RandomTiles,SquareGridDash,Dots,SquareGridPolka,DotMatrix,Zigzag,Crosshatch,TriGrid,Bricks,Scanline,FlowLines,Fabric,PolarDots,Weave,Halftone,SweepGradient,GradationLinear,GradationReflect,GradationRepeat,BevelSquare,Grain,PerlinNoise,FbmNoise,DistortionWave,StripeNoise,ToxicCloud,GeoRelief,Smoke,WaterTurbulence,Electric,SimplexNoise,Lava,Wrinkle,Crystal,AbsNoise,FractalCamo,PlasmaV2,Squiggles,Grunge,GrungeV2,CellularEdge,Twirl,CosmicPortal,Wormhole,Plasma,MarbleNoise,Fire,Cloud,Caustics,Aurora,Flame,PixelNoise,AnalogGlitch,CyberBlock,Mosaic,LaserBeam,GlitchBlock,VoronoiCell,Matrix,Wood,SparkBurst,VoronoiNoise,Cell,Lightning,Kaleido,SymmetricNoise`.split(',')
-
 type Control = readonly [label: string, min: number, max: number, step: number, value: number]
 type Profile = readonly [primary: string, ...controls: Control[]]
 
@@ -30,6 +28,7 @@ const profiles: Record<string, Profile> = {
   ring: ['Radius', ['Band Width', .002, .45, .001, .07], ['Wave Count', 1, 32, 1, 8], ['Wave Depth', 0, .5, .01, .08], ['Edge Feather', .001, .3, .001, .025], ['Glow', 0, 2, .01, .8]],
   rays: ['Radius', ['Ray Count', 2, 96, 1, 16], ['Ray Sharpness', .2, 16, .1, 5], ['Radial Falloff', .1, 12, .01, 3], ['Core Size', 0, .5, .005, .08], ['Flicker', 0, 2, .01, .25]],
   shape: ['Size', ['Sides / Points', 3, 24, 1, 6], ['Edge Feather', .001, .25, .001, .025], ['Corner Roundness', 0, 1, .01, .1], ['Outline Width', 0, .4, .005, 0], ['Distortion', 0, 1, .01, 0]],
+  quad: ['Fill', ['Edge Bias', 0, 1, .01, 0], ['Roundness', 0, .45, .01, 0], ['Inner Softness', .001, .4, .001, .02], ['Bevel', 0, 1, .01, 0], ['Animation Rate', 0, 4, .01, 0]],
   spiral: ['Scale', ['Arm Count', 1, 24, 1, 5], ['Twist', -20, 20, .05, 5], ['Arm Width', .01, .8, .005, .18], ['Radial Falloff', .1, 8, .01, 2], ['Turbulence', 0, 2, .01, .15]],
   grid: ['Tile Size', ['Line Width', .005, .48, .005, .1], ['Duty / Fill', .02, .98, .01, .5], ['Edge Feather', .001, .2, .001, .02], ['Jitter', 0, 1, .01, 0], ['Angle Bias', -1, 1, .01, 0]],
   dots: ['Dot Spacing', ['Dot Radius', .01, .49, .005, .18], ['Row Offset', 0, 1, .01, .5], ['Edge Feather', .001, .2, .001, .02], ['Size Jitter', 0, 1, .01, .1], ['Density', .05, 1, .01, 1]],
@@ -42,28 +41,22 @@ const profiles: Record<string, Profile> = {
 }
 
 const tileableProfiles = new Set(['grid', 'dots', 'lines', 'noise', 'fluid', 'cells', 'digital'])
+const compactProfiles = new Set(['disc', 'ring', 'rays', 'shape', 'quad'])
 
 function profileFor(name: string) {
-  if (/Ring|Halo|Ripple|Concentric|Pulse/.test(name)) return 'ring'
-  if (/Burst|Ray|Flare|Spark|Glare|Sun|Flash|Impact|Lightning|Electric/.test(name)) return 'rays'
-  if (/Circle|Vignette|Glow|Aura|Crescent|MetaBalls|Bokeh/.test(name)) return 'disc'
+  if (name === 'Quad') return 'quad'
+  if (/Ring|Halo|Ripple|Concentric/.test(name)) return 'ring'
+  if (/Burst|Ray|Flare|Spark|Sun|Flash|Lightning|Electric/.test(name)) return 'rays'
+  if (/Circle|Vignette|Glow|Crescent|MetaBalls|Bokeh/.test(name)) return 'disc'
   if (/Spiral|Swirl|Twirl|Portal|Wormhole|Kaleido/.test(name)) return 'spiral'
   if (/Star|Polygon|Rectangle|Flower|Bevel|Pyramid|Crack|Crystal/.test(name)) return 'shape'
-  if (/Dot|Polka|Halftone/.test(name)) return 'dots'
+  if (/Dot|Halftone/.test(name)) return 'dots'
   if (/Grid|Checker|Tiles|Matrix|Bricks|Weave|Fabric|Crosshatch/.test(name)) return 'grid'
   if (/Line|Stripe|Scanline|Zigzag|Squiggle|Gradation|Sweep/.test(name)) return 'lines'
   if (/Voronoi|Cell|Mosaic/.test(name)) return 'cells'
   if (/Glitch|Cyber|Pixel|Block|Laser/.test(name)) return name === 'LaserBeam' ? 'beam' : 'digital'
-  if (/Fluid|Smoke|Water|Lava|Plasma|Marble|Fire|Cloud|Caustic|Aurora|Flame|Toxic|Flow|Energy/.test(name)) return 'fluid'
+  if (/Fluid|Smoke|Water|Lava|Plasma|Marble|Fire|Cloud|Caustic|Aurora|Toxic|Flow|Energy/.test(name)) return 'fluid'
   return 'noise'
-}
-
-function category(i: number) {
-  if (i < 19) return 'Radial'
-  if (i < 46) return 'Shapes & Bursts'
-  if (i < 71) return 'Patterns'
-  if (i < 102) return 'Noise & Organic'
-  return 'Digital & Utility'
 }
 
 function hashName(name: string) {
@@ -72,29 +65,32 @@ function hashName(name: string) {
   return h >>> 0
 }
 
-export const catalog: Generator[] = names.map((name, index) => {
+const inventory: readonly [category: string, names: readonly string[]][] = [
+  ['Radial', ['Circle', 'Vignette', 'LensFlare', 'Sun', 'Ring', 'Crescent', 'Flash', 'Halo', 'Ripple', 'Concentric', 'MetaBalls', 'WaveRing']],
+  ['Shapes & Bursts', ['Star', 'Polygon', 'HexGridRadial', 'Rectangle', 'Quad', 'Checker', 'Spark', 'Flare', 'Cross', 'Burst', 'RadialLines', 'Swirl', 'GodRay', 'Flower', 'Spiral', 'Energy', 'Crack', 'Bokeh', 'Shimmer', 'Speckle']],
+  ['Patterns', ['CrossGrid', 'SquareGrid', 'PyramidPattern', 'RandomTiles', 'Dots', 'DotMatrix', 'Zigzag', 'Crosshatch', 'TriGrid', 'Bricks', 'Scanline', 'FlowLines', 'Fabric', 'PolarDots', 'Weave', 'Halftone', 'SweepGradient', 'GradationLinear', 'BevelSquare']],
+  ['Noise & Organic', ['Grain', 'PerlinNoise', 'FbmNoise', 'DistortionWave', 'StripeNoise', 'ToxicCloud', 'GeoRelief', 'Smoke', 'WaterTurbulence', 'Electric', 'Lava', 'Wrinkle', 'Crystal', 'AbsNoise', 'FractalCamo', 'Squiggles', 'Grunge', 'CellularEdge', 'Twirl', 'CosmicPortal', 'Wormhole', 'Plasma', 'MarbleNoise', 'Fire', 'Cloud', 'Caustics', 'Aurora']],
+  ['Digital & Utility', ['PixelNoise', 'AnalogGlitch', 'CyberBlock', 'Mosaic', 'LaserBeam', 'GlitchBlock', 'VoronoiCell', 'Matrix', 'Wood', 'Cell', 'Lightning', 'Kaleido']],
+]
+
+export const catalog: Generator[] = inventory.flatMap(([group, names], family) => names.map((name, local) => {
+  const index = inventory.slice(0, family).reduce((sum, [, list]) => sum + list.length, 0) + local
   const seed = hashName(name)
-  const group = category(index)
   const profileName = profileFor(name)
   const [primary, ...controls] = profiles[profileName]
-  const scaleDefault = profileName === 'disc' || profileName === 'ring' || profileName === 'rays' || profileName === 'shape'
-    ? .18 + (index % 7) * .025
-    : 2.5 + (index % 9) * .45
+  const compact = compactProfiles.has(profileName)
+  const scaleDefault = profileName === 'quad' ? 1 : compact ? .18 + (index % 7) * .025 : 2.5 + (index % 9) * .45
   const parameters: Parameter[] = [
-    { key: 'p0', label: `${name} ${primary}`, min: .05, max: profileName === 'disc' || profileName === 'ring' || profileName === 'rays' || profileName === 'shape' ? .8 : 16, step: .01, default: scaleDefault },
+    { key: 'p0', label: `${name} ${primary}`, min: profileName === 'quad' ? 0 : .05, max: profileName === 'quad' ? 1 : compact ? .8 : 16, step: .01, default: scaleDefault },
     ...controls.map(([label, min, max, step, value], slot) => ({
       key: `p${slot + 1}`,
       label,
       min,
       max,
       step,
-      // Small, bounded per-generator offsets prevent same-profile presets from
-      // collapsing to identical recipes while retaining sensible authored values.
       default: Math.min(max, Math.max(min, value + ((index * (slot + 3)) % 5 - 2) * step)),
     })),
   ]
-  const family = group === 'Radial' ? 0 : group === 'Shapes & Bursts' ? 1 : group === 'Patterns' ? 2 : group === 'Noise & Organic' ? 3 : 4
-  const local = index - [0, 19, 46, 71, 102][family]
   return {
     name,
     category: group,
@@ -105,6 +101,21 @@ export const catalog: Generator[] = names.map((name, index) => {
     parameters,
     defaults: Object.fromEntries(parameters.map((p) => [p.key, p.default])),
   }
-})
+}))
 
 export const categories = [...new Set(catalog.map((item) => item.category))]
+
+const aliases: Record<string, string> = {
+  SolarGlow: 'Sun', EnergyRing: 'Ring', AuraRing: 'Ring', Pulse: 'Concentric',
+  WaveRingSine: 'WaveRing', WaveRingNoisy: 'WaveRing', WaveRingSquare: 'WaveRing', WaveRingDouble: 'WaveRing',
+  GradientChecker: 'Checker', RoundChecker: 'Checker', DiamondChecker: 'Checker',
+  SquareGridDash: 'SquareGrid', SquareGridPolka: 'Dots',
+  Glare: 'Spark', StarFlare: 'Flare', RayBurst: 'Burst', StarBurst: 'Burst', SparkBurst: 'Burst',
+  ImpactLines: 'RadialLines', SpiralV2: 'Spiral', GrungeV2: 'Grunge', PlasmaV2: 'Plasma',
+  VoronoiFluid: 'VoronoiCell', VoronoiNoise: 'VoronoiCell', Flame: 'Fire',
+  GradationReflect: 'GradationLinear', GradationRepeat: 'GradationLinear',
+  SimplexNoise: 'PerlinNoise', SymmetricNoise: 'PerlinNoise',
+}
+
+export const resolveGenerator = (name: string) =>
+  catalog.find((item) => item.name === name) ?? catalog.find((item) => item.name === aliases[name])

@@ -1,7 +1,6 @@
 import type { GradientStop, Layer, PostSettings } from './models'
-import { isTauri } from '@tauri-apps/api/core'
+import { invoke, isTauri } from '@tauri-apps/api/core'
 import { open, save } from '@tauri-apps/plugin-dialog'
-import { readTextFile, writeFile } from '@tauri-apps/plugin-fs'
 import gifenc from 'gifenc'
 
 export type PresetData = {
@@ -11,17 +10,46 @@ export type PresetData = {
   post: PostSettings
 }
 
+async function writeBytes(path: string, bytes: Uint8Array) {
+  try {
+    const { writeFile } = await import('@tauri-apps/plugin-fs')
+    await writeFile(path, bytes)
+  } catch {
+    await invoke('write_user_bytes', { path, contents: Array.from(bytes) })
+  }
+}
+
+async function writeText(path: string, contents: string) {
+  try {
+    await invoke('write_user_text', { path, contents })
+  } catch {
+    const { writeTextFile } = await import('@tauri-apps/plugin-fs')
+    await writeTextFile(path, contents)
+  }
+}
+
+async function readText(path: string) {
+  try {
+    return await invoke<string>('read_user_text', { path })
+  } catch {
+    const { readTextFile } = await import('@tauri-apps/plugin-fs')
+    return readTextFile(path)
+  }
+}
+
 async function saveBlob(blob: Blob, filename: string) {
   if (isTauri()) {
     const extension = filename.split('.').pop() ?? ''
     const path = await save({ defaultPath: filename, filters: [{ name: extension.toUpperCase(), extensions: [extension] }] })
-    if (path) await writeFile(path, new Uint8Array(await blob.arrayBuffer()))
-    return
+    if (!path) return false
+    await writeBytes(path, new Uint8Array(await blob.arrayBuffer()))
+    return true
   }
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url; a.download = filename; a.click()
   setTimeout(() => URL.revokeObjectURL(url), 1000)
+  return true
 }
 
 export async function exportPng(canvas: HTMLCanvasElement, name = 'vfx-texture.png') {
@@ -67,7 +95,13 @@ export async function exportChannelPack(canvas: HTMLCanvasElement, name = 'vfx-c
 
 export async function exportPreset(layers: Layer[], gradient: GradientStop[], post: PostSettings, name = 'vfx-preset.json') {
   const data = JSON.stringify({ version: 1, layers, gradient, post } satisfies PresetData, null, 2)
-  await saveBlob(new Blob([data], { type: 'application/json' }), name)
+  if (isTauri()) {
+    const path = await save({ defaultPath: name, filters: [{ name: 'JSON', extensions: ['json'] }] })
+    if (!path) return false
+    await writeText(path, data)
+    return true
+  }
+  return saveBlob(new Blob([data], { type: 'application/json' }), name)
 }
 
 export async function loadPreset(): Promise<PresetData | null> {
@@ -75,7 +109,7 @@ export async function loadPreset(): Promise<PresetData | null> {
   if (isTauri()) {
     const path = await open({ multiple: false, filters: [{ name: 'VFX preset', extensions: ['json'] }] })
     if (!path) return null
-    text = await readTextFile(path)
+    text = await readText(path)
   } else {
     const file = await new Promise<File | null>((resolve) => {
       const input = document.createElement('input')
