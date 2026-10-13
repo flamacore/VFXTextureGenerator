@@ -1,0 +1,6985 @@
+{
+  "reports": [
+    {
+      "name": "Circle",
+      "category": "Radial",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 82.28
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Radius",
+          "values": [
+            0.02,
+            0.27,
+            0.7
+          ],
+          "deltas": [
+            {
+              "mean": 79.14193,
+              "changedPixels": 3700
+            },
+            {
+              "mean": 5.0447,
+              "changedPixels": 1576
+            },
+            {
+              "mean": 172.72005,
+              "changedPixels": 6908
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Feather",
+          "values": [
+            0.001,
+            0.149,
+            0.4
+          ],
+          "deltas": [
+            {
+              "mean": 19.05295,
+              "changedPixels": 1428
+            },
+            {
+              "mean": 19.2691,
+              "changedPixels": 2920
+            },
+            {
+              "mean": 96.34809,
+              "changedPixels": 6848
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Aspect",
+          "values": [
+            0.2,
+            1.24,
+            3
+          ],
+          "deltas": [
+            {
+              "mean": 65.82075,
+              "changedPixels": 3260
+            },
+            {
+              "mean": 19.75564,
+              "changedPixels": 2252
+            },
+            {
+              "mean": 73.17101,
+              "changedPixels": 3996
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Intensity",
+          "values": [
+            0.1,
+            0.8,
+            2
+          ],
+          "deltas": [
+            {
+              "mean": 74.18446,
+              "changedPixels": 3712
+            },
+            {
+              "mean": 16.45443,
+              "changedPixels": 3656
+            },
+            {
+              "mean": 7.71137,
+              "changedPixels": 1396
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Falloff",
+          "values": [
+            0.2,
+            1.98,
+            5
+          ],
+          "deltas": [
+            {
+              "mean": 12.73828,
+              "changedPixels": 1436
+            },
+            {
+              "mean": 5.19705,
+              "changedPixels": 1404
+            },
+            {
+              "mean": 10.51693,
+              "changedPixels": 1420
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 60.49414,
+          "changedPixels": 3500
+        },
+        {
+          "name": "y",
+          "mean": 70.27604,
+          "changedPixels": 3796
+        },
+        {
+          "name": "rotation",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "scale",
+          "mean": 123.16927,
+          "changedPixels": 6176
+        },
+        {
+          "name": "u",
+          "mean": 67.28819,
+          "changedPixels": 3824
+        },
+        {
+          "name": "v",
+          "mean": 57.95768,
+          "changedPixels": 3492
+        },
+        {
+          "name": "scrollX",
+          "mean": 33.72602,
+          "changedPixels": 2618
+        },
+        {
+          "name": "scrollY",
+          "mean": 33.72602,
+          "changedPixels": 2618
+        },
+        {
+          "name": "corners",
+          "mean": 42.3725,
+          "changedPixels": 2598
+        },
+        {
+          "name": "invert",
+          "mean": 239.58507,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 71.02409,
+          "changedPixels": 3542
+        },
+        {
+          "name": "solidColor",
+          "mean": 37.0264,
+          "changedPixels": 3712
+        },
+        {
+          "name": "opacity",
+          "mean": 49.36762,
+          "changedPixels": 3712
+        },
+        {
+          "name": "seed",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "time",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 57.19206,
+          "changedPixels": 2504
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Ring",
+      "category": "Radial",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 43.244
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Radius",
+          "values": [
+            0.02,
+            0.27,
+            0.7
+          ],
+          "deltas": [
+            {
+              "mean": 46.90842,
+              "changedPixels": 2062
+            },
+            {
+              "mean": 27.40734,
+              "changedPixels": 1604
+            },
+            {
+              "mean": 46.62565,
+              "changedPixels": 2054
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Band width",
+          "values": [
+            0.002,
+            0.112,
+            0.3
+          ],
+          "deltas": [
+            {
+              "mean": 31.70833,
+              "changedPixels": 1814
+            },
+            {
+              "mean": 74.03092,
+              "changedPixels": 3328
+            },
+            {
+              "mean": 201.28993,
+              "changedPixels": 7666
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Wave count",
+          "values": [
+            1,
+            10,
+            24
+          ],
+          "deltas": [
+            {
+              "mean": 19.49045,
+              "changedPixels": 1359
+            },
+            {
+              "mean": 19.28255,
+              "changedPixels": 1350
+            },
+            {
+              "mean": 19.39453,
+              "changedPixels": 1374
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Wave depth",
+          "values": [
+            0,
+            0.075,
+            0.2
+          ],
+          "deltas": [
+            {
+              "mean": 15.28819,
+              "changedPixels": 1212
+            },
+            {
+              "mean": 30.63411,
+              "changedPixels": 1750
+            },
+            {
+              "mean": 70.18641,
+              "changedPixels": 3134
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Feather",
+          "values": [
+            0.001,
+            0.075,
+            0.2
+          ],
+          "deltas": [
+            {
+              "mean": 9.04015,
+              "changedPixels": 674
+            },
+            {
+              "mean": 26.44151,
+              "changedPixels": 2506
+            },
+            {
+              "mean": 86.16016,
+              "changedPixels": 6430
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Rotation rate",
+          "values": [
+            -3,
+            -0.78,
+            3
+          ],
+          "deltas": [
+            {
+              "mean": 16.32964,
+              "changedPixels": 1244
+            },
+            {
+              "mean": 5.43707,
+              "changedPixels": 848
+            },
+            {
+              "mean": 13.99718,
+              "changedPixels": 1160
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 69.47407,
+          "changedPixels": 3135
+        },
+        {
+          "name": "y",
+          "mean": 69.33247,
+          "changedPixels": 3115
+        },
+        {
+          "name": "rotation",
+          "mean": 30.5536,
+          "changedPixels": 1776
+        },
+        {
+          "name": "scale",
+          "mean": 135.14822,
+          "changedPixels": 5816
+        },
+        {
+          "name": "u",
+          "mean": 72.87435,
+          "changedPixels": 3286
+        },
+        {
+          "name": "v",
+          "mean": 71.77159,
+          "changedPixels": 3247
+        },
+        {
+          "name": "scrollX",
+          "mean": 60.76411,
+          "changedPixels": 2798
+        },
+        {
+          "name": "scrollY",
+          "mean": 61.06196,
+          "changedPixels": 2815
+        },
+        {
+          "name": "corners",
+          "mean": 62.28364,
+          "changedPixels": 2695
+        },
+        {
+          "name": "invert",
+          "mean": 247.88194,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 49.42947,
+          "changedPixels": 2242
+        },
+        {
+          "name": "solidColor",
+          "mean": 19.45971,
+          "changedPixels": 1896
+        },
+        {
+          "name": "opacity",
+          "mean": 25.94466,
+          "changedPixels": 1896
+        },
+        {
+          "name": "seed",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "time",
+          "mean": 1.6671,
+          "changedPixels": 698
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 26.25336,
+          "changedPixels": 1145
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Rays",
+      "category": "Radial",
+      "alpha": {
+        "min": 0,
+        "max": 234,
+        "mean": 9.833
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Reach",
+          "values": [
+            0.05,
+            0.4,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 8.84766,
+              "changedPixels": 4560
+            },
+            {
+              "mean": 0,
+              "changedPixels": 0
+            },
+            {
+              "mean": 25.4566,
+              "changedPixels": 5836
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Ray count",
+          "values": [
+            2,
+            19,
+            48
+          ],
+          "deltas": [
+            {
+              "mean": 12.07682,
+              "changedPixels": 6284
+            },
+            {
+              "mean": 11.94325,
+              "changedPixels": 6431
+            },
+            {
+              "mean": 13.17589,
+              "changedPixels": 6400
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Sharpness",
+          "values": [
+            0.2,
+            4.6000000000000005,
+            12
+          ],
+          "deltas": [
+            {
+              "mean": 17.57444,
+              "changedPixels": 8252
+            },
+            {
+              "mean": 0.5855,
+              "changedPixels": 2484
+            },
+            {
+              "mean": 3.727,
+              "changedPixels": 4076
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Falloff",
+          "values": [
+            0.2,
+            1.98,
+            5
+          ],
+          "deltas": [
+            {
+              "mean": 6.8355,
+              "changedPixels": 4520
+            },
+            {
+              "mean": 2.34635,
+              "changedPixels": 3488
+            },
+            {
+              "mean": 11.49262,
+              "changedPixels": 4592
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Core radius",
+          "values": [
+            0.001,
+            0.075,
+            0.2
+          ],
+          "deltas": [
+            {
+              "mean": 0.60373,
+              "changedPixels": 296
+            },
+            {
+              "mean": 4.61458,
+              "changedPixels": 3428
+            },
+            {
+              "mean": 39.24132,
+              "changedPixels": 9160
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Rotation rate",
+          "values": [
+            -3,
+            -0.78,
+            3
+          ],
+          "deltas": [
+            {
+              "mean": 10.48828,
+              "changedPixels": 5956
+            },
+            {
+              "mean": 3.43707,
+              "changedPixels": 4588
+            },
+            {
+              "mean": 9.65148,
+              "changedPixels": 5784
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 13.67437,
+          "changedPixels": 6654
+        },
+        {
+          "name": "y",
+          "mean": 14.10319,
+          "changedPixels": 6354
+        },
+        {
+          "name": "rotation",
+          "mean": 2.25911,
+          "changedPixels": 4156
+        },
+        {
+          "name": "scale",
+          "mean": 12.23134,
+          "changedPixels": 6108
+        },
+        {
+          "name": "u",
+          "mean": 13.98362,
+          "changedPixels": 6667
+        },
+        {
+          "name": "v",
+          "mean": 13.62836,
+          "changedPixels": 6744
+        },
+        {
+          "name": "scrollX",
+          "mean": 13.20052,
+          "changedPixels": 6881
+        },
+        {
+          "name": "scrollY",
+          "mean": 13.20041,
+          "changedPixels": 6881
+        },
+        {
+          "name": "corners",
+          "mean": 10.88878,
+          "changedPixels": 5737
+        },
+        {
+          "name": "invert",
+          "mean": 236.7092,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 11.62185,
+          "changedPixels": 5663
+        },
+        {
+          "name": "solidColor",
+          "mean": 4.43014,
+          "changedPixels": 4868
+        },
+        {
+          "name": "opacity",
+          "mean": 5.6671,
+          "changedPixels": 3940
+        },
+        {
+          "name": "seed",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "time",
+          "mean": 0.70399,
+          "changedPixels": 2668
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 7.37684,
+          "changedPixels": 3068
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 0.17839,
+          "changedPixels": 1148
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0.00477,
+          "changedPixels": 44
+        }
+      ]
+    },
+    {
+      "name": "Polygon",
+      "category": "Shapes",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 64.327
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Radius",
+          "values": [
+            0.03,
+            0.24,
+            0.6
+          ],
+          "deltas": [
+            {
+              "mean": 63.22135,
+              "changedPixels": 2440
+            },
+            {
+              "mean": 22.39627,
+              "changedPixels": 1060
+            },
+            {
+              "mean": 163.02083,
+              "changedPixels": 6112
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Sides",
+          "values": [
+            3,
+            8,
+            16
+          ],
+          "deltas": [
+            {
+              "mean": 27.53212,
+              "changedPixels": 1250
+            },
+            {
+              "mean": 6.75694,
+              "changedPixels": 492
+            },
+            {
+              "mean": 9.95573,
+              "changedPixels": 612
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Feather",
+          "values": [
+            0.001,
+            0.075,
+            0.2
+          ],
+          "deltas": [
+            {
+              "mean": 3.58507,
+              "changedPixels": 276
+            },
+            {
+              "mean": 15.12109,
+              "changedPixels": 1364
+            },
+            {
+              "mean": 52.14193,
+              "changedPixels": 4336
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Roundness",
+          "values": [
+            0,
+            0.056,
+            0.15
+          ],
+          "deltas": [
+            {
+              "mean": 1.19575,
+              "changedPixels": 304
+            },
+            {
+              "mean": 2.05339,
+              "changedPixels": 320
+            },
+            {
+              "mean": 6.61198,
+              "changedPixels": 480
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Outline",
+          "values": [
+            0,
+            0.056,
+            0.15
+          ],
+          "deltas": [
+            {
+              "mean": 0,
+              "changedPixels": 0
+            },
+            {
+              "mean": 63.96441,
+              "changedPixels": 2692
+            },
+            {
+              "mean": 98.6454,
+              "changedPixels": 3940
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 52.31467,
+          "changedPixels": 2134
+        },
+        {
+          "name": "y",
+          "mean": 65.26758,
+          "changedPixels": 2604
+        },
+        {
+          "name": "rotation",
+          "mean": 9.125,
+          "changedPixels": 590
+        },
+        {
+          "name": "scale",
+          "mean": 100.375,
+          "changedPixels": 4108
+        },
+        {
+          "name": "u",
+          "mean": 57.82075,
+          "changedPixels": 2342
+        },
+        {
+          "name": "v",
+          "mean": 52.4273,
+          "changedPixels": 2156
+        },
+        {
+          "name": "scrollX",
+          "mean": 28.57769,
+          "changedPixels": 1240
+        },
+        {
+          "name": "scrollY",
+          "mean": 31.38694,
+          "changedPixels": 1412
+        },
+        {
+          "name": "corners",
+          "mean": 33.12457,
+          "changedPixels": 1398
+        },
+        {
+          "name": "invert",
+          "mean": 252.7079,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 62.389,
+          "changedPixels": 2432
+        },
+        {
+          "name": "solidColor",
+          "mean": 28.94758,
+          "changedPixels": 2468
+        },
+        {
+          "name": "opacity",
+          "mean": 38.58507,
+          "changedPixels": 2468
+        },
+        {
+          "name": "seed",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "time",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 45.93034,
+          "changedPixels": 1754
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Quad",
+      "category": "Shapes",
+      "alpha": {
+        "min": 0,
+        "max": 254,
+        "mean": 121.939
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Width",
+          "values": [
+            0.05,
+            0.4,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 113.29861,
+              "changedPixels": 5412
+            },
+            {
+              "mean": 62.15885,
+              "changedPixels": 5308
+            },
+            {
+              "mean": 30.15625,
+              "changedPixels": 3596
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Height",
+          "values": [
+            0.05,
+            0.4,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 111.95052,
+              "changedPixels": 5408
+            },
+            {
+              "mean": 52.79384,
+              "changedPixels": 5316
+            },
+            {
+              "mean": 52.97439,
+              "changedPixels": 7160
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Roundness",
+          "values": [
+            0,
+            0.111,
+            0.3
+          ],
+          "deltas": [
+            {
+              "mean": 0.69401,
+              "changedPixels": 132
+            },
+            {
+              "mean": 1.57639,
+              "changedPixels": 372
+            },
+            {
+              "mean": 15.99306,
+              "changedPixels": 2948
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Feather",
+          "values": [
+            0.001,
+            0.075,
+            0.2
+          ],
+          "deltas": [
+            {
+              "mean": 2.66146,
+              "changedPixels": 272
+            },
+            {
+              "mean": 18.94488,
+              "changedPixels": 2096
+            },
+            {
+              "mean": 53.42535,
+              "changedPixels": 4072
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Bevel shading",
+          "values": [
+            0,
+            0.37,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 23.83854,
+              "changedPixels": 5412
+            },
+            {
+              "mean": 11.40712,
+              "changedPixels": 5260
+            },
+            {
+              "mean": 71.44575,
+              "changedPixels": 5412
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 46.84332,
+          "changedPixels": 4232
+        },
+        {
+          "name": "y",
+          "mean": 70.5089,
+          "changedPixels": 5418
+        },
+        {
+          "name": "rotation",
+          "mean": 37.85688,
+          "changedPixels": 6006
+        },
+        {
+          "name": "scale",
+          "mean": 98.94227,
+          "changedPixels": 9192
+        },
+        {
+          "name": "u",
+          "mean": 61.14692,
+          "changedPixels": 4976
+        },
+        {
+          "name": "v",
+          "mean": 65.50282,
+          "changedPixels": 5474
+        },
+        {
+          "name": "scrollX",
+          "mean": 31.61675,
+          "changedPixels": 3656
+        },
+        {
+          "name": "scrollY",
+          "mean": 38.1135,
+          "changedPixels": 4458
+        },
+        {
+          "name": "corners",
+          "mean": 62.80512,
+          "changedPixels": 5391
+        },
+        {
+          "name": "invert",
+          "mean": 206.85894,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 87.97266,
+          "changedPixels": 5589
+        },
+        {
+          "name": "solidColor",
+          "mean": 54.87375,
+          "changedPixels": 5412
+        },
+        {
+          "name": "opacity",
+          "mean": 73.05339,
+          "changedPixels": 5412
+        },
+        {
+          "name": "seed",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "time",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 76.61176,
+          "changedPixels": 3404
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Spiral",
+      "category": "Radial",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 30.456
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Radius",
+          "values": [
+            0.05,
+            0.4,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 30.8788,
+              "changedPixels": 1283
+            },
+            {
+              "mean": 44.9413,
+              "changedPixels": 1907
+            },
+            {
+              "mean": 57.29178,
+              "changedPixels": 2313
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Arms",
+          "values": [
+            1,
+            5,
+            12
+          ],
+          "deltas": [
+            {
+              "mean": 50.08301,
+              "changedPixels": 2069
+            },
+            {
+              "mean": 50.33268,
+              "changedPixels": 2089
+            },
+            {
+              "mean": 50.41395,
+              "changedPixels": 2078
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Twist",
+          "values": [
+            -30,
+            -7.800000000000001,
+            30
+          ],
+          "deltas": [
+            {
+              "mean": 50.36502,
+              "changedPixels": 2079
+            },
+            {
+              "mean": 49.06966,
+              "changedPixels": 2081
+            },
+            {
+              "mean": 50.13574,
+              "changedPixels": 1987
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Arm width",
+          "values": [
+            0.01,
+            0.34,
+            0.9
+          ],
+          "deltas": [
+            {
+              "mean": 27.76443,
+              "changedPixels": 1209
+            },
+            {
+              "mean": 10.24175,
+              "changedPixels": 527
+            },
+            {
+              "mean": 99.70182,
+              "changedPixels": 4141
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Turbulence",
+          "values": [
+            0,
+            1.11,
+            3
+          ],
+          "deltas": [
+            {
+              "mean": 4.17556,
+              "changedPixels": 277
+            },
+            {
+              "mean": 25.56738,
+              "changedPixels": 1132
+            },
+            {
+              "mean": 58.38976,
+              "changedPixels": 2416
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Rotation rate",
+          "values": [
+            -3,
+            -0.78,
+            3
+          ],
+          "deltas": [
+            {
+              "mean": 60.6582,
+              "changedPixels": 2508
+            },
+            {
+              "mean": 23.00163,
+              "changedPixels": 1021
+            },
+            {
+              "mean": 50.48155,
+              "changedPixels": 2122
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 50.80892,
+          "changedPixels": 2114
+        },
+        {
+          "name": "y",
+          "mean": 44.25043,
+          "changedPixels": 1869
+        },
+        {
+          "name": "rotation",
+          "mean": 60.68294,
+          "changedPixels": 2505
+        },
+        {
+          "name": "scale",
+          "mean": 73.06413,
+          "changedPixels": 2879
+        },
+        {
+          "name": "u",
+          "mean": 48.42188,
+          "changedPixels": 2063
+        },
+        {
+          "name": "v",
+          "mean": 55.58377,
+          "changedPixels": 2298
+        },
+        {
+          "name": "scrollX",
+          "mean": 53.69944,
+          "changedPixels": 2238
+        },
+        {
+          "name": "scrollY",
+          "mean": 54.16612,
+          "changedPixels": 2224
+        },
+        {
+          "name": "corners",
+          "mean": 42.85807,
+          "changedPixels": 1764
+        },
+        {
+          "name": "invert",
+          "mean": 251.95757,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 35.32031,
+          "changedPixels": 1483
+        },
+        {
+          "name": "solidColor",
+          "mean": 13.70525,
+          "changedPixels": 1252
+        },
+        {
+          "name": "opacity",
+          "mean": 18.26345,
+          "changedPixels": 1241
+        },
+        {
+          "name": "seed",
+          "mean": 1.37294,
+          "changedPixels": 176
+        },
+        {
+          "name": "time",
+          "mean": 9.67166,
+          "changedPixels": 504
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 18.66287,
+          "changedPixels": 743
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Grid",
+      "category": "Patterns",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 59.766
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Frequency",
+          "values": [
+            1,
+            10,
+            24
+          ],
+          "deltas": [
+            {
+              "mean": 74.54123,
+              "changedPixels": 2940
+            },
+            {
+              "mean": 89.86979,
+              "changedPixels": 3248
+            },
+            {
+              "mean": 59.76563,
+              "changedPixels": 2160
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Line width",
+          "values": [
+            0.005,
+            0.15,
+            0.4
+          ],
+          "deltas": [
+            {
+              "mean": 59.76563,
+              "changedPixels": 2160
+            },
+            {
+              "mean": 65.71875,
+              "changedPixels": 3456
+            },
+            {
+              "mean": 183.09375,
+              "changedPixels": 6912
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Aspect",
+          "values": [
+            1,
+            2,
+            4
+          ],
+          "deltas": [
+            {
+              "mean": 0,
+              "changedPixels": 0
+            },
+            {
+              "mean": 27.89063,
+              "changedPixels": 1008
+            },
+            {
+              "mean": 27.89063,
+              "changedPixels": 1008
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Feather",
+          "values": [
+            0.001,
+            0.075,
+            0.2
+          ],
+          "deltas": [
+            {
+              "mean": 0,
+              "changedPixels": 0
+            },
+            {
+              "mean": 10.15625,
+              "changedPixels": 1872
+            },
+            {
+              "mean": 60.45313,
+              "changedPixels": 4752
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 46.26563,
+          "changedPixels": 2016
+        },
+        {
+          "name": "y",
+          "mean": 55.78125,
+          "changedPixels": 2016
+        },
+        {
+          "name": "rotation",
+          "mean": 82.72678,
+          "changedPixels": 3144
+        },
+        {
+          "name": "scale",
+          "mean": 71.20833,
+          "changedPixels": 2672
+        },
+        {
+          "name": "u",
+          "mean": 55.17969,
+          "changedPixels": 2016
+        },
+        {
+          "name": "v",
+          "mean": 41.23438,
+          "changedPixels": 1512
+        },
+        {
+          "name": "scrollX",
+          "mean": 55.78125,
+          "changedPixels": 2016
+        },
+        {
+          "name": "scrollY",
+          "mean": 55.78125,
+          "changedPixels": 2016
+        },
+        {
+          "name": "corners",
+          "mean": 70.93001,
+          "changedPixels": 2632
+        },
+        {
+          "name": "invert",
+          "mean": 255,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 76.16688,
+          "changedPixels": 2900
+        },
+        {
+          "name": "solidColor",
+          "mean": 26.89453,
+          "changedPixels": 2160
+        },
+        {
+          "name": "opacity",
+          "mean": 35.85938,
+          "changedPixels": 2160
+        },
+        {
+          "name": "seed",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "time",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 28.55469,
+          "changedPixels": 1032
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 116.3355,
+          "changedPixels": 4592
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 3.66493,
+          "changedPixels": 140
+        }
+      ]
+    },
+    {
+      "name": "Dots",
+      "category": "Patterns",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 40.785
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Frequency",
+          "values": [
+            2,
+            10,
+            24
+          ],
+          "deltas": [
+            {
+              "mean": 67.83746,
+              "changedPixels": 2731
+            },
+            {
+              "mean": 68.36914,
+              "changedPixels": 2742
+            },
+            {
+              "mean": 81.02344,
+              "changedPixels": 3064
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Radius",
+          "values": [
+            0.02,
+            0.18,
+            0.45
+          ],
+          "deltas": [
+            {
+              "mean": 40.78472,
+              "changedPixels": 1632
+            },
+            {
+              "mean": 14.15929,
+              "changedPixels": 752
+            },
+            {
+              "mean": 122.68446,
+              "changedPixels": 4728
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Row offset",
+          "values": [
+            0,
+            0.37,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 42.70833,
+              "changedPixels": 1728
+            },
+            {
+              "mean": 15.12077,
+              "changedPixels": 688
+            },
+            {
+              "mean": 42.70833,
+              "changedPixels": 1728
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Feather",
+          "values": [
+            0.001,
+            0.056,
+            0.15
+          ],
+          "deltas": [
+            {
+              "mean": 3.18934,
+              "changedPixels": 288
+            },
+            {
+              "mean": 7.29774,
+              "changedPixels": 776
+            },
+            {
+              "mean": 27.70486,
+              "changedPixels": 2360
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Size jitter",
+          "values": [
+            0,
+            0.37,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 7.92882,
+              "changedPixels": 400
+            },
+            {
+              "mean": 1.21701,
+              "changedPixels": 304
+            },
+            {
+              "mean": 11.98047,
+              "changedPixels": 716
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Density",
+          "values": [
+            0.05,
+            0.4,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 39.01389,
+              "changedPixels": 1568
+            },
+            {
+              "mean": 28.98177,
+              "changedPixels": 1176
+            },
+            {
+              "mean": 0,
+              "changedPixels": 0
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 81.66113,
+          "changedPixels": 3250
+        },
+        {
+          "name": "y",
+          "mean": 37.16016,
+          "changedPixels": 1630
+        },
+        {
+          "name": "rotation",
+          "mean": 67.59451,
+          "changedPixels": 2726
+        },
+        {
+          "name": "scale",
+          "mean": 68.93772,
+          "changedPixels": 2761
+        },
+        {
+          "name": "u",
+          "mean": 66.40853,
+          "changedPixels": 2712
+        },
+        {
+          "name": "v",
+          "mean": 81.58442,
+          "changedPixels": 3232
+        },
+        {
+          "name": "scrollX",
+          "mean": 39.06489,
+          "changedPixels": 1704
+        },
+        {
+          "name": "scrollY",
+          "mean": 81.58366,
+          "changedPixels": 3272
+        },
+        {
+          "name": "corners",
+          "mean": 53.92307,
+          "changedPixels": 2171
+        },
+        {
+          "name": "invert",
+          "mean": 252.01215,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 72.4477,
+          "changedPixels": 2910
+        },
+        {
+          "name": "solidColor",
+          "mean": 18.35346,
+          "changedPixels": 1632
+        },
+        {
+          "name": "opacity",
+          "mean": 24.46181,
+          "changedPixels": 1632
+        },
+        {
+          "name": "seed",
+          "mean": 10.44184,
+          "changedPixels": 592
+        },
+        {
+          "name": "time",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 24.49371,
+          "changedPixels": 970
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 10.71593,
+          "changedPixels": 448
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 1.0816,
+          "changedPixels": 45
+        }
+      ]
+    },
+    {
+      "name": "Lines",
+      "category": "Patterns",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 56.568
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Frequency",
+          "values": [
+            1,
+            10,
+            24
+          ],
+          "deltas": [
+            {
+              "mean": 87.43989,
+              "changedPixels": 3474
+            },
+            {
+              "mean": 87.10807,
+              "changedPixels": 3432
+            },
+            {
+              "mean": 95.33854,
+              "changedPixels": 3696
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Width",
+          "values": [
+            0.01,
+            0.34,
+            0.9
+          ],
+          "deltas": [
+            {
+              "mean": 48.22917,
+              "changedPixels": 2112
+            },
+            {
+              "mean": 35.64583,
+              "changedPixels": 1680
+            },
+            {
+              "mean": 178.3125,
+              "changedPixels": 6768
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Wave depth",
+          "values": [
+            0,
+            0.74,
+            2
+          ],
+          "deltas": [
+            {
+              "mean": 66.66146,
+              "changedPixels": 2544
+            },
+            {
+              "mean": 99.8125,
+              "changedPixels": 3888
+            },
+            {
+              "mean": 98.25521,
+              "changedPixels": 3696
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Wave count",
+          "values": [
+            1,
+            7,
+            16
+          ],
+          "deltas": [
+            {
+              "mean": 64.17535,
+              "changedPixels": 2624
+            },
+            {
+              "mean": 71.30035,
+              "changedPixels": 2832
+            },
+            {
+              "mean": 70.83681,
+              "changedPixels": 2680
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Feather",
+          "values": [
+            0.001,
+            0.075,
+            0.2
+          ],
+          "deltas": [
+            {
+              "mean": 4.77083,
+              "changedPixels": 288
+            },
+            {
+              "mean": 13.42188,
+              "changedPixels": 1248
+            },
+            {
+              "mean": 45.4375,
+              "changedPixels": 3600
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Flow rate",
+          "values": [
+            -3,
+            -0.78,
+            3
+          ],
+          "deltas": [
+            {
+              "mean": 73.74588,
+              "changedPixels": 2784
+            },
+            {
+              "mean": 24.84896,
+              "changedPixels": 1056
+            },
+            {
+              "mean": 64.24588,
+              "changedPixels": 2592
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 112.74219,
+          "changedPixels": 4368
+        },
+        {
+          "name": "y",
+          "mean": 89.40625,
+          "changedPixels": 3408
+        },
+        {
+          "name": "rotation",
+          "mean": 83.74327,
+          "changedPixels": 3329
+        },
+        {
+          "name": "scale",
+          "mean": 88.18392,
+          "changedPixels": 3469
+        },
+        {
+          "name": "u",
+          "mean": 112.73438,
+          "changedPixels": 4416
+        },
+        {
+          "name": "v",
+          "mean": 95.72396,
+          "changedPixels": 3552
+        },
+        {
+          "name": "scrollX",
+          "mean": 86.09635,
+          "changedPixels": 3408
+        },
+        {
+          "name": "scrollY",
+          "mean": 89.47374,
+          "changedPixels": 3456
+        },
+        {
+          "name": "corners",
+          "mean": 72.12728,
+          "changedPixels": 2810
+        },
+        {
+          "name": "invert",
+          "mean": 252.33333,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 84.23231,
+          "changedPixels": 3338
+        },
+        {
+          "name": "solidColor",
+          "mean": 25.455,
+          "changedPixels": 2160
+        },
+        {
+          "name": "opacity",
+          "mean": 33.93229,
+          "changedPixels": 2112
+        },
+        {
+          "name": "seed",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "time",
+          "mean": 3.85417,
+          "changedPixels": 576
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 34.94792,
+          "changedPixels": 1335
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 10.07834,
+          "changedPixels": 448
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 1.51769,
+          "changedPixels": 59
+        }
+      ]
+    },
+    {
+      "name": "FractalNoise",
+      "category": "Noise & Organic",
+      "alpha": {
+        "min": 16,
+        "max": 219,
+        "mean": 107.902
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Frequency",
+          "values": [
+            1,
+            7,
+            16
+          ],
+          "deltas": [
+            {
+              "mean": 35.61263,
+              "changedPixels": 9117
+            },
+            {
+              "mean": 32.51671,
+              "changedPixels": 9124
+            },
+            {
+              "mean": 41.44813,
+              "changedPixels": 9147
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Octaves",
+          "values": [
+            1,
+            4,
+            8
+          ],
+          "deltas": [
+            {
+              "mean": 24.57574,
+              "changedPixels": 9113
+            },
+            {
+              "mean": 1.77029,
+              "changedPixels": 7622
+            },
+            {
+              "mean": 1.14442,
+              "changedPixels": 6769
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Lacunarity",
+          "values": [
+            2,
+            3,
+            4
+          ],
+          "deltas": [
+            {
+              "mean": 0,
+              "changedPixels": 0
+            },
+            {
+              "mean": 18.57791,
+              "changedPixels": 9050
+            },
+            {
+              "mean": 19.61003,
+              "changedPixels": 9045
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Gain",
+          "values": [
+            0.1,
+            0.4,
+            0.9
+          ],
+          "deltas": [
+            {
+              "mean": 19.32606,
+              "changedPixels": 9069
+            },
+            {
+              "mean": 4.58822,
+              "changedPixels": 8545
+            },
+            {
+              "mean": 15.36675,
+              "changedPixels": 9031
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Contrast",
+          "values": [
+            0.2,
+            1.61,
+            4
+          ],
+          "deltas": [
+            {
+              "mean": 113.77724,
+              "changedPixels": 9216
+            },
+            {
+              "mean": 18.59093,
+              "changedPixels": 9216
+            },
+            {
+              "mean": 83.40571,
+              "changedPixels": 9216
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Evolution",
+          "values": [
+            0,
+            1.11,
+            3
+          ],
+          "deltas": [
+            {
+              "mean": 7.80621,
+              "changedPixels": 8847
+            },
+            {
+              "mean": 24.35406,
+              "changedPixels": 9095
+            },
+            {
+              "mean": 39.45692,
+              "changedPixels": 9143
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 39.59158,
+          "changedPixels": 9154
+        },
+        {
+          "name": "y",
+          "mean": 33.87858,
+          "changedPixels": 9115
+        },
+        {
+          "name": "rotation",
+          "mean": 33.23405,
+          "changedPixels": 9125
+        },
+        {
+          "name": "scale",
+          "mean": 33.76834,
+          "changedPixels": 9115
+        },
+        {
+          "name": "u",
+          "mean": 39.91558,
+          "changedPixels": 9150
+        },
+        {
+          "name": "v",
+          "mean": 37.10525,
+          "changedPixels": 9135
+        },
+        {
+          "name": "scrollX",
+          "mean": 27.88694,
+          "changedPixels": 9111
+        },
+        {
+          "name": "scrollY",
+          "mean": 25.9821,
+          "changedPixels": 9115
+        },
+        {
+          "name": "corners",
+          "mean": 68.68783,
+          "changedPixels": 9175
+        },
+        {
+          "name": "invert",
+          "mean": 66.27365,
+          "changedPixels": 9206
+        },
+        {
+          "name": "polar",
+          "mean": 43.73535,
+          "changedPixels": 9157
+        },
+        {
+          "name": "solidColor",
+          "mean": 48.55693,
+          "changedPixels": 9216
+        },
+        {
+          "name": "opacity",
+          "mean": 64.40408,
+          "changedPixels": 9216
+        },
+        {
+          "name": "seed",
+          "mean": 46.63238,
+          "changedPixels": 9151
+        },
+        {
+          "name": "time",
+          "mean": 9.46094,
+          "changedPixels": 8885
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 69.35362,
+          "changedPixels": 5568
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 53.5128,
+          "changedPixels": 4592
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 3.7423,
+          "changedPixels": 308
+        }
+      ]
+    },
+    {
+      "name": "FlowNoise",
+      "category": "Noise & Organic",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 170.816
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Frequency",
+          "values": [
+            1,
+            7,
+            16
+          ],
+          "deltas": [
+            {
+              "mean": 73.56456,
+              "changedPixels": 9102
+            },
+            {
+              "mean": 83.11089,
+              "changedPixels": 9157
+            },
+            {
+              "mean": 90.40278,
+              "changedPixels": 9135
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Turbulence",
+          "values": [
+            0,
+            1.48,
+            4
+          ],
+          "deltas": [
+            {
+              "mean": 67.71506,
+              "changedPixels": 9038
+            },
+            {
+              "mean": 51.94954,
+              "changedPixels": 8960
+            },
+            {
+              "mean": 91.67263,
+              "changedPixels": 9139
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Iterations",
+          "values": [
+            1,
+            4,
+            8
+          ],
+          "deltas": [
+            {
+              "mean": 68.60688,
+              "changedPixels": 9077
+            },
+            {
+              "mean": 0,
+              "changedPixels": 0
+            },
+            {
+              "mean": 69.01367,
+              "changedPixels": 9004
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Ridge threshold",
+          "values": [
+            0.01,
+            0.34,
+            0.9
+          ],
+          "deltas": [
+            {
+              "mean": 46.67589,
+              "changedPixels": 8811
+            },
+            {
+              "mean": 16.37348,
+              "changedPixels": 8523
+            },
+            {
+              "mean": 131.21332,
+              "changedPixels": 8934
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Contrast",
+          "values": [
+            0.2,
+            1.61,
+            4
+          ],
+          "deltas": [
+            {
+              "mean": 56.52268,
+              "changedPixels": 8749
+            },
+            {
+              "mean": 12.24957,
+              "changedPixels": 8336
+            },
+            {
+              "mean": 52.15983,
+              "changedPixels": 8775
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Flow rate",
+          "values": [
+            -3,
+            -0.78,
+            3
+          ],
+          "deltas": [
+            {
+              "mean": 87.15571,
+              "changedPixels": 9138
+            },
+            {
+              "mean": 69.71951,
+              "changedPixels": 9097
+            },
+            {
+              "mean": 70.05946,
+              "changedPixels": 9128
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 80.40267,
+          "changedPixels": 9105
+        },
+        {
+          "name": "y",
+          "mean": 89.06434,
+          "changedPixels": 9143
+        },
+        {
+          "name": "rotation",
+          "mean": 80.46474,
+          "changedPixels": 9140
+        },
+        {
+          "name": "scale",
+          "mean": 74.27322,
+          "changedPixels": 9088
+        },
+        {
+          "name": "u",
+          "mean": 82.2283,
+          "changedPixels": 9115
+        },
+        {
+          "name": "v",
+          "mean": 83.96647,
+          "changedPixels": 9138
+        },
+        {
+          "name": "scrollX",
+          "mean": 71.17925,
+          "changedPixels": 8994
+        },
+        {
+          "name": "scrollY",
+          "mean": 73.23459,
+          "changedPixels": 9074
+        },
+        {
+          "name": "corners",
+          "mean": 125.75803,
+          "changedPixels": 9033
+        },
+        {
+          "name": "invert",
+          "mean": 170.79688,
+          "changedPixels": 9215
+        },
+        {
+          "name": "polar",
+          "mean": 102.60156,
+          "changedPixels": 9150
+        },
+        {
+          "name": "solidColor",
+          "mean": 76.86782,
+          "changedPixels": 8999
+        },
+        {
+          "name": "opacity",
+          "mean": 102.24512,
+          "changedPixels": 8924
+        },
+        {
+          "name": "seed",
+          "mean": 77.89323,
+          "changedPixels": 9127
+        },
+        {
+          "name": "time",
+          "mean": 46.23253,
+          "changedPixels": 8995
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 93.36176,
+          "changedPixels": 5353
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 89.21712,
+          "changedPixels": 4592
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 6.71419,
+          "changedPixels": 308
+        }
+      ]
+    },
+    {
+      "name": "Cells",
+      "category": "Noise & Organic",
+      "alpha": {
+        "min": 0,
+        "max": 253,
+        "mean": 51.824
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Frequency",
+          "values": [
+            1,
+            8,
+            20
+          ],
+          "deltas": [
+            {
+              "mean": 59.92329,
+              "changedPixels": 9046
+            },
+            {
+              "mean": 62.13346,
+              "changedPixels": 8928
+            },
+            {
+              "mean": 61.05534,
+              "changedPixels": 9033
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Border width",
+          "values": [
+            0.005,
+            0.15,
+            0.4
+          ],
+          "deltas": [
+            {
+              "mean": 23.06684,
+              "changedPixels": 1631
+            },
+            {
+              "mean": 47.31196,
+              "changedPixels": 2540
+            },
+            {
+              "mean": 136.00336,
+              "changedPixels": 6214
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Jitter",
+          "values": [
+            0,
+            0.37,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 55.639,
+              "changedPixels": 9043
+            },
+            {
+              "mean": 50.03548,
+              "changedPixels": 8923
+            },
+            {
+              "mean": 19.89355,
+              "changedPixels": 7299
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Feather",
+          "values": [
+            0.001,
+            0.075,
+            0.2
+          ],
+          "deltas": [
+            {
+              "mean": 6.64507,
+              "changedPixels": 595
+            },
+            {
+              "mean": 11.28722,
+              "changedPixels": 1486
+            },
+            {
+              "mean": 39.83767,
+              "changedPixels": 3659
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Interior mix",
+          "values": [
+            0,
+            0.37,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 20.39681,
+              "changedPixels": 9030
+            },
+            {
+              "mean": 29.95475,
+              "changedPixels": 9060
+            },
+            {
+              "mean": 115.73947,
+              "changedPixels": 9108
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Flow rate",
+          "values": [
+            0,
+            0.74,
+            2
+          ],
+          "deltas": [
+            {
+              "mean": 3.75076,
+              "changedPixels": 2942
+            },
+            {
+              "mean": 24.24924,
+              "changedPixels": 7982
+            },
+            {
+              "mean": 52.38911,
+              "changedPixels": 8796
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 61.83257,
+          "changedPixels": 9016
+        },
+        {
+          "name": "y",
+          "mean": 62.80187,
+          "changedPixels": 9022
+        },
+        {
+          "name": "rotation",
+          "mean": 62.94922,
+          "changedPixels": 9032
+        },
+        {
+          "name": "scale",
+          "mean": 64.73828,
+          "changedPixels": 9008
+        },
+        {
+          "name": "u",
+          "mean": 62.8189,
+          "changedPixels": 9039
+        },
+        {
+          "name": "v",
+          "mean": 63.31576,
+          "changedPixels": 9062
+        },
+        {
+          "name": "scrollX",
+          "mean": 62.46647,
+          "changedPixels": 9024
+        },
+        {
+          "name": "scrollY",
+          "mean": 63.37305,
+          "changedPixels": 9072
+        },
+        {
+          "name": "corners",
+          "mean": 57.53006,
+          "changedPixels": 9064
+        },
+        {
+          "name": "invert",
+          "mean": 208.29449,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 64.07888,
+          "changedPixels": 9051
+        },
+        {
+          "name": "solidColor",
+          "mean": 23.32274,
+          "changedPixels": 9041
+        },
+        {
+          "name": "opacity",
+          "mean": 30.72895,
+          "changedPixels": 8885
+        },
+        {
+          "name": "seed",
+          "mean": 62.59896,
+          "changedPixels": 9078
+        },
+        {
+          "name": "time",
+          "mean": 4.78722,
+          "changedPixels": 3619
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 32.28168,
+          "changedPixels": 5513
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 16.16092,
+          "changedPixels": 4578
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 1.51204,
+          "changedPixels": 300
+        }
+      ]
+    },
+    {
+      "name": "Glitch",
+      "category": "Digital & Utility",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 128.662
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Frequency",
+          "values": [
+            2,
+            13,
+            32
+          ],
+          "deltas": [
+            {
+              "mean": 126.338,
+              "changedPixels": 4893
+            },
+            {
+              "mean": 100.25065,
+              "changedPixels": 4223
+            },
+            {
+              "mean": 117.27279,
+              "changedPixels": 4919
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Threshold",
+          "values": [
+            0.05,
+            0.38,
+            0.95
+          ],
+          "deltas": [
+            {
+              "mean": 123.23329,
+              "changedPixels": 4893
+            },
+            {
+              "mean": 35.75109,
+              "changedPixels": 2300
+            },
+            {
+              "mean": 127.31033,
+              "changedPixels": 4958
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Block length",
+          "values": [
+            1,
+            4,
+            8
+          ],
+          "deltas": [
+            {
+              "mean": 109.48611,
+              "changedPixels": 4643
+            },
+            {
+              "mean": 50.81934,
+              "changedPixels": 2224
+            },
+            {
+              "mean": 84.92871,
+              "changedPixels": 3507
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Displacement",
+          "values": [
+            0,
+            0.74,
+            2
+          ],
+          "deltas": [
+            {
+              "mean": 65.34212,
+              "changedPixels": 2786
+            },
+            {
+              "mean": 31.59635,
+              "changedPixels": 1334
+            },
+            {
+              "mean": 84.59364,
+              "changedPixels": 3718
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Signal noise",
+          "values": [
+            0,
+            0.37,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 7.03136,
+              "changedPixels": 852
+            },
+            {
+              "mean": 21.28082,
+              "changedPixels": 1710
+            },
+            {
+              "mean": 112.139,
+              "changedPixels": 4978
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Frame rate",
+          "values": [
+            0,
+            3,
+            8
+          ],
+          "deltas": [
+            {
+              "mean": 124.16146,
+              "changedPixels": 5061
+            },
+            {
+              "mean": 136.43186,
+              "changedPixels": 5566
+            },
+            {
+              "mean": 140.54492,
+              "changedPixels": 5729
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 108.95584,
+          "changedPixels": 4616
+        },
+        {
+          "name": "y",
+          "mean": 135.09635,
+          "changedPixels": 5531
+        },
+        {
+          "name": "rotation",
+          "mean": 122.22114,
+          "changedPixels": 5007
+        },
+        {
+          "name": "scale",
+          "mean": 105.8367,
+          "changedPixels": 4462
+        },
+        {
+          "name": "u",
+          "mean": 113.89334,
+          "changedPixels": 4781
+        },
+        {
+          "name": "v",
+          "mean": 126.59299,
+          "changedPixels": 5243
+        },
+        {
+          "name": "scrollX",
+          "mean": 61.34993,
+          "changedPixels": 2911
+        },
+        {
+          "name": "scrollY",
+          "mean": 123.14247,
+          "changedPixels": 5036
+        },
+        {
+          "name": "corners",
+          "mean": 115.05078,
+          "changedPixels": 4657
+        },
+        {
+          "name": "invert",
+          "mean": 248.8686,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 132.99414,
+          "changedPixels": 5379
+        },
+        {
+          "name": "solidColor",
+          "mean": 57.89776,
+          "changedPixels": 4958
+        },
+        {
+          "name": "opacity",
+          "mean": 77.17741,
+          "changedPixels": 4941
+        },
+        {
+          "name": "seed",
+          "mean": 144.00694,
+          "changedPixels": 5837
+        },
+        {
+          "name": "time",
+          "mean": 140.54492,
+          "changedPixels": 5729
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 67.22255,
+          "changedPixels": 2674
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 32.51552,
+          "changedPixels": 1316
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 3.51942,
+          "changedPixels": 135
+        }
+      ]
+    },
+    {
+      "name": "Beam",
+      "category": "Radial",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 18.912
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Glow width",
+          "values": [
+            0.01,
+            0.155,
+            0.4
+          ],
+          "deltas": [
+            {
+              "mean": 13.72276,
+              "changedPixels": 4132
+            },
+            {
+              "mean": 8.40451,
+              "changedPixels": 6198
+            },
+            {
+              "mean": 41.22678,
+              "changedPixels": 9054
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Core width",
+          "values": [
+            0.001,
+            0.038,
+            0.1
+          ],
+          "deltas": [
+            {
+              "mean": 3.60872,
+              "changedPixels": 1157
+            },
+            {
+              "mean": 10.23589,
+              "changedPixels": 4208
+            },
+            {
+              "mean": 32.87912,
+              "changedPixels": 9180
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Glow falloff",
+          "values": [
+            0.2,
+            3.1,
+            8
+          ],
+          "deltas": [
+            {
+              "mean": 23.22374,
+              "changedPixels": 9122
+            },
+            {
+              "mean": 2.09462,
+              "changedPixels": 3844
+            },
+            {
+              "mean": 4.71441,
+              "changedPixels": 3978
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Pulse frequency",
+          "values": [
+            0,
+            8.9,
+            24
+          ],
+          "deltas": [
+            {
+              "mean": 5.25087,
+              "changedPixels": 3470
+            },
+            {
+              "mean": 5.19596,
+              "changedPixels": 3466
+            },
+            {
+              "mean": 5.09158,
+              "changedPixels": 3436
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Noise amount",
+          "values": [
+            0,
+            0.37,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 0.4401,
+              "changedPixels": 1934
+            },
+            {
+              "mean": 0.64562,
+              "changedPixels": 2232
+            },
+            {
+              "mean": 2.47928,
+              "changedPixels": 3074
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Flow rate",
+          "values": [
+            -3,
+            -0.78,
+            3
+          ],
+          "deltas": [
+            {
+              "mean": 5.28559,
+              "changedPixels": 3620
+            },
+            {
+              "mean": 6.20378,
+              "changedPixels": 3724
+            },
+            {
+              "mean": 8.02604,
+              "changedPixels": 3756
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 1.34288,
+          "changedPixels": 2770
+        },
+        {
+          "name": "y",
+          "mean": 34.69586,
+          "changedPixels": 6247
+        },
+        {
+          "name": "rotation",
+          "mean": 27.15777,
+          "changedPixels": 5760
+        },
+        {
+          "name": "scale",
+          "mean": 12.94358,
+          "changedPixels": 6542
+        },
+        {
+          "name": "u",
+          "mean": 1.3303,
+          "changedPixels": 2794
+        },
+        {
+          "name": "v",
+          "mean": 31.65777,
+          "changedPixels": 5776
+        },
+        {
+          "name": "scrollX",
+          "mean": 8.12912,
+          "changedPixels": 3778
+        },
+        {
+          "name": "scrollY",
+          "mean": 23.67763,
+          "changedPixels": 5091
+        },
+        {
+          "name": "corners",
+          "mean": 14.23947,
+          "changedPixels": 4086
+        },
+        {
+          "name": "invert",
+          "mean": 224.04818,
+          "changedPixels": 9214
+        },
+        {
+          "name": "polar",
+          "mean": 26.17318,
+          "changedPixels": 5095
+        },
+        {
+          "name": "solidColor",
+          "mean": 8.51332,
+          "changedPixels": 4132
+        },
+        {
+          "name": "opacity",
+          "mean": 11.16189,
+          "changedPixels": 3684
+        },
+        {
+          "name": "seed",
+          "mean": 0.59961,
+          "changedPixels": 2056
+        },
+        {
+          "name": "time",
+          "mean": 3.31966,
+          "changedPixels": 3394
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 11.43924,
+          "changedPixels": 2498
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 2.66189,
+          "changedPixels": 820
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Star",
+      "category": "Shapes",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 46.071
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Radius",
+          "values": [
+            0.03,
+            0.24,
+            0.6
+          ],
+          "deltas": [
+            {
+              "mean": 45.20942,
+              "changedPixels": 1824
+            },
+            {
+              "mean": 23.33984,
+              "changedPixels": 1128
+            },
+            {
+              "mean": 79.95204,
+              "changedPixels": 3288
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Points",
+          "values": [
+            3,
+            8,
+            16
+          ],
+          "deltas": [
+            {
+              "mean": 22.60786,
+              "changedPixels": 1120
+            },
+            {
+              "mean": 25.24935,
+              "changedPixels": 1326
+            },
+            {
+              "mean": 28.49197,
+              "changedPixels": 1682
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Inner radius ratio",
+          "values": [
+            0.1,
+            0.41000000000000003,
+            0.95
+          ],
+          "deltas": [
+            {
+              "mean": 31.70041,
+              "changedPixels": 1620
+            },
+            {
+              "mean": 3.56445,
+              "changedPixels": 462
+            },
+            {
+              "mean": 45.42339,
+              "changedPixels": 1956
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Feather",
+          "values": [
+            0.001,
+            0.056,
+            0.15
+          ],
+          "deltas": [
+            {
+              "mean": 4.37858,
+              "changedPixels": 340
+            },
+            {
+              "mean": 14.5931,
+              "changedPixels": 1448
+            },
+            {
+              "mean": 54.56315,
+              "changedPixels": 4358
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Outline",
+          "values": [
+            0,
+            0.056,
+            0.15
+          ],
+          "deltas": [
+            {
+              "mean": 0,
+              "changedPixels": 0
+            },
+            {
+              "mean": 55.01855,
+              "changedPixels": 2472
+            },
+            {
+              "mean": 125.01519,
+              "changedPixels": 4874
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 50.41439,
+          "changedPixels": 2146
+        },
+        {
+          "name": "y",
+          "mean": 55.34701,
+          "changedPixels": 2330
+        },
+        {
+          "name": "rotation",
+          "mean": 34.40582,
+          "changedPixels": 1579
+        },
+        {
+          "name": "scale",
+          "mean": 70.01866,
+          "changedPixels": 3070
+        },
+        {
+          "name": "u",
+          "mean": 53.23568,
+          "changedPixels": 2259
+        },
+        {
+          "name": "v",
+          "mean": 49.83333,
+          "changedPixels": 2140
+        },
+        {
+          "name": "scrollX",
+          "mean": 34.35004,
+          "changedPixels": 1573
+        },
+        {
+          "name": "scrollY",
+          "mean": 34.96723,
+          "changedPixels": 1596
+        },
+        {
+          "name": "corners",
+          "mean": 23.8623,
+          "changedPixels": 1113
+        },
+        {
+          "name": "invert",
+          "mean": 251.3367,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 50.53049,
+          "changedPixels": 2062
+        },
+        {
+          "name": "solidColor",
+          "mean": 20.73209,
+          "changedPixels": 1836
+        },
+        {
+          "name": "opacity",
+          "mean": 27.63086,
+          "changedPixels": 1830
+        },
+        {
+          "name": "seed",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "time",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 34.41862,
+          "changedPixels": 1355
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Crystal",
+      "category": "Shapes",
+      "alpha": {
+        "min": 0,
+        "max": 238,
+        "mean": 60.748
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Width",
+          "values": [
+            0.05,
+            0.22,
+            0.5
+          ],
+          "deltas": [
+            {
+              "mean": 47.92773,
+              "changedPixels": 2528
+            },
+            {
+              "mean": 2.67361,
+              "changedPixels": 300
+            },
+            {
+              "mean": 71.56098,
+              "changedPixels": 3876
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Height",
+          "values": [
+            0.05,
+            0.29,
+            0.7
+          ],
+          "deltas": [
+            {
+              "mean": 53.66146,
+              "changedPixels": 2618
+            },
+            {
+              "mean": 17.29058,
+              "changedPixels": 936
+            },
+            {
+              "mean": 32.88954,
+              "changedPixels": 1836
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Facet contrast",
+          "values": [
+            0,
+            0.37,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 15.87088,
+              "changedPixels": 2844
+            },
+            {
+              "mean": 6.92752,
+              "changedPixels": 2842
+            },
+            {
+              "mean": 8.52843,
+              "changedPixels": 2842
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Tip length",
+          "values": [
+            0.1,
+            0.36,
+            0.8
+          ],
+          "deltas": [
+            {
+              "mean": 11.10916,
+              "changedPixels": 564
+            },
+            {
+              "mean": 1.48492,
+              "changedPixels": 116
+            },
+            {
+              "mean": 14.81055,
+              "changedPixels": 776
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Feather",
+          "values": [
+            0.001,
+            0.038,
+            0.1
+          ],
+          "deltas": [
+            {
+              "mean": 1.33247,
+              "changedPixels": 140
+            },
+            {
+              "mean": 5.03407,
+              "changedPixels": 604
+            },
+            {
+              "mean": 15.76194,
+              "changedPixels": 1520
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 64.41124,
+          "changedPixels": 4034
+        },
+        {
+          "name": "y",
+          "mean": 40.33149,
+          "changedPixels": 2330
+        },
+        {
+          "name": "rotation",
+          "mean": 22.67871,
+          "changedPixels": 2034
+        },
+        {
+          "name": "scale",
+          "mean": 82.71202,
+          "changedPixels": 4020
+        },
+        {
+          "name": "u",
+          "mean": 70.03993,
+          "changedPixels": 4242
+        },
+        {
+          "name": "v",
+          "mean": 35.94325,
+          "changedPixels": 2100
+        },
+        {
+          "name": "scrollX",
+          "mean": 36.67925,
+          "changedPixels": 2598
+        },
+        {
+          "name": "scrollY",
+          "mean": 20.98796,
+          "changedPixels": 1292
+        },
+        {
+          "name": "corners",
+          "mean": 31.85905,
+          "changedPixels": 1685
+        },
+        {
+          "name": "invert",
+          "mean": 221.64019,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 66.4273,
+          "changedPixels": 3358
+        },
+        {
+          "name": "solidColor",
+          "mean": 27.33701,
+          "changedPixels": 2844
+        },
+        {
+          "name": "opacity",
+          "mean": 36.42513,
+          "changedPixels": 2844
+        },
+        {
+          "name": "seed",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "time",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 48.13216,
+          "changedPixels": 2078
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Fire",
+      "category": "Noise & Organic",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 36.29
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Width",
+          "values": [
+            0.05,
+            0.22,
+            0.5
+          ],
+          "deltas": [
+            {
+              "mean": 29.97797,
+              "changedPixels": 2011
+            },
+            {
+              "mean": 8.97287,
+              "changedPixels": 1870
+            },
+            {
+              "mean": 30.07118,
+              "changedPixels": 3489
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Height",
+          "values": [
+            0.1,
+            0.43,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 36.62283,
+              "changedPixels": 2024
+            },
+            {
+              "mean": 20.50087,
+              "changedPixels": 2023
+            },
+            {
+              "mean": 12.77246,
+              "changedPixels": 2508
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Turbulence",
+          "values": [
+            0,
+            0.74,
+            2
+          ],
+          "deltas": [
+            {
+              "mean": 4.62099,
+              "changedPixels": 707
+            },
+            {
+              "mean": 1.63129,
+              "changedPixels": 554
+            },
+            {
+              "mean": 12.57313,
+              "changedPixels": 1074
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Tongue frequency",
+          "values": [
+            1,
+            6.6000000000000005,
+            16
+          ],
+          "deltas": [
+            {
+              "mean": 11.56543,
+              "changedPixels": 2363
+            },
+            {
+              "mean": 6.7602,
+              "changedPixels": 1973
+            },
+            {
+              "mean": 11.08225,
+              "changedPixels": 2215
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Detail",
+          "values": [
+            0.1,
+            0.8,
+            2
+          ],
+          "deltas": [
+            {
+              "mean": 12.16102,
+              "changedPixels": 2016
+            },
+            {
+              "mean": 1.82986,
+              "changedPixels": 1883
+            },
+            {
+              "mean": 8.08257,
+              "changedPixels": 1928
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Rise speed",
+          "values": [
+            0,
+            1.48,
+            4
+          ],
+          "deltas": [
+            {
+              "mean": 8.61849,
+              "changedPixels": 2064
+            },
+            {
+              "mean": 9.03516,
+              "changedPixels": 2062
+            },
+            {
+              "mean": 9.96224,
+              "changedPixels": 2186
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 45.49729,
+          "changedPixels": 3168
+        },
+        {
+          "name": "y",
+          "mean": 25.19423,
+          "changedPixels": 2101
+        },
+        {
+          "name": "rotation",
+          "mean": 30.61947,
+          "changedPixels": 2729
+        },
+        {
+          "name": "scale",
+          "mean": 27.13227,
+          "changedPixels": 3369
+        },
+        {
+          "name": "u",
+          "mean": 49.05512,
+          "changedPixels": 3277
+        },
+        {
+          "name": "v",
+          "mean": 33.67231,
+          "changedPixels": 2744
+        },
+        {
+          "name": "scrollX",
+          "mean": 27.12489,
+          "changedPixels": 2668
+        },
+        {
+          "name": "scrollY",
+          "mean": 21.28939,
+          "changedPixels": 2450
+        },
+        {
+          "name": "corners",
+          "mean": 22.23416,
+          "changedPixels": 2046
+        },
+        {
+          "name": "invert",
+          "mean": 231.6288,
+          "changedPixels": 9215
+        },
+        {
+          "name": "polar",
+          "mean": 39.52268,
+          "changedPixels": 2302
+        },
+        {
+          "name": "solidColor",
+          "mean": 16.33063,
+          "changedPixels": 2024
+        },
+        {
+          "name": "opacity",
+          "mean": 21.71929,
+          "changedPixels": 2014
+        },
+        {
+          "name": "seed",
+          "mean": 9.1607,
+          "changedPixels": 2140
+        },
+        {
+          "name": "time",
+          "mean": 9.14475,
+          "changedPixels": 2060
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 30.05903,
+          "changedPixels": 1643
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Caustics",
+      "category": "Noise & Organic",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 16.409
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Frequency",
+          "values": [
+            1,
+            5,
+            12
+          ],
+          "deltas": [
+            {
+              "mean": 28.59635,
+              "changedPixels": 5139
+            },
+            {
+              "mean": 28.60102,
+              "changedPixels": 5138
+            },
+            {
+              "mean": 28.23947,
+              "changedPixels": 5146
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Ridge width",
+          "values": [
+            0.01,
+            0.155,
+            0.4
+          ],
+          "deltas": [
+            {
+              "mean": 14.4528,
+              "changedPixels": 3082
+            },
+            {
+              "mean": 13.61545,
+              "changedPixels": 4848
+            },
+            {
+              "mean": 47.34549,
+              "changedPixels": 8656
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Distortion",
+          "values": [
+            0,
+            0.74,
+            2
+          ],
+          "deltas": [
+            {
+              "mean": 29.02637,
+              "changedPixels": 5181
+            },
+            {
+              "mean": 27.25922,
+              "changedPixels": 4757
+            },
+            {
+              "mean": 27.87804,
+              "changedPixels": 4919
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Wave mix",
+          "values": [
+            0.1,
+            0.43,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 22.54405,
+              "changedPixels": 3942
+            },
+            {
+              "mean": 12.58572,
+              "changedPixels": 3290
+            },
+            {
+              "mean": 19.81109,
+              "changedPixels": 3702
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Contrast",
+          "values": [
+            0.2,
+            1.61,
+            4
+          ],
+          "deltas": [
+            {
+              "mean": 56.29579,
+              "changedPixels": 9215
+            },
+            {
+              "mean": 4.13694,
+              "changedPixels": 3079
+            },
+            {
+              "mean": 11.62359,
+              "changedPixels": 3082
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Wave speed",
+          "values": [
+            0,
+            1.11,
+            3
+          ],
+          "deltas": [
+            {
+              "mean": 19.10428,
+              "changedPixels": 3705
+            },
+            {
+              "mean": 24.12554,
+              "changedPixels": 4091
+            },
+            {
+              "mean": 25.54666,
+              "changedPixels": 5039
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 28.9324,
+          "changedPixels": 5101
+        },
+        {
+          "name": "y",
+          "mean": 25.61079,
+          "changedPixels": 4600
+        },
+        {
+          "name": "rotation",
+          "mean": 28.37511,
+          "changedPixels": 5035
+        },
+        {
+          "name": "scale",
+          "mean": 27.81087,
+          "changedPixels": 4958
+        },
+        {
+          "name": "u",
+          "mean": 27.7679,
+          "changedPixels": 4882
+        },
+        {
+          "name": "v",
+          "mean": 29.46539,
+          "changedPixels": 5211
+        },
+        {
+          "name": "scrollX",
+          "mean": 30.91374,
+          "changedPixels": 5519
+        },
+        {
+          "name": "scrollY",
+          "mean": 31.09375,
+          "changedPixels": 5556
+        },
+        {
+          "name": "corners",
+          "mean": 22.41764,
+          "changedPixels": 4065
+        },
+        {
+          "name": "invert",
+          "mean": 231.80849,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 29.32303,
+          "changedPixels": 5173
+        },
+        {
+          "name": "solidColor",
+          "mean": 7.38652,
+          "changedPixels": 3082
+        },
+        {
+          "name": "opacity",
+          "mean": 9.71039,
+          "changedPixels": 2692
+        },
+        {
+          "name": "seed",
+          "mean": 24.09234,
+          "changedPixels": 4392
+        },
+        {
+          "name": "time",
+          "mean": 21.28244,
+          "changedPixels": 3831
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 10.62174,
+          "changedPixels": 1967
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 6.15039,
+          "changedPixels": 1092
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0.71072,
+          "changedPixels": 126
+        }
+      ]
+    },
+    {
+      "name": "Lightning",
+      "category": "Radial",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 7.08
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Length",
+          "values": [
+            0.1,
+            0.43,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 7.67839,
+              "changedPixels": 2176
+            },
+            {
+              "mean": 7.71777,
+              "changedPixels": 2160
+            },
+            {
+              "mean": 8.82227,
+              "changedPixels": 2496
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Core width",
+          "values": [
+            0.001,
+            0.019,
+            0.05
+          ],
+          "deltas": [
+            {
+              "mean": 5.69151,
+              "changedPixels": 2068
+            },
+            {
+              "mean": 13.21311,
+              "changedPixels": 5766
+            },
+            {
+              "mean": 39.36133,
+              "changedPixels": 7632
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Jaggedness",
+          "values": [
+            0.01,
+            0.15,
+            0.4
+          ],
+          "deltas": [
+            {
+              "mean": 8.16612,
+              "changedPixels": 2156
+            },
+            {
+              "mean": 4.03255,
+              "changedPixels": 1705
+            },
+            {
+              "mean": 10.8151,
+              "changedPixels": 2578
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Segments",
+          "values": [
+            2,
+            10,
+            24
+          ],
+          "deltas": [
+            {
+              "mean": 7.8406,
+              "changedPixels": 2100
+            },
+            {
+              "mean": 8.45605,
+              "changedPixels": 2136
+            },
+            {
+              "mean": 9.04536,
+              "changedPixels": 2258
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Branch reach",
+          "values": [
+            0,
+            0.15,
+            0.4
+          ],
+          "deltas": [
+            {
+              "mean": 2.13683,
+              "changedPixels": 638
+            },
+            {
+              "mean": 1.64757,
+              "changedPixels": 573
+            },
+            {
+              "mean": 4.24457,
+              "changedPixels": 1114
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Flicker rate",
+          "values": [
+            0,
+            3,
+            8
+          ],
+          "deltas": [
+            {
+              "mean": 8.87326,
+              "changedPixels": 2248
+            },
+            {
+              "mean": 9.28624,
+              "changedPixels": 2294
+            },
+            {
+              "mean": 9.36415,
+              "changedPixels": 2306
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 13.61003,
+          "changedPixels": 3483
+        },
+        {
+          "name": "y",
+          "mean": 10.75304,
+          "changedPixels": 2693
+        },
+        {
+          "name": "rotation",
+          "mean": 11.50944,
+          "changedPixels": 2997
+        },
+        {
+          "name": "scale",
+          "mean": 14.27821,
+          "changedPixels": 3748
+        },
+        {
+          "name": "u",
+          "mean": 13.83648,
+          "changedPixels": 3611
+        },
+        {
+          "name": "v",
+          "mean": 10.97135,
+          "changedPixels": 2795
+        },
+        {
+          "name": "scrollX",
+          "mean": 12.30328,
+          "changedPixels": 2855
+        },
+        {
+          "name": "scrollY",
+          "mean": 10.2627,
+          "changedPixels": 2550
+        },
+        {
+          "name": "corners",
+          "mean": 7.2844,
+          "changedPixels": 2099
+        },
+        {
+          "name": "invert",
+          "mean": 245.90853,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 11.47819,
+          "changedPixels": 3092
+        },
+        {
+          "name": "solidColor",
+          "mean": 3.18857,
+          "changedPixels": 2076
+        },
+        {
+          "name": "opacity",
+          "mean": 4.1556,
+          "changedPixels": 1700
+        },
+        {
+          "name": "seed",
+          "mean": 7.84625,
+          "changedPixels": 2139
+        },
+        {
+          "name": "time",
+          "mean": 8.51953,
+          "changedPixels": 2249
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 7.00163,
+          "changedPixels": 1976
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Crescent",
+      "category": "Shapes",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 26.467
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Radius",
+          "values": [
+            0.03,
+            0.24,
+            0.6
+          ],
+          "deltas": [
+            {
+              "mean": 27.60503,
+              "changedPixels": 1156
+            },
+            {
+              "mean": 30.61523,
+              "changedPixels": 1346
+            },
+            {
+              "mean": 54.40734,
+              "changedPixels": 2220
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Cut offset",
+          "values": [
+            0.01,
+            0.19,
+            0.5
+          ],
+          "deltas": [
+            {
+              "mean": 24.66558,
+              "changedPixels": 1084
+            },
+            {
+              "mean": 4.81727,
+              "changedPixels": 294
+            },
+            {
+              "mean": 48.01128,
+              "changedPixels": 1852
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Cut radius ratio",
+          "values": [
+            0.3,
+            0.74,
+            1.5
+          ],
+          "deltas": [
+            {
+              "mean": 50.86567,
+              "changedPixels": 2004
+            },
+            {
+              "mean": 18.95877,
+              "changedPixels": 836
+            },
+            {
+              "mean": 26.39323,
+              "changedPixels": 1104
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Feather",
+          "values": [
+            0.001,
+            0.056,
+            0.15
+          ],
+          "deltas": [
+            {
+              "mean": 3.40603,
+              "changedPixels": 272
+            },
+            {
+              "mean": 10.68034,
+              "changedPixels": 1080
+            },
+            {
+              "mean": 33.91688,
+              "changedPixels": 3228
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 52.92947,
+          "changedPixels": 2194
+        },
+        {
+          "name": "y",
+          "mean": 35.25575,
+          "changedPixels": 1527
+        },
+        {
+          "name": "rotation",
+          "mean": 10.88118,
+          "changedPixels": 534
+        },
+        {
+          "name": "scale",
+          "mean": 78.88867,
+          "changedPixels": 3228
+        },
+        {
+          "name": "u",
+          "mean": 52.93316,
+          "changedPixels": 2206
+        },
+        {
+          "name": "v",
+          "mean": 33.6633,
+          "changedPixels": 1494
+        },
+        {
+          "name": "scrollX",
+          "mean": 34.53147,
+          "changedPixels": 1518
+        },
+        {
+          "name": "scrollY",
+          "mean": 24.63759,
+          "changedPixels": 1167
+        },
+        {
+          "name": "corners",
+          "mean": 28.95822,
+          "changedPixels": 1253
+        },
+        {
+          "name": "invert",
+          "mean": 252.05056,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 27.12424,
+          "changedPixels": 1146
+        },
+        {
+          "name": "solidColor",
+          "mean": 11.91033,
+          "changedPixels": 1104
+        },
+        {
+          "name": "opacity",
+          "mean": 15.86936,
+          "changedPixels": 1098
+        },
+        {
+          "name": "seed",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "time",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 4.62717,
+          "changedPixels": 220
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Gradient",
+      "category": "Digital & Utility",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 127.484
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Start",
+          "values": [
+            0,
+            0.33,
+            0.9
+          ],
+          "deltas": [
+            {
+              "mean": 12.7245,
+              "changedPixels": 8064
+            },
+            {
+              "mean": 29.32758,
+              "changedPixels": 7296
+            },
+            {
+              "mean": 100.92133,
+              "changedPixels": 7296
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "End",
+          "values": [
+            0.1,
+            0.43,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 100.95367,
+              "changedPixels": 7296
+            },
+            {
+              "mean": 59.92242,
+              "changedPixels": 7296
+            },
+            {
+              "mean": 12.75467,
+              "changedPixels": 8064
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Curve",
+          "values": [
+            0.2,
+            1.98,
+            5
+          ],
+          "deltas": [
+            {
+              "mean": 67.74533,
+              "changedPixels": 7296
+            },
+            {
+              "mean": 33.54633,
+              "changedPixels": 7296
+            },
+            {
+              "mean": 67.98383,
+              "changedPixels": 7296
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 47.17133,
+          "changedPixels": 8256
+        },
+        {
+          "name": "y",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "rotation",
+          "mean": 36.04134,
+          "changedPixels": 8264
+        },
+        {
+          "name": "scale",
+          "mean": 26.662,
+          "changedPixels": 9120
+        },
+        {
+          "name": "u",
+          "mean": 99.07758,
+          "changedPixels": 9216
+        },
+        {
+          "name": "v",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "scrollX",
+          "mean": 26.46408,
+          "changedPixels": 8256
+        },
+        {
+          "name": "scrollY",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "corners",
+          "mean": 76.77908,
+          "changedPixels": 8210
+        },
+        {
+          "name": "invert",
+          "mean": 152.99034,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 102.5102,
+          "changedPixels": 8410
+        },
+        {
+          "name": "solidColor",
+          "mean": 57.37069,
+          "changedPixels": 8256
+        },
+        {
+          "name": "opacity",
+          "mean": 76.13542,
+          "changedPixels": 8256
+        },
+        {
+          "name": "seed",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "time",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 114.20833,
+          "changedPixels": 5568
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 24.26931,
+          "changedPixels": 1708
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 4.15603,
+          "changedPixels": 188
+        }
+      ]
+    },
+    {
+      "name": "Checker",
+      "category": "Patterns",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 127.5
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Frequency",
+          "values": [
+            2,
+            10,
+            24
+          ],
+          "deltas": [
+            {
+              "mean": 127.5,
+              "changedPixels": 4608
+            },
+            {
+              "mean": 127.5,
+              "changedPixels": 4608
+            },
+            {
+              "mean": 113.33333,
+              "changedPixels": 4096
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Duty",
+          "values": [
+            0.05,
+            0.38,
+            0.95
+          ],
+          "deltas": [
+            {
+              "mean": 126.61458,
+              "changedPixels": 4576
+            },
+            {
+              "mean": 55.78125,
+              "changedPixels": 2016
+            },
+            {
+              "mean": 126.61458,
+              "changedPixels": 4576
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Feather",
+          "values": [
+            0.001,
+            0.056,
+            0.15
+          ],
+          "deltas": [
+            {
+              "mean": 0,
+              "changedPixels": 0
+            },
+            {
+              "mean": 9.57986,
+              "changedPixels": 1440
+            },
+            {
+              "mean": 25.84375,
+              "changedPixels": 3936
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 127.5,
+          "changedPixels": 4608
+        },
+        {
+          "name": "y",
+          "mean": 42.5,
+          "changedPixels": 1536
+        },
+        {
+          "name": "rotation",
+          "mean": 128.21463,
+          "changedPixels": 4704
+        },
+        {
+          "name": "scale",
+          "mean": 121.96615,
+          "changedPixels": 4408
+        },
+        {
+          "name": "u",
+          "mean": 85,
+          "changedPixels": 3072
+        },
+        {
+          "name": "v",
+          "mean": 148.75,
+          "changedPixels": 5376
+        },
+        {
+          "name": "scrollX",
+          "mean": 212.5,
+          "changedPixels": 7680
+        },
+        {
+          "name": "scrollY",
+          "mean": 212.5,
+          "changedPixels": 7680
+        },
+        {
+          "name": "corners",
+          "mean": 129.82813,
+          "changedPixels": 4735
+        },
+        {
+          "name": "invert",
+          "mean": 255,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 127.4987,
+          "changedPixels": 4736
+        },
+        {
+          "name": "solidColor",
+          "mean": 57.375,
+          "changedPixels": 4608
+        },
+        {
+          "name": "opacity",
+          "mean": 76.5,
+          "changedPixels": 4608
+        },
+        {
+          "name": "seed",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "time",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 77.03125,
+          "changedPixels": 2880
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 48.5651,
+          "changedPixels": 1904
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 4.15668,
+          "changedPixels": 154
+        }
+      ]
+    },
+    {
+      "name": "Metaballs",
+      "category": "Noise & Organic",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 16.124
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Spread",
+          "values": [
+            0.05,
+            0.18,
+            0.4
+          ],
+          "deltas": [
+            {
+              "mean": 21.63856,
+              "changedPixels": 839
+            },
+            {
+              "mean": 9.77962,
+              "changedPixels": 430
+            },
+            {
+              "mean": 26.55219,
+              "changedPixels": 1032
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Count",
+          "values": [
+            2,
+            6,
+            12
+          ],
+          "deltas": [
+            {
+              "mean": 10.92459,
+              "changedPixels": 439
+            },
+            {
+              "mean": 3.84201,
+              "changedPixels": 210
+            },
+            {
+              "mean": 37.74219,
+              "changedPixels": 1538
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Ball radius",
+          "values": [
+            0.02,
+            0.085,
+            0.2
+          ],
+          "deltas": [
+            {
+              "mean": 15.06901,
+              "changedPixels": 584
+            },
+            {
+              "mean": 8.65191,
+              "changedPixels": 412
+            },
+            {
+              "mean": 112.38151,
+              "changedPixels": 4328
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Merge threshold",
+          "values": [
+            0.5,
+            1.8,
+            4
+          ],
+          "deltas": [
+            {
+              "mean": 35.97385,
+              "changedPixels": 1646
+            },
+            {
+              "mean": 2.73872,
+              "changedPixels": 161
+            },
+            {
+              "mean": 10.4145,
+              "changedPixels": 414
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Feather",
+          "values": [
+            0.01,
+            0.38,
+            1
+          ],
+          "deltas": [
+            {
+              "mean": 0.95171,
+              "changedPixels": 69
+            },
+            {
+              "mean": 0.89128,
+              "changedPixels": 125
+            },
+            {
+              "mean": 3.39106,
+              "changedPixels": 258
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Orbit speed",
+          "values": [
+            0,
+            1.11,
+            3
+          ],
+          "deltas": [
+            {
+              "mean": 6.65647,
+              "changedPixels": 312
+            },
+            {
+              "mean": 14.1071,
+              "changedPixels": 592
+            },
+            {
+              "mean": 24.20464,
+              "changedPixels": 974
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 31.91265,
+          "changedPixels": 1220
+        },
+        {
+          "name": "y",
+          "mean": 32.25911,
+          "changedPixels": 1235
+        },
+        {
+          "name": "rotation",
+          "mean": 21.15799,
+          "changedPixels": 833
+        },
+        {
+          "name": "scale",
+          "mean": 40.7258,
+          "changedPixels": 1596
+        },
+        {
+          "name": "u",
+          "mean": 31.86567,
+          "changedPixels": 1218
+        },
+        {
+          "name": "v",
+          "mean": 32.24544,
+          "changedPixels": 1237
+        },
+        {
+          "name": "scrollX",
+          "mean": 24.80697,
+          "changedPixels": 962
+        },
+        {
+          "name": "scrollY",
+          "mean": 25.84831,
+          "changedPixels": 1005
+        },
+        {
+          "name": "corners",
+          "mean": 14.27995,
+          "changedPixels": 568
+        },
+        {
+          "name": "invert",
+          "mean": 254.23752,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 18.50814,
+          "changedPixels": 717
+        },
+        {
+          "name": "solidColor",
+          "mean": 7.25571,
+          "changedPixels": 617
+        },
+        {
+          "name": "opacity",
+          "mean": 9.67231,
+          "changedPixels": 616
+        },
+        {
+          "name": "seed",
+          "mean": 14.99208,
+          "changedPixels": 616
+        },
+        {
+          "name": "time",
+          "mean": 10.01313,
+          "changedPixels": 433
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 7.7615,
+          "changedPixels": 302
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Wood",
+      "category": "Noise & Organic",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 83.898
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Ring frequency",
+          "values": [
+            2,
+            13.100000000000001,
+            32
+          ],
+          "deltas": [
+            {
+              "mean": 101.21267,
+              "changedPixels": 4120
+            },
+            {
+              "mean": 144.93424,
+              "changedPixels": 5734
+            },
+            {
+              "mean": 111.76356,
+              "changedPixels": 4581
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Distortion",
+          "values": [
+            0,
+            0.74,
+            2
+          ],
+          "deltas": [
+            {
+              "mean": 70.9872,
+              "changedPixels": 3093
+            },
+            {
+              "mean": 104.3929,
+              "changedPixels": 4274
+            },
+            {
+              "mean": 99.27767,
+              "changedPixels": 4109
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Grain frequency",
+          "values": [
+            1,
+            8,
+            20
+          ],
+          "deltas": [
+            {
+              "mean": 20.43652,
+              "changedPixels": 1245
+            },
+            {
+              "mean": 12.63791,
+              "changedPixels": 960
+            },
+            {
+              "mean": 20.65213,
+              "changedPixels": 1233
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Ring width",
+          "values": [
+            0.02,
+            0.35000000000000003,
+            0.9
+          ],
+          "deltas": [
+            {
+              "mean": 71.6378,
+              "changedPixels": 3117
+            },
+            {
+              "mean": 12.41222,
+              "changedPixels": 951
+            },
+            {
+              "mean": 152.93869,
+              "changedPixels": 6065
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Feather",
+          "values": [
+            0.001,
+            0.075,
+            0.2
+          ],
+          "deltas": [
+            {
+              "mean": 7.16688,
+              "changedPixels": 519
+            },
+            {
+              "mean": 11.19987,
+              "changedPixels": 1308
+            },
+            {
+              "mean": 42.95106,
+              "changedPixels": 3529
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Evolution",
+          "values": [
+            0,
+            0.74,
+            2
+          ],
+          "deltas": [
+            {
+              "mean": 0,
+              "changedPixels": 0
+            },
+            {
+              "mean": 12.05501,
+              "changedPixels": 927
+            },
+            {
+              "mean": 17.79275,
+              "changedPixels": 1142
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 121.80013,
+          "changedPixels": 4898
+        },
+        {
+          "name": "y",
+          "mean": 103.64084,
+          "changedPixels": 4263
+        },
+        {
+          "name": "rotation",
+          "mean": 19.08843,
+          "changedPixels": 1194
+        },
+        {
+          "name": "scale",
+          "mean": 117.95757,
+          "changedPixels": 4744
+        },
+        {
+          "name": "u",
+          "mean": 114.80773,
+          "changedPixels": 4643
+        },
+        {
+          "name": "v",
+          "mean": 116.70367,
+          "changedPixels": 4718
+        },
+        {
+          "name": "scrollX",
+          "mean": 114.18164,
+          "changedPixels": 4624
+        },
+        {
+          "name": "scrollY",
+          "mean": 114.37467,
+          "changedPixels": 4653
+        },
+        {
+          "name": "corners",
+          "mean": 99.6199,
+          "changedPixels": 3968
+        },
+        {
+          "name": "invert",
+          "mean": 249.49132,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 115.82888,
+          "changedPixels": 4684
+        },
+        {
+          "name": "solidColor",
+          "mean": 37.75415,
+          "changedPixels": 3284
+        },
+        {
+          "name": "opacity",
+          "mean": 50.32205,
+          "changedPixels": 3279
+        },
+        {
+          "name": "seed",
+          "mean": 20.11795,
+          "changedPixels": 1220
+        },
+        {
+          "name": "time",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 50.58854,
+          "changedPixels": 1973
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 29.65451,
+          "changedPixels": 1260
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 2.5957,
+          "changedPixels": 113
+        }
+      ]
+    },
+    {
+      "name": "Grain",
+      "category": "Digital & Utility",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 75.623
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Frequency",
+          "values": [
+            8,
+            52,
+            128
+          ],
+          "deltas": [
+            {
+              "mean": 102.53657,
+              "changedPixels": 7687
+            },
+            {
+              "mean": 99.68283,
+              "changedPixels": 7669
+            },
+            {
+              "mean": 97.77159,
+              "changedPixels": 7667
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Threshold",
+          "values": [
+            0,
+            0.35000000000000003,
+            0.95
+          ],
+          "deltas": [
+            {
+              "mean": 52.18772,
+              "changedPixels": 8835
+            },
+            {
+              "mean": 6.53961,
+              "changedPixels": 5559
+            },
+            {
+              "mean": 69.34993,
+              "changedPixels": 5463
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Contrast",
+          "values": [
+            0.2,
+            1.61,
+            4
+          ],
+          "deltas": [
+            {
+              "mean": 47.70551,
+              "changedPixels": 5482
+            },
+            {
+              "mean": 13.75564,
+              "changedPixels": 5266
+            },
+            {
+              "mean": 34.60862,
+              "changedPixels": 5395
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Frame rate",
+          "values": [
+            0,
+            3,
+            8
+          ],
+          "deltas": [
+            {
+              "mean": 0,
+              "changedPixels": 0
+            },
+            {
+              "mean": 99.42622,
+              "changedPixels": 7726
+            },
+            {
+              "mean": 97.52387,
+              "changedPixels": 7746
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 100.05122,
+          "changedPixels": 7736
+        },
+        {
+          "name": "y",
+          "mean": 98.28526,
+          "changedPixels": 7641
+        },
+        {
+          "name": "rotation",
+          "mean": 96.49414,
+          "changedPixels": 7647
+        },
+        {
+          "name": "scale",
+          "mean": 98.3061,
+          "changedPixels": 7691
+        },
+        {
+          "name": "u",
+          "mean": 97.60221,
+          "changedPixels": 7660
+        },
+        {
+          "name": "v",
+          "mean": 97.37164,
+          "changedPixels": 7653
+        },
+        {
+          "name": "scrollX",
+          "mean": 95.38563,
+          "changedPixels": 7645
+        },
+        {
+          "name": "scrollY",
+          "mean": 96.48351,
+          "changedPixels": 7608
+        },
+        {
+          "name": "corners",
+          "mean": 85.89171,
+          "changedPixels": 6515
+        },
+        {
+          "name": "invert",
+          "mean": 198.64909,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 97.90842,
+          "changedPixels": 7651
+        },
+        {
+          "name": "solidColor",
+          "mean": 34.03248,
+          "changedPixels": 5463
+        },
+        {
+          "name": "opacity",
+          "mean": 45.19651,
+          "changedPixels": 5395
+        },
+        {
+          "name": "seed",
+          "mean": 97.90712,
+          "changedPixels": 7723
+        },
+        {
+          "name": "time",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 46.81619,
+          "changedPixels": 3354
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 43.48665,
+          "changedPixels": 3220
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 2.4617,
+          "changedPixels": 200
+        }
+      ]
+    },
+    {
+      "name": "Cross",
+      "category": "Shapes",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 49.811
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Arm length",
+          "values": [
+            0.05,
+            0.21,
+            0.48
+          ],
+          "deltas": [
+            {
+              "mean": 43.74913,
+              "changedPixels": 1816
+            },
+            {
+              "mean": 20.30816,
+              "changedPixels": 936
+            },
+            {
+              "mean": 25.86979,
+              "changedPixels": 1080
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Thickness",
+          "values": [
+            0.01,
+            0.1,
+            0.25
+          ],
+          "deltas": [
+            {
+              "mean": 40.13976,
+              "changedPixels": 1776
+            },
+            {
+              "mean": 9.9566,
+              "changedPixels": 548
+            },
+            {
+              "mean": 57.3138,
+              "changedPixels": 2244
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Roundness",
+          "values": [
+            0,
+            0.03,
+            0.08
+          ],
+          "deltas": [
+            {
+              "mean": 0.18229,
+              "changedPixels": 40
+            },
+            {
+              "mean": 0.21962,
+              "changedPixels": 56
+            },
+            {
+              "mean": 2.62934,
+              "changedPixels": 248
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Feather",
+          "values": [
+            0.001,
+            0.056,
+            0.15
+          ],
+          "deltas": [
+            {
+              "mean": 0.44922,
+              "changedPixels": 244
+            },
+            {
+              "mean": 16.23481,
+              "changedPixels": 1292
+            },
+            {
+              "mean": 50.44358,
+              "changedPixels": 3872
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 58.1148,
+          "changedPixels": 2376
+        },
+        {
+          "name": "y",
+          "mean": 59.64258,
+          "changedPixels": 2474
+        },
+        {
+          "name": "rotation",
+          "mean": 51.19618,
+          "changedPixels": 2096
+        },
+        {
+          "name": "scale",
+          "mean": 70.07726,
+          "changedPixels": 2808
+        },
+        {
+          "name": "u",
+          "mean": 60.70681,
+          "changedPixels": 2484
+        },
+        {
+          "name": "v",
+          "mean": 58.30621,
+          "changedPixels": 2388
+        },
+        {
+          "name": "scrollX",
+          "mean": 35.3878,
+          "changedPixels": 1488
+        },
+        {
+          "name": "scrollY",
+          "mean": 35.3878,
+          "changedPixels": 1488
+        },
+        {
+          "name": "corners",
+          "mean": 26.55425,
+          "changedPixels": 1222
+        },
+        {
+          "name": "invert",
+          "mean": 254.10156,
+          "changedPixels": 9216
+        },
+        {
+          "name": "polar",
+          "mean": 51.95345,
+          "changedPixels": 2110
+        },
+        {
+          "name": "solidColor",
+          "mean": 22.41504,
+          "changedPixels": 2028
+        },
+        {
+          "name": "opacity",
+          "mean": 29.88498,
+          "changedPixels": 2012
+        },
+        {
+          "name": "seed",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "time",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 40.33919,
+          "changedPixels": 1558
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Smoke",
+      "category": "Noise & Organic",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 33.497
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Base width",
+          "values": [
+            0.02,
+            0.125,
+            0.3
+          ],
+          "deltas": [
+            {
+              "mean": 12.59549,
+              "changedPixels": 4753
+            },
+            {
+              "mean": 3.92242,
+              "changedPixels": 4836
+            },
+            {
+              "mean": 30.09125,
+              "changedPixels": 7798
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Expansion",
+          "values": [
+            0.05,
+            0.22,
+            0.5
+          ],
+          "deltas": [
+            {
+              "mean": 12.93479,
+              "changedPixels": 4799
+            },
+            {
+              "mean": 1.89551,
+              "changedPixels": 4174
+            },
+            {
+              "mean": 15.14572,
+              "changedPixels": 6345
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Billow scale",
+          "values": [
+            1,
+            5.1000000000000005,
+            12
+          ],
+          "deltas": [
+            {
+              "mean": 11.97667,
+              "changedPixels": 4214
+            },
+            {
+              "mean": 1.5548,
+              "changedPixels": 2847
+            },
+            {
+              "mean": 17.38661,
+              "changedPixels": 4811
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Density",
+          "values": [
+            0.2,
+            1.24,
+            3
+          ],
+          "deltas": [
+            {
+              "mean": 27.80371,
+              "changedPixels": 5138
+            },
+            {
+              "mean": 0.81944,
+              "changedPixels": 2849
+            },
+            {
+              "mean": 21.07823,
+              "changedPixels": 5072
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Drift",
+          "values": [
+            0,
+            0.11,
+            0.3
+          ],
+          "deltas": [
+            {
+              "mean": 16.8546,
+              "changedPixels": 5305
+            },
+            {
+              "mean": 1.68099,
+              "changedPixels": 3641
+            },
+            {
+              "mean": 28.59201,
+              "changedPixels": 5908
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Rise speed",
+          "values": [
+            0,
+            1.11,
+            3
+          ],
+          "deltas": [
+            {
+              "mean": 5.94661,
+              "changedPixels": 4094
+            },
+            {
+              "mean": 12.33594,
+              "changedPixels": 4888
+            },
+            {
+              "mean": 24.90875,
+              "changedPixels": 5467
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 50.08594,
+          "changedPixels": 6462
+        },
+        {
+          "name": "y",
+          "mean": 30.9796,
+          "changedPixels": 6178
+        },
+        {
+          "name": "rotation",
+          "mean": 35.43207,
+          "changedPixels": 6040
+        },
+        {
+          "name": "scale",
+          "mean": 35.45161,
+          "changedPixels": 7937
+        },
+        {
+          "name": "u",
+          "mean": 52.87337,
+          "changedPixels": 6899
+        },
+        {
+          "name": "v",
+          "mean": 29.51877,
+          "changedPixels": 5997
+        },
+        {
+          "name": "scrollX",
+          "mean": 32.65701,
+          "changedPixels": 5996
+        },
+        {
+          "name": "scrollY",
+          "mean": 19.45681,
+          "changedPixels": 5083
+        },
+        {
+          "name": "corners",
+          "mean": 20.61784,
+          "changedPixels": 5077
+        },
+        {
+          "name": "invert",
+          "mean": 214.56695,
+          "changedPixels": 9215
+        },
+        {
+          "name": "polar",
+          "mean": 47.02648,
+          "changedPixels": 6536
+        },
+        {
+          "name": "solidColor",
+          "mean": 15.07745,
+          "changedPixels": 5138
+        },
+        {
+          "name": "opacity",
+          "mean": 19.88976,
+          "changedPixels": 4612
+        },
+        {
+          "name": "seed",
+          "mean": 21.66439,
+          "changedPixels": 5513
+        },
+        {
+          "name": "time",
+          "mean": 7.74023,
+          "changedPixels": 4474
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 30.96549,
+          "changedPixels": 3822
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0.00195,
+          "changedPixels": 18
+        }
+      ]
+    },
+    {
+      "name": "Aurora",
+      "category": "Noise & Organic",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 37.086
+      },
+      "controls": [
+        {
+          "key": "p0",
+          "label": "Curtain height",
+          "values": [
+            0.05,
+            0.25,
+            0.6
+          ],
+          "deltas": [
+            {
+              "mean": 23.88824,
+              "changedPixels": 5615
+            },
+            {
+              "mean": 3.85634,
+              "changedPixels": 5519
+            },
+            {
+              "mean": 14.93587,
+              "changedPixels": 5623
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p1",
+          "label": "Ribbon width",
+          "values": [
+            0.005,
+            0.06,
+            0.15
+          ],
+          "deltas": [
+            {
+              "mean": 5.62587,
+              "changedPixels": 1583
+            },
+            {
+              "mean": 10.07845,
+              "changedPixels": 3389
+            },
+            {
+              "mean": 34.21202,
+              "changedPixels": 5248
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p2",
+          "label": "Wave depth",
+          "values": [
+            0.01,
+            0.12,
+            0.3
+          ],
+          "deltas": [
+            {
+              "mean": 18.24316,
+              "changedPixels": 7347
+            },
+            {
+              "mean": 2.75184,
+              "changedPixels": 4781
+            },
+            {
+              "mean": 22.63921,
+              "changedPixels": 7365
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p3",
+          "label": "Wave count",
+          "values": [
+            1,
+            3.6,
+            8
+          ],
+          "deltas": [
+            {
+              "mean": 24.10059,
+              "changedPixels": 7576
+            },
+            {
+              "mean": 21.68685,
+              "changedPixels": 7548
+            },
+            {
+              "mean": 22.58876,
+              "changedPixels": 7516
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p4",
+          "label": "Streak frequency",
+          "values": [
+            4,
+            40,
+            100
+          ],
+          "deltas": [
+            {
+              "mean": 10.16526,
+              "changedPixels": 5422
+            },
+            {
+              "mean": 8.81087,
+              "changedPixels": 5470
+            },
+            {
+              "mean": 10.07075,
+              "changedPixels": 5506
+            }
+          ],
+          "passed": true
+        },
+        {
+          "key": "p5",
+          "label": "Flow rate",
+          "values": [
+            0,
+            1.11,
+            3
+          ],
+          "deltas": [
+            {
+              "mean": 4.33995,
+              "changedPixels": 5789
+            },
+            {
+              "mean": 9.92318,
+              "changedPixels": 6768
+            },
+            {
+              "mean": 21.30599,
+              "changedPixels": 7223
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "common": [
+        {
+          "name": "x",
+          "mean": 33.74902,
+          "changedPixels": 7765
+        },
+        {
+          "name": "y",
+          "mean": 40.17567,
+          "changedPixels": 8675
+        },
+        {
+          "name": "rotation",
+          "mean": 31.09288,
+          "changedPixels": 7924
+        },
+        {
+          "name": "scale",
+          "mean": 38.02756,
+          "changedPixels": 8536
+        },
+        {
+          "name": "u",
+          "mean": 31.49696,
+          "changedPixels": 7879
+        },
+        {
+          "name": "v",
+          "mean": 37.18468,
+          "changedPixels": 8481
+        },
+        {
+          "name": "scrollX",
+          "mean": 30.12836,
+          "changedPixels": 7616
+        },
+        {
+          "name": "scrollY",
+          "mean": 23.98752,
+          "changedPixels": 7135
+        },
+        {
+          "name": "corners",
+          "mean": 26.57834,
+          "changedPixels": 7164
+        },
+        {
+          "name": "invert",
+          "mean": 189.2411,
+          "changedPixels": 9213
+        },
+        {
+          "name": "polar",
+          "mean": 37.60037,
+          "changedPixels": 9067
+        },
+        {
+          "name": "solidColor",
+          "mean": 16.69188,
+          "changedPixels": 7169
+        },
+        {
+          "name": "opacity",
+          "mean": 21.94586,
+          "changedPixels": 6882
+        },
+        {
+          "name": "seed",
+          "mean": 8.81207,
+          "changedPixels": 5345
+        },
+        {
+          "name": "time",
+          "mean": 5.2883,
+          "changedPixels": 6131
+        },
+        {
+          "name": "uvRepeat (offset UV)",
+          "mean": 21.95302,
+          "changedPixels": 4313
+        },
+        {
+          "name": "feather (inset frame)",
+          "mean": 0,
+          "changedPixels": 0
+        },
+        {
+          "name": "roundness (inset frame)",
+          "mean": 0.13628,
+          "changedPixels": 112
+        }
+      ]
+    }
+  ],
+  "similar": [],
+  "effects": [
+    {
+      "name": "blur",
+      "changedGenerators": [
+        "Circle",
+        "Ring",
+        "Rays",
+        "Polygon",
+        "Quad",
+        "Spiral",
+        "Grid",
+        "Dots",
+        "Lines",
+        "FractalNoise",
+        "FlowNoise",
+        "Cells",
+        "Glitch",
+        "Beam",
+        "Star",
+        "Crystal",
+        "Fire",
+        "Caustics",
+        "Lightning",
+        "Crescent",
+        "Gradient",
+        "Checker",
+        "Metaballs",
+        "Wood",
+        "Grain",
+        "Cross",
+        "Smoke",
+        "Aurora"
+      ],
+      "maximumDelta": 86.66663
+    },
+    {
+      "name": "bloom",
+      "changedGenerators": [
+        "Circle",
+        "Ring",
+        "Rays",
+        "Polygon",
+        "Quad",
+        "Spiral",
+        "Grid",
+        "Dots",
+        "Lines",
+        "FractalNoise",
+        "FlowNoise",
+        "Cells",
+        "Glitch",
+        "Beam",
+        "Star",
+        "Crystal",
+        "Fire",
+        "Caustics",
+        "Lightning",
+        "Crescent",
+        "Gradient",
+        "Checker",
+        "Metaballs",
+        "Wood",
+        "Grain",
+        "Cross",
+        "Smoke",
+        "Aurora"
+      ],
+      "maximumDelta": 66.84494
+    },
+    {
+      "name": "sharpen",
+      "changedGenerators": [
+        "Circle",
+        "Ring",
+        "Rays",
+        "Polygon",
+        "Quad",
+        "Spiral",
+        "Dots",
+        "Lines",
+        "FractalNoise",
+        "FlowNoise",
+        "Cells",
+        "Glitch",
+        "Beam",
+        "Star",
+        "Crystal",
+        "Fire",
+        "Caustics",
+        "Lightning",
+        "Crescent",
+        "Gradient",
+        "Metaballs",
+        "Wood",
+        "Grain",
+        "Cross",
+        "Smoke",
+        "Aurora"
+      ],
+      "maximumDelta": 18.56419
+    },
+    {
+      "name": "pixelation",
+      "changedGenerators": [
+        "Ring",
+        "Spiral",
+        "FlowNoise",
+        "Cells",
+        "Fire",
+        "Caustics",
+        "Gradient",
+        "Wood",
+        "Grain"
+      ],
+      "maximumDelta": 30.41739
+    },
+    {
+      "name": "chromatic",
+      "changedGenerators": [
+        "Circle",
+        "Ring",
+        "Rays",
+        "Polygon",
+        "Quad",
+        "Spiral",
+        "Grid",
+        "Dots",
+        "Lines",
+        "FractalNoise",
+        "FlowNoise",
+        "Cells",
+        "Glitch",
+        "Beam",
+        "Star",
+        "Crystal",
+        "Fire",
+        "Caustics",
+        "Lightning",
+        "Crescent",
+        "Gradient",
+        "Checker",
+        "Metaballs",
+        "Wood",
+        "Grain",
+        "Cross",
+        "Smoke",
+        "Aurora"
+      ],
+      "maximumDelta": 106.99479
+    },
+    {
+      "name": "vignette",
+      "changedGenerators": [
+        "Circle",
+        "Ring",
+        "Rays",
+        "Polygon",
+        "Quad",
+        "Spiral",
+        "Grid",
+        "Dots",
+        "Lines",
+        "FractalNoise",
+        "FlowNoise",
+        "Cells",
+        "Glitch",
+        "Beam",
+        "Star",
+        "Crystal",
+        "Fire",
+        "Caustics",
+        "Lightning",
+        "Crescent",
+        "Gradient",
+        "Checker",
+        "Metaballs",
+        "Wood",
+        "Grain",
+        "Cross",
+        "Smoke",
+        "Aurora"
+      ],
+      "maximumDelta": 40.34516
+    },
+    {
+      "name": "scanlines",
+      "changedGenerators": [
+        "Circle",
+        "Ring",
+        "Rays",
+        "Polygon",
+        "Quad",
+        "Spiral",
+        "Grid",
+        "Dots",
+        "Lines",
+        "FractalNoise",
+        "FlowNoise",
+        "Cells",
+        "Glitch",
+        "Beam",
+        "Star",
+        "Crystal",
+        "Fire",
+        "Caustics",
+        "Lightning",
+        "Crescent",
+        "Gradient",
+        "Checker",
+        "Metaballs",
+        "Wood",
+        "Grain",
+        "Cross",
+        "Smoke",
+        "Aurora"
+      ],
+      "maximumDelta": 54.5153
+    },
+    {
+      "name": "kaleidoscope",
+      "changedGenerators": [
+        "Ring",
+        "Rays",
+        "Polygon",
+        "Quad",
+        "Spiral",
+        "Grid",
+        "Dots",
+        "Lines",
+        "FractalNoise",
+        "FlowNoise",
+        "Cells",
+        "Glitch",
+        "Beam",
+        "Star",
+        "Crystal",
+        "Fire",
+        "Caustics",
+        "Lightning",
+        "Crescent",
+        "Gradient",
+        "Checker",
+        "Metaballs",
+        "Wood",
+        "Grain",
+        "Cross",
+        "Smoke",
+        "Aurora"
+      ],
+      "maximumDelta": 105.61928
+    },
+    {
+      "name": "mirror",
+      "changedGenerators": [
+        "Circle",
+        "Ring",
+        "Rays",
+        "Polygon",
+        "Quad",
+        "Spiral",
+        "Grid",
+        "Dots",
+        "Lines",
+        "FractalNoise",
+        "FlowNoise",
+        "Cells",
+        "Glitch",
+        "Beam",
+        "Star",
+        "Crystal",
+        "Fire",
+        "Caustics",
+        "Lightning",
+        "Crescent",
+        "Gradient",
+        "Checker",
+        "Metaballs",
+        "Wood",
+        "Grain",
+        "Cross",
+        "Smoke",
+        "Aurora"
+      ],
+      "maximumDelta": 47.06028
+    },
+    {
+      "name": "swirl",
+      "changedGenerators": [
+        "Ring",
+        "Rays",
+        "Polygon",
+        "Quad",
+        "Spiral",
+        "Grid",
+        "Dots",
+        "Lines",
+        "FractalNoise",
+        "FlowNoise",
+        "Cells",
+        "Glitch",
+        "Beam",
+        "Star",
+        "Crystal",
+        "Fire",
+        "Caustics",
+        "Lightning",
+        "Crescent",
+        "Gradient",
+        "Checker",
+        "Metaballs",
+        "Wood",
+        "Grain",
+        "Cross",
+        "Smoke",
+        "Aurora"
+      ],
+      "maximumDelta": 108.80384
+    },
+    {
+      "name": "edge",
+      "changedGenerators": [
+        "Circle",
+        "Ring",
+        "Rays",
+        "Polygon",
+        "Quad",
+        "Spiral",
+        "Grid",
+        "Dots",
+        "Lines",
+        "FractalNoise",
+        "FlowNoise",
+        "Cells",
+        "Glitch",
+        "Beam",
+        "Star",
+        "Crystal",
+        "Fire",
+        "Caustics",
+        "Lightning",
+        "Crescent",
+        "Gradient",
+        "Checker",
+        "Metaballs",
+        "Wood",
+        "Grain",
+        "Cross",
+        "Smoke",
+        "Aurora"
+      ],
+      "maximumDelta": 93.23278
+    },
+    {
+      "name": "toon",
+      "changedGenerators": [
+        "Circle",
+        "Ring",
+        "Rays",
+        "Polygon",
+        "Quad",
+        "Spiral",
+        "Dots",
+        "Lines",
+        "FractalNoise",
+        "FlowNoise",
+        "Cells",
+        "Glitch",
+        "Beam",
+        "Star",
+        "Crystal",
+        "Fire",
+        "Caustics",
+        "Lightning",
+        "Crescent",
+        "Gradient",
+        "Metaballs",
+        "Wood",
+        "Grain",
+        "Cross",
+        "Smoke",
+        "Aurora"
+      ],
+      "maximumDelta": 14.72765
+    },
+    {
+      "name": "colorMap",
+      "changedGenerators": [
+        "Circle",
+        "Ring",
+        "Rays",
+        "Polygon",
+        "Quad",
+        "Spiral",
+        "Grid",
+        "Dots",
+        "Lines",
+        "FractalNoise",
+        "FlowNoise",
+        "Cells",
+        "Glitch",
+        "Beam",
+        "Star",
+        "Crystal",
+        "Fire",
+        "Caustics",
+        "Lightning",
+        "Crescent",
+        "Gradient",
+        "Checker",
+        "Metaballs",
+        "Wood",
+        "Grain",
+        "Cross",
+        "Smoke",
+        "Aurora"
+      ],
+      "maximumDelta": 25.42978
+    },
+    {
+      "name": "vignetteMask",
+      "changedGenerators": [
+        "Circle",
+        "Ring",
+        "Rays",
+        "Polygon",
+        "Quad",
+        "Spiral",
+        "Grid",
+        "Dots",
+        "Lines",
+        "FractalNoise",
+        "FlowNoise",
+        "Cells",
+        "Glitch",
+        "Beam",
+        "Star",
+        "Crystal",
+        "Fire",
+        "Caustics",
+        "Lightning",
+        "Crescent",
+        "Gradient",
+        "Checker",
+        "Metaballs",
+        "Wood",
+        "Grain",
+        "Cross",
+        "Smoke",
+        "Aurora"
+      ],
+      "maximumDelta": 53.51035
+    }
+  ],
+  "gradientChecks": [
+    {
+      "name": "middle stop position",
+      "changedGenerators": [
+        "Circle",
+        "Ring",
+        "Rays",
+        "Polygon",
+        "Quad",
+        "Spiral",
+        "Dots",
+        "Lines",
+        "FractalNoise",
+        "FlowNoise",
+        "Cells",
+        "Glitch",
+        "Beam",
+        "Star",
+        "Crystal",
+        "Fire",
+        "Caustics",
+        "Lightning",
+        "Crescent",
+        "Gradient",
+        "Metaballs",
+        "Wood",
+        "Grain",
+        "Cross",
+        "Smoke",
+        "Aurora"
+      ]
+    },
+    {
+      "name": "fourth stop color",
+      "changedGenerators": [
+        "Circle",
+        "Ring",
+        "Rays",
+        "Polygon",
+        "Quad",
+        "Spiral",
+        "Grid",
+        "Dots",
+        "Lines",
+        "FractalNoise",
+        "FlowNoise",
+        "Cells",
+        "Glitch",
+        "Beam",
+        "Star",
+        "Crystal",
+        "Fire",
+        "Caustics",
+        "Lightning",
+        "Crescent",
+        "Gradient",
+        "Checker",
+        "Metaballs",
+        "Wood",
+        "Grain",
+        "Cross",
+        "Smoke",
+        "Aurora"
+      ]
+    }
+  ],
+  "browserErrors": []
+}

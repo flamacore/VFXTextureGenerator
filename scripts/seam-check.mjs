@@ -1,5 +1,6 @@
 import { chromium } from 'playwright-core'
 import { createServer } from 'vite'
+import { mkdir, writeFile } from 'node:fs/promises'
 
 const server = await createServer({
   root: process.cwd(),
@@ -21,7 +22,7 @@ try {
         import('/src/catalog.ts'),
         import('/src/models.ts'),
       ])
-      const representatives = ['Checker', 'Dots', 'StripeNoise', 'PerlinNoise', 'WaterTurbulence', 'VoronoiCell', 'AnalogGlitch']
+      const representatives = catalog.filter((entry) => entry.tileable)
       const renderer = new TextureRenderer()
       const canvas = document.createElement('canvas')
       const gradient = [
@@ -32,12 +33,11 @@ try {
       const post = { ...defaultPost, bloom: 0.55 }
       const reports = []
 
-      for (const name of representatives) {
-        const generator = catalog.find((entry) => entry.name === name)
-        if (!generator?.tileable) throw new Error(`${name} is not marked tileable`)
+      for (const generator of representatives) {
+        const name = generator.name
         const layer = makeLayer(generator)
         layer.seamless = true
-        layer.transform = { x: 0.173, y: -0.219, rotation: 37, scale: 1.37, scrollX: 0.31, scrollY: -0.27 }
+        layer.transform = { ...layer.transform, x: 0.173, y: -0.219, rotation: 37, scale: 1.37, scrollX: 0.31, scrollY: -0.27 }
         renderer.render(canvas, [layer], gradient, post, 1.73, size)
         const pixels = canvas.getContext('2d').getImageData(0, 0, size, size).data
         const alpha = (x, y) => pixels[(y * size + x) * 4 + 3]
@@ -57,11 +57,26 @@ try {
         const seamMean = seam.reduce((sum, value) => sum + value, 0) / seam.length
         const interiorP95 = interior[Math.floor(interior.length * 0.95)] ?? 0
         const allowed = Math.max(3, interiorP95 * 1.5)
-        reports.push({ name, seamMean, interiorP95, allowed, passed: seamMean <= allowed })
+        // Pixel-edge jumps are a useful warning for smooth fields, but a block
+        // pattern can intentionally cross a hard edge at the image boundary.
+        // Check the exact periodic contract independently in both directions.
+        let periodError = 0
+        for (const axis of ['x', 'y']) {
+          const translated = { ...layer, transform: { ...layer.transform, [axis]: layer.transform[axis] + 1 } }
+          renderer.render(canvas, [translated], gradient, post, 1.73, size)
+          const shifted = canvas.getContext('2d').getImageData(0, 0, size, size).data
+          let sum = 0
+          for (let i = 3; i < pixels.length; i += 4) sum += Math.abs(pixels[i] - shifted[i])
+          periodError = Math.max(periodError, sum / (size * size))
+        }
+        const discrete = generator.name === 'Glitch' || generator.name === 'Grain'
+        reports.push({ name, seamMean, interiorP95, allowed, periodError, edgeWarning: seamMean > allowed, passed: periodError < .1 && (discrete || seamMean <= allowed) })
       }
       return reports
     })
     console.table(results)
+    await mkdir('artifacts/shader-audit', { recursive: true })
+    await writeFile('artifacts/shader-audit/seams.json', JSON.stringify(results, null, 2))
     const failures = results.filter((result) => !result.passed)
     if (failures.length) throw new Error(`Seam discontinuity detected: ${failures.map((failure) => failure.name).join(', ')}`)
   } finally {

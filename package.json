@@ -1,7 +1,7 @@
 {
   "name": "vfxtexturegenerator",
   "private": true,
-  "version": "0.1.2",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,6 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:seams": "node scripts/seam-check.mjs",
+    "test:shaders": "node scripts/shader-audit.mjs",
+    "test:ui": "node scripts/ui-check.mjs",
     "generate:thumbnails": "node scripts/generate-thumbnails.mjs",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",

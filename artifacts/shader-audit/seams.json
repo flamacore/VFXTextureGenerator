@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Grid",
+    "seamMean": 13.0546875,
+    "interiorP95": 240,
+    "allowed": 360,
+    "periodError": 0,
+    "edgeWarning": false,
+    "passed": true
+  },
+  {
+    "name": "Dots",
+    "seamMean": 6.015625,
+    "interiorP95": 70,
+    "allowed": 105,
+    "periodError": 0.00006103515625,
+    "edgeWarning": false,
+    "passed": true
+  },
+  {
+    "name": "Lines",
+    "seamMean": 43.12109375,
+    "interiorP95": 228,
+    "allowed": 342,
+    "periodError": 0,
+    "edgeWarning": false,
+    "passed": true
+  },
+  {
+    "name": "FractalNoise",
+    "seamMean": 3.6484375,
+    "interiorP95": 9,
+    "allowed": 13.5,
+    "periodError": 0,
+    "edgeWarning": false,
+    "passed": true
+  },
+  {
+    "name": "FlowNoise",
+    "seamMean": 16.296875,
+    "interiorP95": 49,
+    "allowed": 73.5,
+    "periodError": 0,
+    "edgeWarning": false,
+    "passed": true
+  },
+  {
+    "name": "Cells",
+    "seamMean": 28.20703125,
+    "interiorP95": 209,
+    "allowed": 313.5,
+    "periodError": 0.0001220703125,
+    "edgeWarning": false,
+    "passed": true
+  },
+  {
+    "name": "Glitch",
+    "seamMean": 60.31640625,
+    "interiorP95": 34,
+    "allowed": 51,
+    "periodError": 0,
+    "edgeWarning": true,
+    "passed": true
+  },
+  {
+    "name": "Caustics",
+    "seamMean": 17.546875,
+    "interiorP95": 112,
+    "allowed": 168,
+    "periodError": 0.00006103515625,
+    "edgeWarning": false,
+    "passed": true
+  },
+  {
+    "name": "Checker",
+    "seamMean": 93.046875,
+    "interiorP95": 157,
+    "allowed": 235.5,
+    "periodError": 0,
+    "edgeWarning": false,
+    "passed": true
+  },
+  {
+    "name": "Grain",
+    "seamMean": 78.4296875,
+    "interiorP95": 214,
+    "allowed": 321,
+    "periodError": 0,
+    "edgeWarning": false,
+    "passed": true
+  }
+]

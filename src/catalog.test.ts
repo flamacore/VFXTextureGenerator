@@ -1,22 +1,24 @@
 import { describe, expect, it } from 'vitest'
-import { catalog, categories, resolveGenerator } from './catalog'
+import { catalog, categories, resolveGenerator, legacyAliases } from './catalog'
 import { defaultPost, makeLayer, normalizeTransform } from './models'
 
 describe('generator catalog', () => {
-  it('contains a unique condensed generator inventory', () => {
-    expect(catalog).toHaveLength(90)
-    expect(new Set(catalog.map((generator) => generator.name)).size).toBe(90)
-    expect(catalog.some((generator) => generator.name === 'Quad')).toBe(true)
-    expect(catalog.some((generator) => generator.name === 'WaveRing')).toBe(true)
-    expect(catalog.some((generator) => generator.name === 'WaveRingSine')).toBe(false)
-    expect(resolveGenerator('WaveRingSine')?.name).toBe('WaveRing')
-    expect(resolveGenerator('EnergyRing')?.name).toBe('Ring')
-    expect(categories.length).toBeGreaterThanOrEqual(5)
+  it('contains 28 distinct algorithms and resolves all legacy presets', () => {
+    expect(catalog).toHaveLength(28)
+    expect(new Set(catalog.map(g => g.name)).size).toBe(catalog.length)
+    expect(new Set(catalog.map(g => g.recipe[2])).size).toBe(catalog.length)
+    expect(categories).toHaveLength(5)
+    for (const name of Object.keys(legacyAliases)) expect(resolveGenerator(name)).toBeDefined()
+    expect(resolveGenerator('WaveRingSine')?.name).toBe('Ring')
+    expect(resolveGenerator('PerlinNoise')?.name).toBe('FractalNoise')
+    expect(resolveGenerator('Crystal')?.name).toBe('Crystal')
   })
 
-  it('defines valid parameter bounds and defaults', () => {
+  it('exposes only valid authored controls and capabilities', () => {
     for (const generator of catalog) {
-      expect(generator.parameters).toHaveLength(6)
+      expect(generator.description.length).toBeGreaterThan(20)
+      expect(generator.parameters.length).toBeGreaterThanOrEqual(3)
+      expect(generator.parameters.length).toBeLessThanOrEqual(6)
       for (const parameter of generator.parameters) {
         expect(parameter.min).toBeLessThan(parameter.max)
         expect(parameter.default).toBeGreaterThanOrEqual(parameter.min)
@@ -24,24 +26,9 @@ describe('generator catalog', () => {
         expect(generator.defaults[parameter.key]).toBe(parameter.default)
       }
     }
-  })
-
-  it('assigns every generator an independent schema and recipe', () => {
-    const schemas = catalog.map((generator) => generator.parameters.map((parameter) => parameter.label).join('|'))
-    const recipes = catalog.map((generator) => generator.recipe.join(','))
-    expect(new Set(schemas).size).toBe(catalog.length)
-    expect(new Set(recipes).size).toBe(catalog.length)
-    expect(catalog.every((generator) => generator.parameters[0].label.startsWith(generator.name))).toBe(true)
-  })
-
-  it('exposes seamless tiling only for periodic generator profiles', () => {
-    const byName = (name: string) => catalog.find((generator) => generator.name === name)!
-    expect(byName('Checker').tileable).toBe(true)
-    expect(byName('PerlinNoise').tileable).toBe(true)
-    expect(byName('VoronoiCell').tileable).toBe(true)
-    expect(byName('Circle').tileable).toBe(false)
-    expect(byName('LaserBeam').tileable).toBe(false)
-    expect(byName('Quad').tileable).toBe(false)
+    expect(resolveGenerator('Checker')?.tileable).toBe(true)
+    expect(resolveGenerator('Fire')?.tileable).toBe(false)
+    expect(resolveGenerator('Star')?.seeded).toBe(false)
   })
 
   it('creates independent serializable layers', () => {

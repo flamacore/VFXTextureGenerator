@@ -1,7 +1,7 @@
 import type { GradientStop, Layer, PostSettings } from './models'
 import { identityCorners } from './models'
 
-const PROFILE_COUNT = 14
+export const PROFILE_COUNT = 28
 
 const vertex = `#version 300 es
 in vec2 p; out vec2 uv;
@@ -14,7 +14,9 @@ uniform vec2 resolution, offset, scroll, uvOffset, corner0, corner1, corner2, co
 uniform float time, rotation, transformScale, p0, p1, p2, p3, p4, p5, seed, cornerFeather, cornerRound;
 uniform int kind, polarMode, invertMode, solidMode, seamlessMode, warpMode, uvRepeatMode;
 uniform vec4 recipe;
-uniform vec3 colorA,colorB,colorC,solidColor;
+uniform vec3 gradientColors[8],solidColor;
+uniform float gradientPositions[8];
+uniform int gradientCount;
 uniform vec3 postA,postB,postC,postD,postE;
 
 const float TAU=6.283185307179586;
@@ -39,19 +41,14 @@ float lineSD(vec2 p,vec2 a,vec2 b){
  return dot(p-a,vec2(e.y,-e.x)/l);
 }
 vec2 invBilinear(vec2 p,vec2 a,vec2 b,vec2 c,vec2 d){
- vec2 e=b-a,f=d-a,g=a-b+c-d,h=p-a;
- float k2=g.x*f.y-g.y*f.x,k1=e.x*f.y-e.y*f.x+h.x*g.y-h.y*g.x,k0=h.x*e.y-h.y*e.x;
- float u=0.,v=0.;
- if(abs(k2)<1e-4){
-  v=-k0/max(1e-5,k1);u=(h.x-f.x*v)/max(1e-5,e.x+g.x*v);
- }else{
-  float w=k1*k1-4.*k2*k0;if(w<0.)return vec2(-1.);
-  w=sqrt(w);
-  float v1=(-k1-w)/(2.*k2),v2=(-k1+w)/(2.*k2);
-  v=(v1>=0.&&v1<=1.)?v1:v2;
-  u=(h.x-f.x*v)/max(1e-5,e.x+g.x*v);
+ vec2 e=b-a,f=d-a,g=a-b+c-d,st=vec2(.5);
+ for(int j=0;j<12;j++){
+  vec2 residual=a+e*st.x+f*st.y+g*st.x*st.y-p;
+  vec2 du=e+g*st.y,dv=f+g*st.x;float det=du.x*dv.y-du.y*dv.x;
+  if(abs(det)<1e-7)break;
+  st-=vec2(residual.x*dv.y-residual.y*dv.x,du.x*residual.y-du.y*residual.x)/det;
  }
- return vec2(u,v);
+ return st;
 }
 float quadMask(vec2 p,float feather,float roundness){
  float k=roundness*.5;
@@ -94,113 +91,110 @@ vec2 periodicCell(vec2 p,vec2 period){
 }`
 
 const glslPolygon = `
-float polygon(vec2 q,float sides,float radius){float a=atan(q.y,q.x),sector=6.283185/max(3.,floor(sides));return cos(floor(.5+a/sector)*sector-a)*length(q)-radius;}`
+float polygon(vec2 q,float sides,float radius){
+ float count=clamp(floor(sides),3.,16.),nearest=100.;bool inside=true;
+ for(int i=0;i<16;i++){
+  if(float(i)>=count)break;
+  float a=TAU*float(i)/count,b=TAU*(float(i)+1.)/count;
+  vec2 v=radius*vec2(cos(a),sin(a)),edge=radius*vec2(cos(b),sin(b))-v,rel=q-v;
+  float h=clamp(dot(rel,edge)/max(dot(edge,edge),1e-8),0.,1.);
+  nearest=min(nearest,length(rel-edge*h));
+  if(edge.x*rel.y-edge.y*rel.x<0.)inside=false;
+ }
+ return inside?-nearest:nearest;
+}`
 
 const glslEven = `
 float compatibleEven(float x){return 2.*max(1.,floor(abs(x)*.5+.5));}`
 
 const patternHeader = `
 float pattern(vec2 q){
- float family=recipe.x,variant=recipe.y,spice=recipe.w;
- float r=length(q),a=atan(q.y,q.x),phase=time*p5+variant*.731+family*.417;
- float signature=fract(variant*.6180339+spice*.137+family*.193);
+ float r=length(q),a=atan(q.y,q.x),phase=time*p5;
 `
 
+// Each entry is a distinct algorithm. Parameters map directly to catalog slots.
 const patternBodies = [
-  `float radius=p0*(1.+p3*.08*sin(a*(2.+mod(variant+family,7.))+phase));
-  float body=aa(max(r-radius,0.),p1),fall=exp(-max(0.,r-radius)*p4*4.);
-  float cres=aa(max(length(q+vec2(radius*.35,0.))-radius*.82,0.),p1);
-  if(kind==1)return smoothstep(radius-p1,radius+p1,r);
-  if(kind==6)return abs(body-cres)*p3;
-  return mix(body*fall,body*(.65+.35*cos(a*(2.+variant)+phase)),signature*.28)*p3;`,
-  `float wr=p0+p3*sin(a*p2+phase)*p0;
-  float ring=aa(abs(r-wr)-p1,p4),echo=aa(abs(r-(p0+p1*3.))-p1*.35,p4);
-  float radial=aa(abs(fract(r/max(.01,p0)*(.5+signature*3.))-.5)-p1,p4);
-  return mix(mix(ring,max(ring,echo),signature*.55),radial,step(.72,signature))*p5;`,
-  `float rays=pow(abs(cos(a*p1+phase+sin(r*(8.+variant+family))*p5*.3)),p2);
-  float spokes=pow(max(0.,cos(a*(p1*.5+spice)+phase)),p2*.7);
-  return max(exp(-r/max(.004,p4)),mix(rays,spokes,signature)*exp(-r*p3))*(.7+p5*.3);`,
-  `float sides=max(3.,p1+mod(variant+family,4.)-1.);
-  vec2 z=q+p5*(noise(q*7.+phase)-.5);
-  float d=polygon(z,sides,p0),fill=aa(max(d,0.),p2),outline=aa(abs(d)-p4,p2);
-  float star=aa(max(polygon(z,sides,p0*(.7+.3*cos(a*sides))),0.),p2);
-  return mix(mix(fill,outline,step(.01,p4)),star,signature*.5)*(1.-p3*.25*abs(sin(a*sides)));`,
-  `vec2 p=q+.5;float fillet=clamp(p2+cornerRound,.0,.45);vec2 inset=vec2(p1*.45);
-  vec2 d=abs(p*2.-1.)-(vec2(1.)-inset-fillet);
-  float sd=length(max(d,0.))+min(max(d.x,d.y),0.)-fillet;
-  return aa(sd,max(.001,p3)+cornerFeather)*clamp(p0,0.,1.)*(1.-p4*length(p-.5));`,
-  `float arms=max(1.,p1+mod(variant+family,3.));
-  float wave=abs(sin(a*arms+r*p2+phase+fbm(q*4.,4.,2.,.5)*p5));
-  return aa(wave-p3,p3*.25)*exp(-r*p4);`,
-  `float cycles=seamlessMode==1?compatibleEven(p0):p0;
-  vec2 z=q*cycles,id=floor(z),f=fract(z)-.5;f.x+=step(.5,mod(id.y,2.))*p3*.5;
-  float lines=min(abs(f.x),abs(f.y)),checker=mod(id.x+id.y+floor(variant*.5),2.);
-  float cells=step(p2,max(abs(f.x),abs(f.y))),grid=aa(lines-p1,p3);
-  float h=seamlessMode==1?periodicHash(id,vec2(cycles)):hash(id);
-  return mix(mix(cells,checker,signature),grid,step(.62,signature))*(1.-p4+p4*h);`,
-  `float cycles=seamlessMode==1?compatibleEven(p0):p0;
-  vec2 z=q*cycles,id=floor(z),f=fract(z)-.5;f.x+=step(.5,mod(id.y,2.))*p2;
-  float h=seamlessMode==1?periodicHash(id,vec2(cycles)):hash(id);
-  float h2=seamlessMode==1?periodicHash(id+31.,vec2(cycles)):hash(id+31.);
-  float radius=p1*(1.+p4*(h-.5));
-  return aa(length(f)-radius,p3)*step(1.-p5,h2);`,
-  `float cycles=seamlessMode==1?positiveInt(p0):p0;
-  vec2 z=q*cycles;
-  float nfreq=positiveInt(cycles*.35),bend;
-  if(seamlessMode==1)bend=p2*sin(TAU*positiveInt(p3)*q.y+phase)+p5*(periodicNoise(q*nfreq,vec2(nfreq))-.5);
-  else bend=p2*sin(z.y*p3+phase)+p5*(noise(z*.35)-.5);
-  float stripe=abs(fract(z.x+bend+variant*.071)-.5),second=abs(fract(z.y-bend*.4)-.5);
-  return mix(aa(stripe-p1*.5,p4),aa(min(stripe,second)-p1*.5,p4),step(.5,signature));`,
-  `float freq=seamlessMode==1?positiveInt(p0):p0;
-  float n=seamlessMode==1?periodicFbm(q*freq+vec2(time*p5),vec2(freq),p1,p2,p3):fbm(q*p0+vec2(time*p5),p1,p2,p3);
-  float ridge=1.-abs(n*2.-1.);
-  float billow=abs(n*2.-1.);
-  return pow(clamp(mix(mix(n,ridge,signature),billow,step(.8,signature)),0.,1.),p4);`,
-  `float freq=seamlessMode==1?positiveInt(p0):p0;
-  vec2 z=q*freq;
-  for(int j=0;j<5;j++){
-   if(float(j)>=p2)break;
-   float n=seamlessMode==1?periodicNoise(z+phase,vec2(freq)):noise(z+phase);
-   if(seamlessMode==1)z+=p1*vec2(sin(TAU*z.y/freq+n*TAU+phase),cos(TAU*z.x/freq-n*TAU-phase))*.22;
-   else z+=p1*vec2(sin(z.y+n+phase),cos(z.x-n-phase))*.22;
-  }
-  float bands=seamlessMode==1
-   ?sin(TAU*(z.x+z.y)/freq+periodicFbm(z,vec2(freq),4.,2.,.5)*4.+phase)*.5+.5
-   :sin(z.x+z.y+fbm(z,4.,2.,.5)*4.+phase)*.5+.5;
-  return pow(smoothstep(p3*.25,1.-p3*.25,bands),p4);`,
-  `float freq=seamlessMode==1?positiveInt(p0):p0;
-  vec2 cp=q*freq+vec2(time*p5*.15);
-  vec2 c=seamlessMode==1?periodicCell(cp,vec2(freq)):cell(cp);
-  return mix(aa((c.y-c.x)-p1,p3),aa(c.x-p4,p3),signature);`,
-  `float cycles=seamlessMode==1?positiveInt(p0):p0;
-  vec2 z=q*cycles;float row=floor(z.y),clock=floor(time*p5*8.);
-  float groups=positiveInt(cycles/max(.001,abs(p2))),groupWidth=cycles/groups;
-  float gate=seamlessMode==1
-   ?periodicHash(vec2(row,clock+floor(z.x/groupWidth)),vec2(cycles,groups))
-   :hash(vec2(row,clock+floor(z.x/p2)));
-  float shifted=z.x+p3*(gate-.5);
-  float block=seamlessMode==1
-   ?periodicHash(vec2(floor(shifted),row+clock),vec2(cycles))
-   :hash(vec2(floor(shifted),row+clock));
-  float nfreq=positiveInt(cycles*.2);
-  float n=seamlessMode==1?periodicNoise(q*vec2(nfreq,cycles),vec2(nfreq,cycles)):noise(z*vec2(.2,1.));
-  return smoothstep(p1-.06,p1+.06,mix(block,n,p4));`,
-  `float beam;
- if(seamlessMode==1){
-  float lineCycles=positiveInt(p2),noiseCycles=positiveInt(p3);
-  float d=abs(sin(3.141592653589793*lineCycles*q.y))/(3.141592653589793*lineCycles);
-  beam=exp(-d/max(.001,p1))*exp(-d*p2);
-  beam*=1.+p4*(periodicNoise(vec2(q.x*noiseCycles,time*p5),vec2(noiseCycles,1.))-.5);
- }else{
-  beam=exp(-abs(q.y)/max(.001,p1))*exp(-abs(q.y)*p2);
-  beam*=1.+p4*(noise(vec2(q.x*p3,time*p5))- .5);
- }
- return beam*p5;`,
+ `float d=length(q*vec2(1./p2,1.));return pow(aa(d-p0,p1),p4)*p3;`,
+ `float d=abs(r-(p0+p3*sin(a*p2+phase)));return aa(d-p1,p4);`,
+ `float rays=pow(.5+.5*cos(a*p1+phase),p2);return max(exp(-r/p4),rays*exp(-pow(r/p0,p3)*3.));`,
+ `float d=polygon(q,p1,max(.001,p0-p3))-p3;return p4>.0001?aa(abs(d)-p4,p2):aa(d,p2);`,
+ `vec2 halfSize=vec2(p0,p1)*.5;float round=min(p2,min(halfSize.x,halfSize.y));vec2 z=abs(q)-halfSize+round;
+ float d=length(max(z,0.))+min(max(z.x,z.y),0.)-round;return aa(d,p3)*(1.-p4*clamp(1.+d/max(.01,min(halfSize.x,halfSize.y)),0.,1.));`,
+ `float wave=abs(sin((a*p1+r/p0*p2+phase+fbm(q*5.,4.,2.,.5)*p4)*.5));return aa(wave-p3,.03)*aa(r-p0,.04);`,
+ `vec2 z=q*vec2(p0,p0*p2);vec2 d=abs(fract(z+.5)-.5);return aa(min(d.x,d.y)-p1,p3);`,
+ `float cycles=seamlessMode==1?compatibleEven(p0):p0;vec2 z=q*cycles;float row=floor(z.y);z.x+=mod(row,2.)*p2;
+ vec2 id=floor(z),f=fract(z)-.5;float h=periodicHash(id,vec2(cycles));float h2=periodicHash(id+31.,vec2(cycles));
+ return aa(length(f)-p1*(1.+p4*(h-.5)),p3)*step(1.-p5,h2);`,
+ `float cycles=seamlessMode==1?positiveInt(p0):p0;float wave=p2*sin(TAU*p3*q.y+phase);return aa(abs(fract(q.x*cycles+wave)-.5)-p1*.5,p4);`,
+ `float freq=seamlessMode==1?positiveInt(p0):p0;float n=seamlessMode==1?periodicFbm(q*freq+phase,vec2(freq),p1,p2,p3):fbm(q*freq+phase,p1,p2,p3);
+ float norm=.5*(1.-pow(p3,p1))/(1.-p3);return pow(clamp(n/max(.001,norm),0.,1.),p4);`,
+ `float freq=seamlessMode==1?positiveInt(p0):p0;vec2 z=q*freq;
+ for(int j=0;j<8;j++){if(float(j)>=p2)break;float n=periodicNoise(z+phase,vec2(freq));z+=p1*vec2(sin(TAU*z.y/freq+n*TAU+phase),cos(TAU*z.x/freq-n*TAU-phase))*.22;}
+ float n=periodicFbm(z+phase,vec2(freq),4.,2.,.5);float ridge=1.-abs(2.*n-1.);return pow(smoothstep(p3,1.,ridge),p4);`,
+ `float freq=seamlessMode==1?positiveInt(p0):p0;vec2 cp=q*freq+phase*.15;vec2 c=seamlessMode==1?periodicCell(cp,vec2(freq)):cell(cp);
+ return mix(aa(c.y-c.x-p1,p3),1.-smoothstep(0.,.8,c.x),p4);`,
+ `float cycles=seamlessMode==1?positiveInt(p0):p0;vec2 z=q*cycles;float row=floor(z.y),clock=floor(phase*8.);
+ float gate=periodicHash(vec2(row,clock),vec2(cycles));z.x+=p3*(gate-.5)*cycles;
+ float groups=max(1.,floor(cycles/p2));float block=periodicHash(vec2(floor(z.x/cycles*groups),row+clock),vec2(groups,cycles));
+ float n=periodicNoise(q*cycles,vec2(cycles));return smoothstep(p1-.04,p1+.04,mix(block,n,p4));`,
+ `float d=abs(q.y);float pulse=.75+.25*cos(q.x*p3*TAU-phase*4.);float n=1.+p4*(noise(vec2(q.x*20.,phase))-.5);
+ return (exp(-d/p1)+.45*exp(-pow(d/p0,p2)))*pulse*n;`,
+ `float sector=TAU/p1;float angle=mod(a+1.57079632679+sector*.5,sector)-sector*.5;
+ vec2 v0=vec2(p0,0.),v1=vec2(cos(sector*.5),sin(sector*.5))*p0*p2;vec2 z=vec2(cos(abs(angle)),sin(abs(angle)))*r;
+ vec2 edge=v1-v0;float d=(edge.x*(z.y-v0.y)-edge.y*(z.x-v0.x))/length(edge);d=-d;
+ return p4>.0001?aa(abs(d)-p4,p3):aa(d,p3);`,
+ `vec2 z=abs(q)/vec2(p0,p1);float bound=1.-max(0.,(z.y-(1.-p3))/p3);float d=max(z.y-1.,z.x-bound)*min(p0,p1);
+ float facet=q.x<0.? .45:.9;facet=mix(facet,.7,step(z.x,z.y*.6));return aa(d,p4)*mix(1.,facet,p2);`,
+ `float h=(q.y+.48)/p1;vec2 z=vec2(q.x*p3/p0*.3,h*p3-phase*3.);
+ float n=fbm(z,5.,2.,.5);float tongues=(n-.5)*p2+sin(q.x/p0*p3*3.+phase*2.)*.12*p2;
+ float envelope=1.-abs(q.x)/p0-h+ tongues;float detail=fbm(z*2.+17.,3.,2.,.5);
+ return smoothstep(0.,.12,envelope)*smoothstep(0.,.08,h)*(1.-smoothstep(.85,1.1,h))*clamp(.65+detail*p4-h*.45,0.,1.);`,
+ `float freq=seamlessMode==1?positiveInt(p0):p0;vec2 z=q*freq*TAU;
+ float n=periodicNoise(q*freq+phase,vec2(freq));z+=p2*n*TAU;
+ float w=sin(z.x+phase)+sin(z.y-phase)+p3*sin(z.x+z.y+phase*.7+seed*.01);
+ return pow(exp(-abs(w)/p1),p4);`,
+ `float y=q.y/p0+.5;float clock=floor(phase*6.);float jag=(noise(vec2(y*p3,clock))-.5)*p2;
+ float d=abs(q.x-jag);float branch=abs(q.x-jag-(y-.5)*p4*2.);branch+=max(0.,.45-y);
+ float arc=min(d,branch);return (exp(-arc/p1)+.25*exp(-arc/(p1*4.)))*aa(abs(q.y)-p0*.5,.02);`,
+ `float outer=aa(r-p0,p3);float cut=aa(length(q-vec2(p1,0.))-p0*p2,p3);return outer*(1.-cut);`,
+ `float lo=min(p0,p1),hi=max(p0,p1);return pow(clamp((q.x+.5-lo)/max(.001,hi-lo),0.,1.),p2);`,
+ `float freq=seamlessMode==1?compatibleEven(p0):p0;vec2 f=fract(q*freq*.5);vec2 v=smoothstep(vec2(p1-p2),vec2(p1+p2),f);return abs(v.x-v.y);`,
+ `float field=0.;for(int i=0;i<12;i++){if(float(i)>=p1)break;float id=float(i),h=hash(vec2(id));vec2 center=vec2(cos(h*TAU+phase),sin(id*2.4+phase*.8))*p0;
+ field+=p2*p2/max(.0001,dot(q-center,q-center));}return smoothstep(p3,p3+p4,field);`,
+ `float n=fbm(q*p2+phase,4.,2.,.5);float rings=abs(fract(r*p0+n*p1)-.5);return aa(rings-p3*.5,p4);`,
+ `float freq=seamlessMode==1?positiveInt(p0):p0;float h=periodicHash(floor(q*freq)+vec2(floor(time*p3*8.)),vec2(freq));return pow(smoothstep(p1,1.,h),p2);`,
+ `vec2 halfSize=vec2(p0,p1);float round=min(p2,p1);vec2 z1=abs(q)-halfSize+round,z2=abs(q)-halfSize.yx+round;
+ float d1=length(max(z1,0.))+min(max(z1.x,z1.y),0.)-round;
+ float d2=length(max(z2,0.))+min(max(z2.x,z2.y),0.)-round;return aa(min(d1,d2),p3);`,
+ `float h=q.y+.48;vec2 z=vec2(q.x*p2,h*p2-phase*2.);float n=fbm(z,5.,2.,.5);
+ float drift=(noise(vec2(h*3.,phase))-.5)*p4*2.;float width=p0+h*p1;
+ float envelope=exp(-pow(abs(q.x-drift)/max(.01,width),2.)*3.);
+ float wisps=smoothstep(.18,.7,n);return clamp(envelope*wisps*p3,0.,1.)*smoothstep(0.,.08,h)*(1.-smoothstep(.65,1.,h));`,
+ `float ribbon=-.15+p2*sin(q.x*p3*TAU+phase)+p2*.3*sin(q.x*p3*TAU*2.-phase);
+ float height=q.y-ribbon;float streak=.2+.8*noise(vec2(q.x*p4+phase,phase*.3));
+ float curtain=exp(-max(0.,height)/p0)*smoothstep(-p1,p1,height)*streak;
+ float edge=exp(-abs(height)/p1);return max(curtain*.8,edge)*aa(abs(q.x)-.43,.06);`,
 ]
 
 const fragmentMain = `
 }
-vec3 gradient(float x){return x<.5?mix(colorA,colorB,x*2.):mix(colorB,colorC,(x-.5)*2.);}
+vec3 gradient(float x){
+ vec3 previous=gradientColors[0];float position=gradientPositions[0];
+ if(x<=position)return previous;
+ for(int i=1;i<8;i++){
+  if(i>=gradientCount)break;
+  float next=gradientPositions[i];
+  if(x<=next)return mix(previous,gradientColors[i],clamp((x-position)/max(.00001,next-position),0.,1.));
+  previous=gradientColors[i];position=next;
+ }
+ return previous;
+}
+float samplePattern(vec2 q){return clamp(pattern(seamlessMode==1?wrapTorus(q):q),0.,1.);}
+float softPattern(vec2 q,float radius){
+ vec2 dx=vec2(radius,0.),dy=vec2(0.,radius);
+ return (samplePattern(q)*4.+(samplePattern(q+dx)+samplePattern(q-dx)+samplePattern(q+dy)+samplePattern(q-dy))*2.
+  +samplePattern(q+dx+dy)+samplePattern(q+dx-dy)+samplePattern(q-dx+dy)+samplePattern(q-dx-dy))/16.;
+}
 void main(){
  vec2 sampleUV=uv;
  if(postB.z>0.){
@@ -215,7 +209,10 @@ void main(){
   sampleUV=clamp(st,0.,1.);
  }
  if(uvRepeatMode==1) sampleUV=fract(sampleUV-uvOffset);
- else sampleUV=sampleUV-uvOffset;
+ else {
+  sampleUV=sampleUV-uvOffset;
+  if(any(lessThan(sampleUV,vec2(0.)))||any(greaterThan(sampleUV,vec2(1.)))){outColor=vec4(0);return;}
+ }
  vec2 q;
  if(seamlessMode==1){
   float scaleCycles=positiveInt(1./max(.02,abs(transformScale)));
@@ -229,6 +226,8 @@ void main(){
   if(polarMode==1)q=vec2(atan(q.y,q.x)/6.283+.5,length(q)*2.-.5);
  }
  float base=clamp(pattern(q),0.,1.),v=base;
+ if(postA.x>0.)v=softPattern(q,mix(.5,8.,postA.x)/min(resolution.x,resolution.y));
+ if(postA.z>0.)v=clamp(v+(base-softPattern(q,1.5/min(resolution.x,resolution.y)))*postA.z*2.,0.,1.);
  if(postA.y>0.){
   float bloomRadius=mix(2.,18.,postA.y)/min(resolution.x,resolution.y);
   vec2 bx=vec2(bloomRadius,0.),by=vec2(0.,bloomRadius);
@@ -242,11 +241,10 @@ void main(){
    glow+=pattern(q+bd)+pattern(q-bd)+pattern(q+vec2(bd.x,-bd.y))+pattern(q+vec2(-bd.x,bd.y));
   }
   glow=clamp(glow*.125,0.,1.);
-  v=clamp(base+glow*postA.y*.9,0.,1.);
+  v=clamp(v+glow*postA.y*.9,0.,1.);
  }
  if(invertMode==1)v=1.-v;
- v=mix(v,smoothstep(.15,.85,v),postA.x);
- v+=postA.z*(v-smoothstep(.3,.7,v));v=postD.z>0.?floor(v*(2.+postD.z*10.))/(2.+postD.z*10.):v;
+ v=postD.z>0.?floor(v*(2.+postD.z*10.))/(2.+postD.z*10.):v;
  float screenRadius=seamlessMode==1?torusRadius(uv):length(uv-.5);
  v*=1.-postB.y*smoothstep(.25,.72,screenRadius);
  float scan=seamlessMode==1
@@ -256,36 +254,38 @@ void main(){
  v=mix(v,abs(dFdx(v))+abs(dFdy(v)),postD.y);
  v*=1.-postE.y*smoothstep(.2,.65,screenRadius);
  vec3 mapped=gradient(clamp(v,0.,1.));vec3 col=mix(vec3(v),mapped,postE.x);
- if(postB.x>0.)col=mix(col,vec3(gradient(clamp(v+postB.x*.08,0.,1.)).r,col.g,gradient(clamp(v-postB.x*.08,0.,1.)).b),postB.x);
  if(solidMode==1)col=solidColor;
+ if(postB.x>0.){
+  vec2 shift=vec2(postB.x*12./resolution.x,0.);
+  float right=samplePattern(q+shift),left=samplePattern(q-shift);
+  if(invertMode==1){right=1.-right;left=1.-left;}
+  vec3 rightColor=solidMode==1?solidColor:mix(vec3(right),gradient(right),postE.x);
+  vec3 leftColor=solidMode==1?solidColor:mix(vec3(left),gradient(left),postE.x);
+  float coverage=max(v,max(right,left));
+  col=vec3(rightColor.r*right,col.g*v,leftColor.b*left)/max(.00001,coverage);
+  v=coverage;
+ }
  v*=warpMask;
  outColor=vec4(col,clamp(v,0.,1.));
 }`
 
-const helpersForProfile: string[][] = [
-  [],
-  [],
-  [],
-  [glslHash, glslNoise, glslPolygon],
-  [],
-  [glslHash, glslNoise, glslFbm],
-  [glslHash, glslEven],
-  [glslHash, glslEven],
-  [glslHash, glslNoise],
-  [glslHash, glslNoise, glslFbm],
-  [glslHash, glslNoise, glslFbm],
-  [glslHash, glslCell],
-  [glslHash, glslNoise],
-  [glslHash, glslNoise],
-]
+const simpleProfiles = new Set([0, 1, 2, 4, 6, 8, 14, 15, 19, 20, 21])
+const helpersForProfile = Array.from({ length: PROFILE_COUNT }, (_, index) => {
+ if (index === 3) return [glslPolygon]
+ if (index === 6 || index === 21) return [glslEven]
+ if (simpleProfiles.has(index)) return []
+ return [glslHash, glslNoise, glslFbm, glslCell, glslEven]
+})
 
 export function fragmentShaderForProfile(profile: number) {
   const index = Math.max(0, Math.min(PROFILE_COUNT - 1, profile | 0))
   return fragmentPreamble + helpersForProfile[index].join('') + patternHeader + patternBodies[index] + fragmentMain
 }
 
-const hex = (value: string) => {
-  const n = parseInt(value.slice(1), 16)
+export const parseHexColor = (value: string) => {
+  const raw = value.replace(/^#/, '')
+  const expanded = raw.length === 3 ? [...raw].map((c) => c + c).join('') : raw
+  const n = /^[\da-f]{6}$/i.test(expanded) ? parseInt(expanded, 16) : 0xffffff
   return [(n >> 16 & 255) / 255, (n >> 8 & 255) / 255, (n & 255) / 255] as const
 }
 
@@ -411,8 +411,14 @@ export class TextureRenderer {
     f('rotation', layer.transform.rotation * Math.PI / 180); f('transformScale', layer.transform.scale)
     i('polarMode', +layer.polar); i('invertMode', +layer.invert); i('solidMode', +layer.solid)
     v2('resolution', this.source.width, this.source.height)
-    v3('colorA', hex(colors[0]?.color ?? '#000000')); v3('colorB', hex(colors[Math.floor(colors.length / 2)]?.color ?? '#9b5cff'))
-    v3('colorC', hex(colors.at(-1)?.color ?? '#ffffff')); v3('solidColor', hex(layer.solidColor))
+    const stops = [...colors].sort((a, b) => a.position - b.position).slice(0, 8)
+    if (!stops.length) stops.push({ id: 'fallback', position: 0, color: '#ffffff' })
+    i('gradientCount', stops.length)
+    for (let index = 0; index < stops.length; index++) {
+      v3(`gradientColors[${index}]`, parseHexColor(stops[index].color))
+      f(`gradientPositions[${index}]`, stops[index].position)
+    }
+    v3('solidColor', parseHexColor(layer.solidColor))
     v3('postA', [post.blur, post.bloom, post.sharpen]); v3('postB', [post.chromatic, post.vignette, post.pixelation])
     v3('postC', [post.scanlines, post.kaleidoscope, post.mirror]); v3('postD', [post.swirl, post.edge, post.toon])
     v3('postE', [post.colorMap, post.vignetteMask, 0])

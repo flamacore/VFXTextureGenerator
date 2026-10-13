@@ -51,10 +51,12 @@ export const identityCorners: Corners = [
 const cloneCorners = (corners: Corners = identityCorners): Corners =>
   corners.map((point) => ({ x: point.x, y: point.y })) as unknown as Corners
 
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value))
+
 const asPoint = (value: unknown, fallback: Point): Point => {
   const point = value as Partial<Point> | undefined
   const x = Number(point?.x), y = Number(point?.y)
-  return { x: Number.isFinite(x) ? x : fallback.x, y: Number.isFinite(y) ? y : fallback.y }
+  return { x: Number.isFinite(x) ? clamp(x, -.25, 1.25) : fallback.x, y: Number.isFinite(y) ? clamp(y, -.25, 1.25) : fallback.y }
 }
 
 export const withCorner = (corners: Corners, index: number, point: Point): Corners =>
@@ -72,9 +74,14 @@ export const normalizeTransform = (value?: Partial<Transform> | null): Transform
   const corners = Array.isArray(incoming.corners)
     ? identityCorners.map((fallback, index) => asPoint(incoming.corners![index], fallback)) as unknown as Corners
     : cloneCorners()
+  const bounds: Record<TransformScalar, readonly [number, number]> = {
+    x: [-1, 1], y: [-1, 1], rotation: [-180, 180], scale: [.1, 4],
+    scrollX: [-2, 2], scrollY: [-2, 2], u: [-1, 1], v: [-1, 1],
+    feather: [0, .35], roundness: [0, .45],
+  }
   const number = (key: TransformScalar, fallback: number) => {
     const next = Number(incoming[key])
-    return Number.isFinite(next) ? next : fallback
+    return Number.isFinite(next) ? clamp(next, ...bounds[key]) : fallback
   }
   return {
     x: number('x', base.x), y: number('y', base.y),
@@ -90,7 +97,7 @@ export const normalizeTransform = (value?: Partial<Transform> | null): Transform
 export const defaultPost: PostSettings = {
   blur: 0, bloom: 0, sharpen: 0, pixelation: 0, chromatic: 0, vignette: 0,
   scanlines: 0, kaleidoscope: 0, mirror: 0, swirl: 0, edge: 0, toon: 0,
-  colorMap: 0, vignetteMask: 0,
+  colorMap: 1, vignetteMask: 0,
 }
 
 export function makeLayer(generator: Generator): Layer {

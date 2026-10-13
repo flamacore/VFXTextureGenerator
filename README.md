@@ -1,6 +1,8 @@
 # VFX Texture Generator
 
-A Windows desktop editor for creating procedural VFX textures. It includes 90 generator recipes, four-corner quad warps, UV offset on every layer, native periodic seamless tiling for compatible effects, a layered WebGL2 compositor, animation, gradients, post-processing, presets, and PNG/GIF/normal-map/channel-pack export.
+A Windows desktop editor for creating procedural VFX textures. It includes 28 distinct generators with purpose-built controls, four-corner warps and UV offset on every layer, periodic tiling for compatible effects, layer compositing, animation, positioned color gradients, shared effects, and PNG/GIF/normal-map/channel-pack export.
+
+The catalog replaces the former 90 recipe variations. Star, Crystal, Fire, Smoke, Aurora, Caustics, and Lightning now have separate algorithms. Related variations live in one generator's controls. See [the shader and workflow audit](docs/parity-matrix.md) for the inventory, migration behavior, and validation limits.
 <img width="2160" height="1350" alt="image" src="https://github.com/user-attachments/assets/74b7ed55-c5c1-4168-909e-f836008009e1" />
 
 
@@ -41,10 +43,17 @@ Useful commands:
 npm run build
 npm test
 npm run lint
+npm run test:shaders
+npm run test:seams
+npm run test:ui
 npm run tauri:build
 ```
 
 Installers are written to `src-tauri/target/release/bundle/`.
+
+Browser validation scripts use the locally installed Microsoft Edge through Playwright. Shader audits save a contact sheet and per-control pixel comparisons under `artifacts/shader-audit/`; UI checks save all five inspector screens at 1440×900 and 1180×720 under `artifacts/ui-audit/`. Run `npm run generate:thumbnails` after changing default shader output.
+
+New projects save preset version 2. Version 1 presets retain layers, transforms, colors, and effects, but generator-specific values reset to the new defaults because the old parameter slots described different operations. The app reports this migration when loading. Old generator names resolve to the closest current family; their old appearance is not guaranteed.
 
 ## Releases
 

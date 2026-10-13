@@ -1,0 +1,33 @@
+{
+  "checks": [
+    "Initial preview renders",
+    "Generator inspector visible",
+    "Transform inspector visible",
+    "Color inspector visible",
+    "Post inspector visible",
+    "Export inspector visible",
+    "UV offset changes rendered preview through UI",
+    "Undo restores UV and pixels",
+    "Color preset affects preview immediately",
+    "Undo restores gradient and pixels",
+    "Redo restores gradient and pixels",
+    "Delete while editing does not remove a layer",
+    "Duplicate layer shortcut works",
+    "Undo removes duplicate",
+    "PNG export has correct signature and dimensions",
+    "Normal Map export is a full-resolution PNG",
+    "Channel Pack export is a full-resolution PNG",
+    "GIF export has correct signature and dimensions",
+    "GIF export preserves preview",
+    "Preset stores current layers and gradient",
+    "Saved project reloads",
+    "Legacy names find consolidated replacements",
+    "Generator fits minimum desktop width",
+    "Transform fits minimum desktop width",
+    "Color fits minimum desktop width",
+    "Post fits minimum desktop width",
+    "Export fits minimum desktop width",
+    "No uncaught browser exceptions"
+  ],
+  "errors": []
+}

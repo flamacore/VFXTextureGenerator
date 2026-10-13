@@ -54,3 +54,18 @@ select { background:#0d1016;border:1px solid #303543;border-radius:4px;padding:4
 .toast { position:fixed;right:304px;bottom:38px;padding:10px 12px;background:#271f39;border:1px solid #7058ac;border-radius:6px;box-shadow:0 8px 30px #000;color:#e4dcff;z-index:20 }.toast button { margin-left:15px;padding:0 3px; }
 footer { display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-top:1px solid var(--line);color:#697184;background:#0c0f14;font-size:9px }.status-dot { display:inline-block;width:6px;height:6px;border-radius:50%;background:#52d68a;margin-right:5px;box-shadow:0 0 7px #52d68a; }
 @media(max-width:1250px){.layer-row{grid-template-columns:24px 28px minmax(60px,1fr) 68px 50px 72px 25px 25px}}
+
+/* Keep editing comfortable at desktop and compact laptop sizes. */
+.help-text,.empty-state { color:#929cad; font-size:11px; line-height:1.65; margin:0 0 14px }
+.empty-state { padding:18px 12px }
+.timeline-hint,.layers-head small { color:var(--muted); font-size:10px }
+button:disabled { opacity:.4; cursor:default; pointer-events:none }
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible { outline:2px solid #a491ff; outline-offset:2px }
+summary { color:#c4cbd8; cursor:pointer; font-weight:600; margin-bottom:12px }
+.layer-row { min-width:380px; grid-template-columns:24px 28px minmax(70px,1fr) 78px 65px 26px 25px }
+.generator { height:54px; contain-intrinsic-size:54px }
+.generator b { font-size:11px }.generator small { font-size:10px }
+.inspector-tabs button { font-size:10px }.control .control-number { font-size:11px }
+.toast { right:24px; max-width:min(520px,80vw) }
+@media(max-width:1150px) { .workspace { grid-template-columns:210px 5px minmax(300px,1fr) 5px 270px !important } .toolbar { gap:3px } footer>span:last-child { display:none } }
+@media(max-width:850px) { .workspace { grid-template-columns:165px 3px minmax(250px,1fr) 3px 240px !important } .brand b { font-size:11px }.toolbar button { padding:4px }.generator-icon { width:30px;height:30px }.generator { grid-template-columns:30px 1fr 10px;gap:5px;padding:3px }.stagebar>div { gap:1px }.inspector section { padding:11px } }
